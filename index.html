@@ -458,6 +458,35 @@ footer {
   .exp-card { flex: 0 0 calc(85% - 1px); }
   .modal { max-width: 100%; }
 }
+/* ── PROJECT FILTER NAV ── */
+.proj-filter-wrap {
+  border-top: 1px solid var(--g200);
+  border-bottom: 1px solid var(--g200);
+  background: var(--g100);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.proj-filter-inner {
+  max-width: 1400px; margin: 0 auto;
+  padding: 0 2.5rem;
+  display: flex; gap: 0; align-items: center;
+  min-width: max-content;
+}
+.proj-filter-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--g500); background: none; border: none;
+  padding: 14px 20px; cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s; white-space: nowrap;
+}
+.proj-filter-btn:hover { color: var(--black); }
+.proj-filter-btn.active { color: var(--brg); border-bottom-color: var(--brg); }
+.project-row.hidden { display: none; }
+@media (max-width: 960px) {
+  .proj-filter-inner { padding: 0 1.5rem; }
+}
 </style>
 </head>
 <body>
@@ -612,8 +641,8 @@ footer {
     <h2 class="section-title">The work behind the work.</h2>
     <p class="section-body">A career built through deliberate progression — from data to logistics to Salesforce. Click any role to see the full detail.</p>
   </div>
-  <div class="carousel-wrap reveal">
-    <div class="carousel-track" id="carouselTrack">
+  <div class="carousel-wrap reveal" style="overflow-x:auto; -webkit-overflow-scrolling:touch; cursor:grab;">
+    <div class="carousel-track" id="carouselTrack" style="min-width:max-content;">
 
       <div class="exp-card" onclick="openModal('modal-pd')">
         <div class="exp-period">Sep 2025 – Present · Riyadh, SA</div>
@@ -713,22 +742,34 @@ footer {
     <h2 class="section-title">Built. Documented. Deployed.</h2>
     <p class="section-body">Real Salesforce orgs built from requirements to delivery. Every project demonstrates what I can contribute on day one.</p>
   </div>
-  <div class="reveal">
-    <div class="project-row">
+<!-- PROJECTS FILTER NAV -->
+<div class="proj-filter-wrap reveal">
+  <div class="proj-filter-inner">
+    <button class="proj-filter-btn active" onclick="filterProjects('all')">All Projects</button>
+    <button class="proj-filter-btn" onclick="filterProjects('automotive')">Automotive</button>
+    <button class="proj-filter-btn" onclick="filterProjects('logistics')">Logistics</button>
+    <button class="proj-filter-btn" onclick="filterProjects('automation')">Automation</button>
+    <button class="proj-filter-btn" onclick="filterProjects('banking')">Banking & Finance</button>
+    <button class="proj-filter-btn" onclick="filterProjects('oilgas')">Oil & Gas</button>
+  </div>
+</div>
+  <div class="reveal" id="projectList">
+    <div class="project-row" data-domain="automotive">
       <div class="project-num">01</div>
       <div class="project-body">
-        <div class="project-name">Tinkerbell — SF Subtopic Trainer</div>
-        <div class="project-desc">A full-stack Salesforce certification prep platform built on subtopic-first architecture. Live product with paying users, adaptive drill sessions, domain dashboards, and progress tracking. A product of VEEL Consulting.</div>
+        <div class="project-name">Carspec Motorsport Configurator</div>
+        <div class="project-desc">A Salesforce org built for a motorsport vehicle configurator — custom objects for vehicle specs, option packages, and pricing rules. Sales Cloud opportunity pipeline tracks each configured build from enquiry to order. Flow automation handles approval routing and spec-change notifications.</div>
         <div class="project-tags">
-          <span class="project-tag">Founder</span>
-          <span class="project-tag">Live product</span>
-          <span class="project-tag">VEEL Consulting</span>
-          <span class="project-tag">2026</span>
+          <span class="project-tag">Salesforce Admin</span>
+          <span class="project-tag">Sales Cloud</span>
+          <span class="project-tag">Custom Objects</span>
+          <span class="project-tag">Flow</span>
+          <span class="project-tag">Automotive</span>
         </div>
       </div>
       <div class="project-arrow">→</div>
     </div>
-    <div class="project-row">
+    <div class="project-row" data-domain="logistics">
       <div class="project-num">02</div>
       <div class="project-body">
         <div class="project-name">Freight Brokerage CRM</div>
@@ -742,7 +783,7 @@ footer {
       </div>
       <div class="project-arrow">→</div>
     </div>
-    <div class="project-row">
+    <div class="project-row" data-domain="automation">
       <div class="project-num">03</div>
       <div class="project-body">
         <div class="project-name">Lead Scoring & Auto Routing Engine</div>
@@ -755,7 +796,7 @@ footer {
       </div>
       <div class="project-arrow">→</div>
     </div>
-    <div class="project-row">
+    <div class="project-row" data-domain="banking">
       <div class="project-num">04</div>
       <div class="project-body">
         <div class="project-name">ESG Data Intake & Compliance Tracker</div>
@@ -778,7 +819,7 @@ footer {
 <section class="section" id="about">
   <div class="section-header reveal">
     <div class="section-label">About</div>
-    <h2 class="section-title">The story behind the work.</h2>
+    <h2 class="section-title">The man behind the work.</h2>
   </div>
   <div class="about-grid reveal">
     <div class="about-text">
@@ -1054,6 +1095,23 @@ const obs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// ── PROJECT FILTER ──
+function filterProjects(domain) {
+  document.querySelectorAll('.proj-filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.project-row').forEach(row => {
+    if (domain === 'all' || row.dataset.domain === domain) {
+      row.classList.remove('hidden');
+    } else {
+      row.classList.add('hidden');
+    }
+  });
+  // renumber visible rows
+  let n = 1;
+  document.querySelectorAll('.project-row:not(.hidden) .project-num').forEach(el => {
+    el.textContent = String(n++).padStart(2,'0');
+  });
+}
 </script>
 </body>
 </html>
