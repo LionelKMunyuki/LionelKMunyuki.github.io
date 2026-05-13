@@ -242,12 +242,11 @@ h1 {
 .service-desc { font-size: 13px; font-weight: 300; color: var(--g700); line-height: 1.65; }
 
 /* EXPERIENCE CAROUSEL */
-.carousel-wrap { position: relative; overflow: hidden; }
+.carousel-wrap { position: relative; overflow: hidden; border-top: 1px solid var(--g200); border-bottom: 1px solid var(--g200); }
 .carousel-track {
   display: flex; gap: 1px;
   transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
   background: var(--g200);
-  border: 1px solid var(--g200);
 }
 .exp-card {
   flex: 0 0 calc(33.333% - 1px);
@@ -258,6 +257,18 @@ h1 {
   transition: background 0.2s;
   text-decoration: none; color: inherit;
   display: block;
+  border: 1px solid var(--g200);
+  border-right: none;
+}
+.exp-card:last-child { border-right: 1px solid var(--g200); }
+@media (max-width: 700px) {
+  .exp-card {
+    flex: 0 0 calc(100% - 1px);
+    border-right: 1px solid var(--g200);
+  }
+}
+@media (min-width: 701px) and (max-width: 1023px) {
+  .exp-card { flex: 0 0 calc(50% - 1px); }
 }
 .exp-card:hover { background: #f8f8f8; }
 .exp-card:hover .exp-arrow { color: var(--brg); transform: translateX(3px); }
