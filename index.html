@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lionel Munyuki — Salesforce Administrator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --black:        #0a0a0a;
+  --grey-900:     #1a1a1a;
+  --grey-800:     #2a2a2a;
+  --grey-700:     #404040;
+  --grey-500:     #737373;
+  --grey-400:     #a3a3a3;
+  --grey-200:     #e5e5e5;
+  --white:        #fafafa;
+  --brg:          #004225;
+  --brg-light:    #0d6b42;
+  --navy:         #0f1e2e;
+  --khaki:        #8b8370;
+  --silver:       #c0bfbc;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--white);
+  color: var(--black);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(250,250,250,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--grey-200);
+}
+.nav-inner {
+  max-width: 1400px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 56px;
+}
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--black); text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a {
+  font-size: 13px; font-weight: 400;
+  color: var(--grey-500); text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--black); }
+
+/* HERO */
+.hero {
+  padding: 160px 2.5rem 120px;
+  max-width: 1400px; margin: 0 auto;
+  position: relative;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 80px;
+  align-items: start;
+}
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--brg); margin-bottom: 2rem;
+}
+h1 {
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 600; line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+.hero-sub {
+  font-size: 17px; font-weight: 300;
+  color: var(--grey-700); line-height: 1.65;
+  max-width: 540px; margin-bottom: 2.5rem;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 12px 24px; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--brg); color: var(--white);
+  border: 1px solid var(--brg);
+}
+.btn-primary:hover { background: var(--brg-light); border-color: var(--brg-light); }
+.btn-secondary {
+  background: transparent; color: var(--black);
+  border: 1px solid var(--grey-200);
+}
+.btn-secondary:hover { border-color: var(--grey-400); }
+.hero-meta {
+  display: flex; flex-direction: column; gap: 1.5rem;
+  padding-top: 8px;
+}
+.meta-item { }
+.meta-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--grey-500); margin-bottom: 4px;
+}
+.meta-val {
+  font-size: 13px; font-weight: 400;
+  color: var(--grey-800);
+}
+.hero-accent {
+  position: absolute; top: 120px; right: 2.5rem;
+  width: 1px; height: 200px;
+  background: linear-gradient(to bottom, transparent, var(--grey-200), transparent);
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px; background: var(--grey-200);
+  max-width: 1400px; margin: 0 auto;
+}
+
+/* SECTION */
+.section {
+  padding: 100px 2.5rem;
+  max-width: 1400px; margin: 0 auto;
+}
+.section-header { margin-bottom: 4rem; max-width: 720px; }
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--brg); margin-bottom: 1rem;
+}
+.section-title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600; line-height: 1.15;
+  color: var(--black); margin-bottom: 1rem;
+}
+.section-body {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey-700); line-height: 1.7;
+}
+
+/* CERT GRID */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--grey-200);
+  border: 1px solid var(--grey-200);
+}
+.cert-card {
+  background: var(--white);
+  padding: 2rem;
+  transition: background 0.2s;
+}
+.cert-card:hover { background: #fcfcfc; }
+.cert-card.muted { background: #f8f8f8; }
+.cert-card.muted:hover { background: #f4f4f4; }
+.cert-provider {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--grey-500); margin-bottom: 1rem;
+}
+.cert-name {
+  font-size: 20px; font-weight: 600;
+  color: var(--black); margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+.cert-card.muted .cert-name { color: var(--grey-500); }
+.cert-detail {
+  font-size: 13px; font-weight: 300;
+  color: var(--grey-700); line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+.cert-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid;
+}
+.cert-badge.live {
+  background: rgba(0,66,37,0.05);
+  border-color: var(--brg);
+  color: var(--brg);
+}
+.cert-badge.pending {
+  background: transparent;
+  border-color: var(--grey-200);
+  color: var(--grey-500);
+}
+.cert-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: currentColor;
+}
+.cert-link {
+  display: inline-block; margin-top: 1rem;
+  font-size: 12px; font-weight: 400;
+  color: var(--grey-500); text-decoration: none;
+  transition: color 0.2s;
+}
+.cert-link:hover { color: var(--black); }
+
+/* SERVICES */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--grey-200);
+  border: 1px solid var(--grey-200);
+}
+.service-card {
+  background: var(--white);
+  padding: 2.5rem;
+  transition: background 0.2s;
+}
+.service-card:hover { background: #fcfcfc; }
+.service-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--grey-400); margin-bottom: 1.5rem;
+  letter-spacing: 0.06em;
+}
+.service-name {
+  font-size: 18px; font-weight: 600;
+  color: var(--black); margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+.service-desc {
+  font-size: 14px; font-weight: 300;
+  color: var(--grey-700); line-height: 1.65;
+}
+
+/* PROJECTS */
+.project-list { }
+.project-row {
+  display: grid;
+  grid-template-columns: 32px 1fr 24px;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--grey-200);
+  transition: all 0.2s;
+}
+.project-row:first-child { border-top: 1px solid var(--grey-200); }
+.project-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  color: var(--grey-400); padding-top: 4px;
+  transition: color 0.2s;
+}
+.project-row:hover .project-num { color: var(--brg); }
+.project-body { }
+.project-name {
+  font-size: 20px; font-weight: 600;
+  color: var(--black); margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+.project-desc {
+  font-size: 14px; font-weight: 300;
+  color: var(--grey-700); line-height: 1.65;
+  margin-bottom: 1rem;
+}
+.project-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.project-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--grey-500);
+  padding: 3px 8px;
+  border: 1px solid var(--grey-200);
+}
+.project-arrow {
+  font-size: 18px; color: var(--grey-400);
+  padding-top: 4px; transition: all 0.2s;
+  text-align: right;
+}
+.project-row:hover .project-arrow {
+  color: var(--brg);
+  transform: translateX(3px);
+}
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+.about-text p {
+  font-size: 15px; font-weight: 300;
+  color: var(--grey-700); line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+.about-text p strong {
+  color: var(--black); font-weight: 500;
+}
+.fact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--grey-200);
+  border: 1px solid var(--grey-200);
+}
+.fact-row {
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+}
+.fact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--grey-500);
+}
+.fact-val {
+  font-size: 13px; font-weight: 400;
+  color: var(--black); text-align: right;
+}
+.fact-val a {
+  color: var(--brg); text-decoration: none;
+  transition: color 0.2s;
+}
+.fact-val a:hover { color: var(--brg-light); }
+
+/* CONTACT */
+.contact-box {
+  border: 1px solid var(--grey-200);
+  background: var(--white);
+}
+.contact-main { padding: 4rem; }
+.contact-title {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 600; line-height: 1.1;
+  color: var(--black); margin-bottom: 1rem;
+}
+.contact-sub {
+  font-size: 16px; font-weight: 300;
+  color: var(--grey-700); line-height: 1.7;
+  max-width: 480px; margin-bottom: 2.5rem;
+}
+.contact-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.contact-footer {
+  padding: 1.25rem 4rem;
+  background: #f8f8f8;
+  border-top: 1px solid var(--grey-200);
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.contact-email {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--grey-500);
+  letter-spacing: 0.04em;
+}
+.contact-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--grey-400);
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--grey-200);
+  padding: 2rem 2.5rem;
+  max-width: 1400px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--grey-500);
+}
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--grey-500); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--black); }
+
+/* REVEAL */
+.reveal {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .nav-inner { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 120px 1.5rem 80px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-accent { display: none; }
+  .section { padding: 70px 1.5rem; }
+  .cert-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .contact-main { padding: 2.5rem; }
+  .contact-footer { padding: 1.25rem 2.5rem; }
+  footer { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">L.K. Munyuki</a>
+    <div class="nav-links">
+      <a href="#certifications">Certifications</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-accent"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="hero-label">Salesforce Administrator · CRM Specialist</div>
+      <h1>Precision.<br>Systems.<br>Results.</h1>
+      <p class="hero-sub">Salesforce Certified Administrator with a background in freight logistics. I build CRM systems that match how businesses actually operate — and automate everything that shouldn't require a human.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">View work →</a>
+        <a href="#contact" class="btn btn-secondary">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">Certified</div>
+        <div class="meta-val">SCA · May 2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Location</div>
+        <div class="meta-val">Raleigh, NC</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Credential ID</div>
+        <div class="meta-val">7787112</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section class="section" id="certifications">
+  <div class="section-header reveal">
+    <div class="section-label">Certifications</div>
+    <h2 class="section-title">Earned. Verified. Growing.</h2>
+    <p class="section-body">Every certification built on the same foundation of deep Salesforce knowledge. Administrator certified. Developer next. The list will grow.</p>
+  </div>
+  <div class="cert-grid reveal">
+    <div class="cert-card">
+      <div class="cert-provider">Salesforce</div>
+      <div class="cert-name">Administrator</div>
+      <div class="cert-detail">Credential ID 7787112 · Issued May 2026<br>Org management, security, automation, Flow, data.</div>
+      <span class="cert-badge live"><span class="cert-dot"></span>Certified</span>
+      <a href="https://trailhead.salesforce.com/credentials/verification" target="_blank" class="cert-link">Verify credential →</a>
+    </div>
+    <div class="cert-card muted">
+      <div class="cert-provider">Salesforce</div>
+      <div class="cert-name">Platform Developer I</div>
+      <div class="cert-detail">Apex, Lightning Web Components, SOQL, custom API development. In active preparation.</div>
+      <span class="cert-badge pending">Coming Q3 2026</span>
+    </div>
+    <div class="cert-card muted">
+      <div class="cert-provider">Salesforce</div>
+      <div class="cert-name">Advanced Administrator</div>
+      <div class="cert-detail">Advanced automation, complex security models, enterprise data management.</div>
+      <span class="cert-badge pending">Coming soon</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-header reveal">
+    <div class="section-label">What I do</div>
+    <h2 class="section-title">Skills that move businesses forward.</h2>
+    <p class="section-body">I don't just administer Salesforce — I configure it to match how your business actually runs, then automate what shouldn't need a human.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-name">Salesforce Administration</div>
+      <div class="service-desc">User management, profiles, roles, permission sets, org setup, and field-level security configured correctly from day one.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-name">CRM Implementation</div>
+      <div class="service-desc">End-to-end CRM builds for freight, logistics, and sales operations. Accounts, opportunities, pipelines, and automated reporting.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-name">Workflow & Flow Automation</div>
+      <div class="service-desc">Flows, approval processes, auto-routing, and escalation logic that eliminate manual work and reduce the cost of human error.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-name">Reports & Dashboards</div>
+      <div class="service-desc">Real-time visibility into what matters. Custom reports and dashboards that give leadership answers — not spreadsheets to interpret.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="section-header reveal">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">Built. Documented. Deployed.</h2>
+    <p class="section-body">Real Salesforce orgs built from requirements to delivery. Every project demonstrates what I can contribute on day one.</p>
+  </div>
+  <div class="project-list reveal">
+    <div class="project-row">
+      <div class="project-num">01</div>
+      <div class="project-body">
+        <div class="project-name">Tinkerbell — SF Subtopic Trainer</div>
+        <div class="project-desc">A full-stack Salesforce certification prep platform built on subtopic-first architecture. Live product with paying users, adaptive drill sessions, domain dashboards, and progress tracking. A product of VEEL Consulting.</div>
+        <div class="project-tags">
+          <span class="project-tag">Founder</span>
+          <span class="project-tag">Live product</span>
+          <span class="project-tag">VEEL Consulting</span>
+          <span class="project-tag">2026</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="project-num">02</div>
+      <div class="project-body">
+        <div class="project-name">Freight Brokerage CRM</div>
+        <div class="project-desc">A Salesforce org built for freight brokerage operations — carrier accounts, client contacts, shipment opportunity pipeline, and automated status reporting with Flow-based assignment logic.</div>
+        <div class="project-tags">
+          <span class="project-tag">Salesforce Admin</span>
+          <span class="project-tag">CRM</span>
+          <span class="project-tag">Logistics</span>
+          <span class="project-tag">Flow</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="project-num">03</div>
+      <div class="project-body">
+        <div class="project-name">Lead Scoring & Auto Routing Engine</div>
+        <div class="project-desc">Flow-based lead scoring with round-robin territory assignment, SLA escalation rules, and dynamic routing logic based on lead source, score threshold, and rep availability.</div>
+        <div class="project-tags">
+          <span class="project-tag">Salesforce Admin</span>
+          <span class="project-tag">Flow</span>
+          <span class="project-tag">Automation</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="project-num">04</div>
+      <div class="project-body">
+        <div class="project-name">ESG Data Intake & Compliance Tracker</div>
+        <div class="project-desc">Custom Salesforce org for ESG data collection with validation rules, compliance workflow automation, and executive dashboards showing real-time regulatory status across reporting periods.</div>
+        <div class="project-tags">
+          <span class="project-tag">Salesforce Admin</span>
+          <span class="project-tag">Custom Objects</span>
+          <span class="project-tag">Dashboards</span>
+          <span class="project-tag">Compliance</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-header reveal">
+    <div class="section-label">About</div>
+    <h2 class="section-title">The story behind the work.</h2>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I grew up in <strong>Zimbabwe</strong>. Built a career in <strong>logistics and freight operations</strong> at Total Quality Logistics in Raleigh, NC — learning how supply chains break, how deals are won, and how much inefficiency lives inside systems that weren't designed to talk to each other.</p>
+      <p>Then I made a deliberate move into Salesforce. Not a pivot driven by trend — a calculated step toward building the kind of consulting career that compounds.</p>
+      <p>I passed the <strong>Salesforce Certified Administrator exam in May 2026</strong>. Multiple prep sessions. 4am study mornings. A practice set that felt like a mental war. I also built <strong>Tinkerbell</strong> — a Salesforce certification prep platform — while studying for the cert myself. It's live. It has users. It's proof I don't just learn. I build.</p>
+      <p>Platform Developer I is next. Then Advanced Admin. Then consulting engagements that put all of it to work at scale.</p>
+    </div>
+    <div>
+      <div class="fact-grid">
+        <div class="fact-row">
+          <div class="fact-label">Location</div>
+          <div class="fact-val">Raleigh, NC</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Background</div>
+          <div class="fact-val">Logistics → SF</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">SCA Certified</div>
+          <div class="fact-val">May 2026</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Credential</div>
+          <div class="fact-val">7787112</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Next cert</div>
+          <div class="fact-val">Platform Dev I</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Founder</div>
+          <div class="fact-val">Tinkerbell · VEEL</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">LinkedIn</div>
+          <div class="fact-val"><a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank">lionelkmunyuki</a></div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">GitHub</div>
+          <div class="fact-val"><a href="https://github.com/LionelKMunyuki" target="_blank">LionelKMunyuki</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="contact-box reveal">
+    <div class="contact-main">
+      <h2 class="contact-title">Ready to work together?</h2>
+      <p class="contact-sub">Open to Salesforce Administrator roles, CRM consulting engagements, and implementation projects. Let's have a conversation.</p>
+      <div class="contact-btns">
+        <a href="mailto:lionelkmunyuki@gmail.com" class="btn btn-primary">Send an email →</a>
+        <a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank" class="btn btn-secondary">LinkedIn</a>
+        <a href="https://github.com/LionelKMunyuki" target="_blank" class="btn btn-secondary">GitHub</a>
+      </div>
+    </div>
+    <div class="contact-footer">
+      <span class="contact-email">lionelkmunyuki@gmail.com</span>
+      <span class="contact-copy">© 2026 Lionel Munyuki</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">L.K. Munyuki · Salesforce Administrator</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank">LinkedIn</a>
+    <a href="https://github.com/LionelKMunyuki" target="_blank">GitHub</a>
+    <a href="mailto:lionelkmunyuki@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 80);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
