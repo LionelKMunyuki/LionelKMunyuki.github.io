@@ -251,6 +251,7 @@ h1 {
 }
 .exp-card {
   flex: 0 0 calc(33.333% - 1px);
+  min-width: 280px;
   background: var(--white);
   padding: 2rem;
   cursor: pointer;
@@ -519,7 +520,7 @@ footer {
     </div>
     <div>
       <div class="photo-frame">
-        <img src="lionel.JPG" alt="Lionel Munyuki — Salesforce Administrator">
+        <img src="lionel.jpeg" alt="Lionel Munyuki — Salesforce Administrator">
         <div class="photo-caption">Lionel K. Munyuki · Salesforce Administrator</div>
       </div>
       <div class="hero-meta">
@@ -637,8 +638,8 @@ footer {
     <h2 class="section-title">The work behind the work.</h2>
     <p class="section-body">A career built through deliberate progression — from data to logistics to Salesforce. Click any role to see the full detail.</p>
   </div>
-  <div class="carousel-wrap reveal" style="overflow-x:auto; -webkit-overflow-scrolling:touch; cursor:grab;">
-    <div class="carousel-track" id="carouselTrack" style="min-width:max-content;">
+  <div class="carousel-wrap reveal">
+    <div class="carousel-track" id="carouselTrack">
 
       <div class="exp-card" onclick="openModal('modal-upforjobs')">
         <div class="exp-period">Nov 2025 – Present · Dubai, UAE · Remote</div>
@@ -1131,12 +1132,15 @@ footer {
 let carouselPos = 0;
 function scrollCarousel(dir) {
   const track = document.getElementById('carouselTrack');
-  const card = track.querySelector('.exp-card');
+  const cards = track.querySelectorAll('.exp-card');
+  const card = cards[0];
   const cardW = card.offsetWidth + 1;
-  const maxPos = track.children.length - 3;
+  const visible = window.innerWidth < 700 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+  const maxPos = cards.length - visible;
   carouselPos = Math.max(0, Math.min(carouselPos + dir, maxPos));
   track.style.transform = `translateX(-${carouselPos * cardW}px)`;
 }
+window.addEventListener('resize', () => { carouselPos = 0; scrollCarousel(0); });
 
 // Modals
 function openModal(id) {
