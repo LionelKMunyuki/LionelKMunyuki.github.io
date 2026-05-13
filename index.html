@@ -644,8 +644,16 @@ footer {
   <div class="carousel-wrap reveal" style="overflow-x:auto; -webkit-overflow-scrolling:touch; cursor:grab;">
     <div class="carousel-track" id="carouselTrack" style="min-width:max-content;">
 
+      <div class="exp-card" onclick="openModal('modal-upforjobs')">
+        <div class="exp-period">Nov 2025 – Present · Dubai, UAE · Remote</div>
+        <div class="exp-title">Salesforce CRM Consultant</div>
+        <div class="exp-company">UpForJobs · Contract</div>
+        <div class="exp-excerpt">Built and implemented a recruitment CRM on Salesforce — custom objects, automated candidate pipeline, Flow automation, and executive dashboards for a Dubai-based talent technology platform.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
       <div class="exp-card" onclick="openModal('modal-pd')">
-        <div class="exp-period">Sep 2025 – Present · Riyadh, SA</div>
+        <div class="exp-period">Nov 2025 – Present · Riyadh, SA</div>
         <div class="exp-title">Professional Development</div>
         <div class="exp-company">Career Break · International Business Accelerator</div>
         <div class="exp-excerpt">Engaged in an international business accelerator focused on leadership, cross-border strategy, and global entrepreneurship.</div>
@@ -746,16 +754,32 @@ footer {
 <div class="proj-filter-wrap reveal">
   <div class="proj-filter-inner">
     <button class="proj-filter-btn active" onclick="filterProjects('all')">All Projects</button>
+    <button class="proj-filter-btn" onclick="filterProjects('recruitment')">Recruitment</button>
     <button class="proj-filter-btn" onclick="filterProjects('automotive')">Automotive</button>
     <button class="proj-filter-btn" onclick="filterProjects('logistics')">Logistics</button>
     <button class="proj-filter-btn" onclick="filterProjects('automation')">Automation</button>
     <button class="proj-filter-btn" onclick="filterProjects('banking')">Banking & Finance</button>
-    <button class="proj-filter-btn" onclick="filterProjects('oilgas')">Oil & Gas</button>
   </div>
 </div>
   <div class="reveal" id="projectList">
-    <div class="project-row" data-domain="automotive">
+    <div class="project-row" data-domain="recruitment">
       <div class="project-num">01</div>
+      <div class="project-body">
+        <div class="project-name">UpForJobs — Recruitment CRM</div>
+        <div class="project-desc">Full Salesforce CRM implementation for a Dubai-based talent technology platform. Custom objects for Candidates, Job Listings, Employers, and Placements. Six-stage pipeline with Flow-triggered recruiter tasks, validation rules for data integrity, and an executive dashboard tracking placement rates and time-to-hire across the MENA region.</div>
+        <div class="project-tags">
+          <span class="project-tag">Salesforce Admin</span>
+          <span class="project-tag">Sales Cloud</span>
+          <span class="project-tag">Flow Automation</span>
+          <span class="project-tag">Custom Objects</span>
+          <span class="project-tag">Recruitment</span>
+          <span class="project-tag">Live client</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-row" data-domain="automotive">
+      <div class="project-num">02</div>
       <div class="project-body">
         <div class="project-name">Carspec Motorsport Configurator</div>
         <div class="project-desc">A Salesforce org built for a motorsport vehicle configurator — custom objects for vehicle specs, option packages, and pricing rules. Sales Cloud opportunity pipeline tracks each configured build from enquiry to order. Flow automation handles approval routing and spec-change notifications.</div>
@@ -770,7 +794,7 @@ footer {
       <div class="project-arrow">→</div>
     </div>
     <div class="project-row" data-domain="logistics">
-      <div class="project-num">02</div>
+      <div class="project-num">03</div>
       <div class="project-body">
         <div class="project-name">Freight Brokerage CRM</div>
         <div class="project-desc">A Salesforce org built for freight brokerage operations — carrier accounts, client contacts, shipment opportunity pipeline, and automated status reporting with Flow-based assignment logic.</div>
@@ -784,7 +808,7 @@ footer {
       <div class="project-arrow">→</div>
     </div>
     <div class="project-row" data-domain="automation">
-      <div class="project-num">03</div>
+      <div class="project-num">04</div>
       <div class="project-body">
         <div class="project-name">Lead Scoring & Auto Routing Engine</div>
         <div class="project-desc">Flow-based lead scoring with round-robin territory assignment, SLA escalation rules, and dynamic routing logic based on lead source, score threshold, and rep availability.</div>
@@ -797,7 +821,7 @@ footer {
       <div class="project-arrow">→</div>
     </div>
     <div class="project-row" data-domain="banking">
-      <div class="project-num">04</div>
+      <div class="project-num">05</div>
       <div class="project-body">
         <div class="project-name">ESG Data Intake & Compliance Tracker</div>
         <div class="project-desc">Custom Salesforce org for ESG data collection with validation rules, compliance workflow automation, and executive dashboards showing real-time regulatory status across reporting periods.</div>
@@ -877,30 +901,84 @@ footer {
 </footer>
 
 <!-- EXPERIENCE MODALS -->
+<!-- UPFORJOBS MODAL -->
+<div class="modal-overlay" id="modal-upforjobs" onclick="closeOnOverlay(event, 'modal-upforjobs')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Nov 2025 – Present · Dubai, UAE · Remote</div>
+        <div class="modal-title">Salesforce CRM Consultant</div>
+        <div class="modal-company">UpForJobs · Contract</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-upforjobs')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <p>Designed and implemented a full Salesforce CRM solution for UpForJobs — a Dubai-based talent technology and recruitment platform operating across the MENA region. Delivered end-to-end: requirements gathering, object architecture, automation, and reporting.</p>
+
+      <div class="modal-section-label">What was built</div>
+      <ul>
+        <li>Custom object architecture — Candidates, Job Listings, Employers, Placements — with defined relationships and field-level security</li>
+        <li>Candidate pipeline with 6 stages: Applied → Screened → Interviewed → Offer Sent → Placed → Closed</li>
+        <li>Flow automation — when a candidate reaches Interviewed stage, assigned recruiter receives a task to follow up within 48 hours</li>
+        <li>Employer account management — tracks open roles, active candidates, and placement history per client</li>
+        <li>Executive dashboard — open roles by employer, candidates per pipeline stage, placement rate by month, average time-to-hire</li>
+        <li>Validation rules — enforces required fields at each pipeline stage to maintain data integrity</li>
+        <li>Email alert templates — automated candidate status notifications to employers</li>
+      </ul>
+
+      <div class="modal-section-label">Business impact</div>
+      <ul>
+        <li>Replaced manual spreadsheet tracking with a structured, automated CRM pipeline</li>
+        <li>Gave leadership real-time visibility into recruiter activity and placement performance</li>
+        <li>Reduced manual follow-up work through Flow-triggered task automation</li>
+      </ul>
+
+      <div class="modal-skills">
+        <span class="modal-tag">Salesforce Admin</span>
+        <span class="modal-tag">Custom Objects</span>
+        <span class="modal-tag">Flow Automation</span>
+        <span class="modal-tag">Sales Cloud</span>
+        <span class="modal-tag">Reports & Dashboards</span>
+        <span class="modal-tag">Recruitment CRM</span>
+        <span class="modal-tag">MENA</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAREER BREAK MODAL -->
 <div class="modal-overlay" id="modal-pd" onclick="closeOnOverlay(event, 'modal-pd')">
   <div class="modal">
     <div class="modal-header">
       <div>
-        <div class="modal-period">Sep 2025 – Present · Riyadh, Saudi Arabia</div>
+        <div class="modal-period">Nov 2025 – Present · Riyadh, Saudi Arabia</div>
         <div class="modal-title">Professional Development</div>
         <div class="modal-company">International Business Accelerator · Career Break</div>
       </div>
       <button class="modal-close" onclick="closeModal('modal-pd')">[ Close ]</button>
     </div>
     <div class="modal-body">
-      <p>Engaged in an international business accelerator in Riyadh, Saudi Arabia, working closely with business leaders to strengthen business portfolios and design scalable ventures across logistics, real estate, and technology sectors.</p>
+      <p>A structured period of international development running in parallel with consulting work — focused on Salesforce specialisation, business strategy, and long-term venture building.</p>
+
+      <div class="modal-section-label">Salesforce Specialisation</div>
       <ul>
-        <li>Leadership development and cross-border strategy across multiple industry verticals</li>
-        <li>Mastering the fundamentals of global entrepreneurship and wealth management</li>
-        <li>Attained Salesforce Certified Administrator certification during this period</li>
-        <li>Built and launched Tinkerbell — a live Salesforce certification prep platform</li>
+        <li>Pursued and passed the Salesforce Certified Administrator exam — May 2026, Credential ID 7787112</li>
+        <li>Built four portfolio CRM projects across automotive, logistics, automation, and compliance domains</li>
+        <li>Portfolio live at lionelkmunyuki.github.io</li>
       </ul>
+
+      <div class="modal-section-label">Business & Strategy</div>
+      <ul>
+        <li>Engaged with business leaders across logistics, real estate, and technology sectors on cross-border strategy and venture design</li>
+        <li>Applied wealth management and global entrepreneurship fundamentals to real portfolio frameworks</li>
+      </ul>
+
       <div class="modal-skills">
+        <span class="modal-tag">Salesforce</span>
         <span class="modal-tag">Entrepreneurship</span>
         <span class="modal-tag">Cross-border Strategy</span>
-        <span class="modal-tag">Leadership</span>
-        <span class="modal-tag">Salesforce</span>
-        <span class="modal-tag">Product Development</span>
+        <span class="modal-tag">Venture Design</span>
+        <span class="modal-tag">MENA</span>
       </div>
     </div>
   </div>
