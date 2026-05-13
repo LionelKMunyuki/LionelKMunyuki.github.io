@@ -10,38 +10,34 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 :root {
-  --black:        #0a0a0a;
-  --grey-900:     #1a1a1a;
-  --grey-800:     #2a2a2a;
-  --grey-700:     #404040;
-  --grey-500:     #737373;
-  --grey-400:     #a3a3a3;
-  --grey-200:     #e5e5e5;
-  --white:        #fafafa;
-  --brg:          #004225;
-  --brg-light:    #0d6b42;
-  --navy:         #0f1e2e;
-  --khaki:        #8b8370;
-  --silver:       #c0bfbc;
+  --black:  #0a0a0a;
+  --g900:   #1a1a1a;
+  --g800:   #2a2a2a;
+  --g700:   #404040;
+  --g500:   #737373;
+  --g400:   #a3a3a3;
+  --g200:   #e5e5e5;
+  --g100:   #f5f5f5;
+  --white:  #fafafa;
+  --brg:    #004225;
+  --brgl:   #0d6b42;
+  --silver: #c0bfbc;
 }
-
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Inter', sans-serif;
   background: var(--white);
   color: var(--black);
-  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-weight: 400;
+  overflow-x: hidden;
 }
 
 /* NAV */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(250,250,250,0.94);
+  background: rgba(250,250,250,0.95);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--grey-200);
+  border-bottom: 1px solid var(--g200);
 }
 .nav-inner {
   max-width: 1400px; margin: 0 auto;
@@ -56,41 +52,37 @@ nav {
 }
 .nav-links { display: flex; gap: 2rem; }
 .nav-links a {
-  font-size: 13px; font-weight: 400;
-  color: var(--grey-500); text-decoration: none;
-  transition: color 0.15s;
+  font-size: 13px; color: var(--g500);
+  text-decoration: none; transition: color 0.15s;
 }
 .nav-links a:hover { color: var(--black); }
 
 /* HERO */
 .hero {
-  padding: 160px 2.5rem 120px;
+  padding: 140px 2.5rem 100px;
   max-width: 1400px; margin: 0 auto;
-  position: relative;
 }
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr 240px;
-  gap: 80px;
-  align-items: start;
+  grid-template-columns: 1fr 300px;
+  gap: 80px; align-items: start;
 }
 .hero-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 500;
   letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--brg); margin-bottom: 2rem;
+  color: var(--brg); margin-bottom: 1.75rem;
 }
 h1 {
-  font-size: clamp(52px, 7vw, 88px);
+  font-size: clamp(48px, 6.5vw, 84px);
   font-weight: 600; line-height: 1.0;
-  letter-spacing: -0.02em;
-  color: var(--black);
+  letter-spacing: -0.02em; color: var(--black);
   margin-bottom: 1.5rem;
 }
 .hero-sub {
   font-size: 17px; font-weight: 300;
-  color: var(--grey-700); line-height: 1.65;
-  max-width: 540px; margin-bottom: 2.5rem;
+  color: var(--g700); line-height: 1.65;
+  max-width: 520px; margin-bottom: 2.5rem;
 }
 .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn {
@@ -99,51 +91,66 @@ h1 {
   letter-spacing: 0.06em; text-transform: uppercase;
   padding: 12px 24px; text-decoration: none;
   display: inline-flex; align-items: center; gap: 8px;
-  transition: all 0.2s;
+  transition: all 0.2s; border: 1px solid transparent;
 }
-.btn-primary {
-  background: var(--brg); color: var(--white);
-  border: 1px solid var(--brg);
+.btn-primary { background: var(--brg); color: var(--white); border-color: var(--brg); }
+.btn-primary:hover { background: var(--brgl); border-color: var(--brgl); }
+.btn-secondary { background: transparent; color: var(--black); border-color: var(--g200); }
+.btn-secondary:hover { border-color: var(--g400); }
+
+/* PHOTO FRAME */
+.photo-frame {
+  width: 100%; aspect-ratio: 3/4;
+  border: 1px solid var(--g200);
+  background: var(--g100);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
 }
-.btn-primary:hover { background: var(--brg-light); border-color: var(--brg-light); }
-.btn-secondary {
-  background: transparent; color: var(--black);
-  border: 1px solid var(--grey-200);
+.photo-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  display: block;
 }
-.btn-secondary:hover { border-color: var(--grey-400); }
+.photo-placeholder {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--g400); text-align: center; padding: 2rem;
+}
+.photo-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 0.75rem 1rem;
+  background: rgba(250,250,250,0.92);
+  border-top: 1px solid var(--g200);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--g500);
+}
 .hero-meta {
-  display: flex; flex-direction: column; gap: 1.5rem;
-  padding-top: 8px;
+  margin-top: 1rem;
+  display: flex; flex-direction: column; gap: 0;
+  border: 1px solid var(--g200);
 }
-.meta-item { }
+.meta-row {
+  display: flex; justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--g200);
+}
+.meta-row:last-child { border-bottom: none; }
 .meta-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--grey-500); margin-bottom: 4px;
+  color: var(--g500);
 }
-.meta-val {
-  font-size: 13px; font-weight: 400;
-  color: var(--grey-800);
-}
-.hero-accent {
-  position: absolute; top: 120px; right: 2.5rem;
-  width: 1px; height: 200px;
-  background: linear-gradient(to bottom, transparent, var(--grey-200), transparent);
-}
+.meta-val { font-size: 12px; font-weight: 400; color: var(--black); }
 
 /* DIVIDER */
-.divider {
-  height: 1px; background: var(--grey-200);
-  max-width: 1400px; margin: 0 auto;
-}
+.divider { height: 1px; background: var(--g200); }
+.divider-full { height: 1px; background: var(--g200); max-width: 1400px; margin: 0 auto; }
 
 /* SECTION */
-.section {
-  padding: 100px 2.5rem;
-  max-width: 1400px; margin: 0 auto;
-}
-.section-header { margin-bottom: 4rem; max-width: 720px; }
+.section { padding: 90px 2.5rem; max-width: 1400px; margin: 0 auto; }
 .section-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 500;
@@ -151,281 +158,305 @@ h1 {
   color: var(--brg); margin-bottom: 1rem;
 }
 .section-title {
-  font-size: clamp(32px, 4vw, 48px);
+  font-size: clamp(28px, 3.5vw, 44px);
   font-weight: 600; line-height: 1.15;
-  color: var(--black); margin-bottom: 1rem;
+  color: var(--black); margin-bottom: 0.75rem;
 }
 .section-body {
-  font-size: 16px; font-weight: 300;
-  color: var(--grey-700); line-height: 1.7;
+  font-size: 15px; font-weight: 300;
+  color: var(--g700); line-height: 1.7;
+  max-width: 580px;
 }
+.section-header { margin-bottom: 3.5rem; }
 
-/* CERT GRID */
-.cert-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--grey-200);
-  border: 1px solid var(--grey-200);
+/* CERT TIERS */
+.cert-primary {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--g200);
+  border: 1px solid var(--g200);
+  margin-bottom: 2rem;
+}
+.cert-secondary {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1px; background: var(--g200);
+  border: 1px solid var(--g200);
 }
 .cert-card {
-  background: var(--white);
-  padding: 2rem;
+  background: var(--white); padding: 1.75rem;
   transition: background 0.2s;
 }
-.cert-card:hover { background: #fcfcfc; }
-.cert-card.muted { background: #f8f8f8; }
-.cert-card.muted:hover { background: #f4f4f4; }
+.cert-card:hover { background: #f8f8f8; }
+.cert-card.muted { background: var(--g100); }
+.cert-card.muted:hover { background: #f0f0f0; }
+.cert-card.sm { padding: 1.25rem 1.5rem; }
 .cert-provider {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--grey-500); margin-bottom: 1rem;
+  color: var(--g400); margin-bottom: 0.6rem;
 }
 .cert-name {
-  font-size: 20px; font-weight: 600;
-  color: var(--black); margin-bottom: 0.75rem;
-  line-height: 1.25;
+  font-size: 17px; font-weight: 600;
+  color: var(--black); margin-bottom: 0.5rem; line-height: 1.25;
 }
-.cert-card.muted .cert-name { color: var(--grey-500); }
+.cert-card.muted .cert-name { color: var(--g500); }
+.cert-card.sm .cert-name { font-size: 13px; font-weight: 500; }
 .cert-detail {
-  font-size: 13px; font-weight: 300;
-  color: var(--grey-700); line-height: 1.6;
-  margin-bottom: 1.25rem;
+  font-size: 12px; font-weight: 300;
+  color: var(--g500); line-height: 1.5; margin-bottom: 1rem;
 }
 .cert-badge {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 5px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; font-weight: 500;
   letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 4px 10px;
-  border: 1px solid;
+  padding: 3px 9px; border: 1px solid;
 }
-.cert-badge.live {
-  background: rgba(0,66,37,0.05);
-  border-color: var(--brg);
-  color: var(--brg);
-}
-.cert-badge.pending {
-  background: transparent;
-  border-color: var(--grey-200);
-  color: var(--grey-500);
-}
-.cert-dot {
-  width: 4px; height: 4px; border-radius: 50%;
-  background: currentColor;
-}
+.cert-badge.live { background: rgba(0,66,37,0.05); border-color: var(--brg); color: var(--brg); }
+.cert-badge.pending { background: transparent; border-color: var(--g200); color: var(--g400); }
+.cert-badge.earned { background: rgba(0,66,37,0.05); border-color: var(--brg); color: var(--brg); }
+.cert-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
 .cert-link {
-  display: inline-block; margin-top: 1rem;
-  font-size: 12px; font-weight: 400;
-  color: var(--grey-500); text-decoration: none;
-  transition: color 0.2s;
+  display: inline-block; margin-top: 0.75rem;
+  font-size: 11px; color: var(--g400);
+  text-decoration: none; transition: color 0.2s;
 }
 .cert-link:hover { color: var(--black); }
 
 /* SERVICES */
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--grey-200);
-  border: 1px solid var(--grey-200);
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 1px; background: var(--g200); border: 1px solid var(--g200);
 }
 .service-card {
-  background: var(--white);
-  padding: 2.5rem;
+  background: var(--white); padding: 2.25rem;
   transition: background 0.2s;
 }
 .service-card:hover { background: #fcfcfc; }
 .service-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  color: var(--grey-400); margin-bottom: 1.5rem;
-  letter-spacing: 0.06em;
+  font-size: 10px; color: var(--g400);
+  margin-bottom: 1.25rem; letter-spacing: 0.06em;
 }
-.service-name {
-  font-size: 18px; font-weight: 600;
-  color: var(--black); margin-bottom: 0.75rem;
-  line-height: 1.3;
-}
-.service-desc {
-  font-size: 14px; font-weight: 300;
-  color: var(--grey-700); line-height: 1.65;
-}
+.service-name { font-size: 17px; font-weight: 600; color: var(--black); margin-bottom: 0.6rem; }
+.service-desc { font-size: 13px; font-weight: 300; color: var(--g700); line-height: 1.65; }
 
-/* PROJECTS */
-.project-list { }
-.project-row {
-  display: grid;
-  grid-template-columns: 32px 1fr 24px;
-  gap: 2rem;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--grey-200);
+/* EXPERIENCE CAROUSEL */
+.carousel-wrap { position: relative; overflow: hidden; }
+.carousel-track {
+  display: flex; gap: 1px;
+  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  background: var(--g200);
+  border: 1px solid var(--g200);
+}
+.exp-card {
+  flex: 0 0 calc(33.333% - 1px);
+  background: var(--white);
+  padding: 2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none; color: inherit;
+  display: block;
+}
+.exp-card:hover { background: #f8f8f8; }
+.exp-card:hover .exp-arrow { color: var(--brg); transform: translateX(3px); }
+.exp-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--g400); margin-bottom: 1rem;
+}
+.exp-title { font-size: 17px; font-weight: 600; color: var(--black); margin-bottom: 0.3rem; line-height: 1.25; }
+.exp-company { font-size: 13px; font-weight: 400; color: var(--g500); margin-bottom: 1rem; }
+.exp-excerpt { font-size: 13px; font-weight: 300; color: var(--g700); line-height: 1.6; }
+.exp-arrow {
+  display: block; margin-top: 1.25rem;
+  font-size: 13px; color: var(--g400);
+  transition: all 0.2s;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.06em;
+}
+.carousel-controls {
+  display: flex; gap: 8px; margin-top: 1rem;
+  justify-content: flex-end;
+}
+.carousel-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--g200);
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; color: var(--g500);
   transition: all 0.2s;
 }
-.project-row:first-child { border-top: 1px solid var(--grey-200); }
+.carousel-btn:hover { border-color: var(--g400); color: var(--black); }
+
+/* PROJECTS */
+.project-row {
+  display: grid; grid-template-columns: 32px 1fr 20px;
+  gap: 2rem; padding: 2rem 0;
+  border-bottom: 1px solid var(--g200);
+  transition: all 0.2s;
+}
+.project-row:first-child { border-top: 1px solid var(--g200); }
 .project-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500;
-  color: var(--grey-400); padding-top: 4px;
-  transition: color 0.2s;
+  font-size: 10px; font-weight: 500;
+  color: var(--g400); padding-top: 4px; transition: color 0.2s;
 }
 .project-row:hover .project-num { color: var(--brg); }
-.project-body { }
-.project-name {
-  font-size: 20px; font-weight: 600;
-  color: var(--black); margin-bottom: 0.5rem;
-  line-height: 1.3;
-}
-.project-desc {
-  font-size: 14px; font-weight: 300;
-  color: var(--grey-700); line-height: 1.65;
-  margin-bottom: 1rem;
-}
-.project-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.project-name { font-size: 18px; font-weight: 600; color: var(--black); margin-bottom: 0.4rem; line-height: 1.3; }
+.project-desc { font-size: 13px; font-weight: 300; color: var(--g700); line-height: 1.65; margin-bottom: 0.75rem; }
+.project-tags { display: flex; gap: 5px; flex-wrap: wrap; }
 .project-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; font-weight: 500;
   letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--grey-500);
-  padding: 3px 8px;
-  border: 1px solid var(--grey-200);
+  color: var(--g500); padding: 3px 7px;
+  border: 1px solid var(--g200);
 }
-.project-arrow {
-  font-size: 18px; color: var(--grey-400);
-  padding-top: 4px; transition: all 0.2s;
-  text-align: right;
-}
-.project-row:hover .project-arrow {
-  color: var(--brg);
-  transform: translateX(3px);
-}
+.project-arrow { font-size: 16px; color: var(--g400); padding-top: 4px; transition: all 0.2s; }
+.project-row:hover .project-arrow { color: var(--brg); transform: translateX(3px); }
 
 /* ABOUT */
 .about-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 6rem;
-  align-items: start;
+  display: grid; grid-template-columns: 1.3fr 1fr;
+  gap: 5rem; align-items: start;
 }
 .about-text p {
   font-size: 15px; font-weight: 300;
-  color: var(--grey-700); line-height: 1.75;
-  margin-bottom: 1.25rem;
+  color: var(--g700); line-height: 1.8;
+  margin-bottom: 1.1rem;
 }
-.about-text p strong {
-  color: var(--black); font-weight: 500;
+.about-text p strong { color: var(--black); font-weight: 500; }
+.about-text .about-origin {
+  font-size: 16px; font-style: italic;
+  color: var(--black); line-height: 1.6;
+  margin-bottom: 1.5rem;
+  border-left: 2px solid var(--brg);
+  padding-left: 1.25rem;
 }
 .fact-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background: var(--grey-200);
-  border: 1px solid var(--grey-200);
+  display: grid; grid-template-columns: 1fr;
+  gap: 1px; background: var(--g200); border: 1px solid var(--g200);
 }
 .fact-row {
   background: var(--white);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding: 0.9rem 1.25rem;
+  display: flex; justify-content: space-between;
+  padding: 0.85rem 1.25rem; gap: 1rem;
 }
 .fact-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--grey-500);
+  color: var(--g500); white-space: nowrap;
 }
-.fact-val {
-  font-size: 13px; font-weight: 400;
-  color: var(--black); text-align: right;
-}
-.fact-val a {
-  color: var(--brg); text-decoration: none;
-  transition: color 0.2s;
-}
-.fact-val a:hover { color: var(--brg-light); }
+.fact-val { font-size: 12px; font-weight: 400; color: var(--black); text-align: right; }
+.fact-val a { color: var(--brg); text-decoration: none; }
+.fact-val a:hover { color: var(--brgl); }
 
 /* CONTACT */
-.contact-box {
-  border: 1px solid var(--grey-200);
-  background: var(--white);
-}
-.contact-main { padding: 4rem; }
-.contact-title {
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 600; line-height: 1.1;
-  color: var(--black); margin-bottom: 1rem;
-}
-.contact-sub {
-  font-size: 16px; font-weight: 300;
-  color: var(--grey-700); line-height: 1.7;
-  max-width: 480px; margin-bottom: 2.5rem;
-}
+.contact-box { border: 1px solid var(--g200); }
+.contact-main { padding: 4rem; background: var(--white); }
+.contact-title { font-size: clamp(32px, 4vw, 52px); font-weight: 600; line-height: 1.1; color: var(--black); margin-bottom: 0.75rem; }
+.contact-sub { font-size: 15px; font-weight: 300; color: var(--g700); line-height: 1.7; max-width: 480px; margin-bottom: 2.25rem; }
 .contact-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-.contact-footer {
+.contact-foot {
   padding: 1.25rem 4rem;
-  background: #f8f8f8;
-  border-top: 1px solid var(--grey-200);
+  background: var(--g100); border-top: 1px solid var(--g200);
   display: flex; justify-content: space-between;
   align-items: center; flex-wrap: wrap; gap: 1rem;
 }
-.contact-email {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: var(--grey-500);
-  letter-spacing: 0.04em;
-}
-.contact-copy {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--grey-400);
-}
+.contact-email { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--g500); }
+.contact-copy { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g400); }
 
 /* FOOTER */
 footer {
-  border-top: 1px solid var(--grey-200);
-  padding: 2rem 2.5rem;
+  border-top: 1px solid var(--g200);
+  padding: 1.75rem 2.5rem;
   max-width: 1400px; margin: 0 auto;
   display: flex; justify-content: space-between;
   align-items: center; flex-wrap: wrap; gap: 1rem;
 }
-.footer-logo {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--grey-500);
-}
-.footer-links { display: flex; gap: 2rem; }
-.footer-links a {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--grey-500); text-decoration: none;
-  transition: color 0.2s;
-}
+.footer-logo { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g500); }
+.footer-links { display: flex; gap: 1.75rem; }
+.footer-links a { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--g500); text-decoration: none; transition: color 0.2s; }
 .footer-links a:hover { color: var(--black); }
 
-/* REVEAL */
-.reveal {
-  opacity: 0; transform: translateY(16px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+/* MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(10,10,10,0.7);
+  backdrop-filter: blur(4px);
+  align-items: flex-start; justify-content: center;
+  padding: 60px 1.5rem;
+  overflow-y: auto;
 }
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white); width: 100%; max-width: 720px;
+  border: 1px solid var(--g200);
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform:none; } }
+.modal-header {
+  padding: 2rem 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--g200);
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.modal-close {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--g400);
+  background: none; border: none; cursor: pointer;
+  padding: 4px; transition: color 0.2s; letter-spacing: 0.06em;
+}
+.modal-close:hover { color: var(--black); }
+.modal-period { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brg); margin-bottom: 0.5rem; }
+.modal-title { font-size: 22px; font-weight: 600; color: var(--black); margin-bottom: 0.25rem; }
+.modal-company { font-size: 14px; color: var(--g500); }
+.modal-body { padding: 2rem 2.5rem; }
+.modal-body p { font-size: 14px; font-weight: 300; color: var(--g700); line-height: 1.75; margin-bottom: 1rem; }
+.modal-body ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.modal-body ul li {
+  font-size: 13px; font-weight: 300; color: var(--g700);
+  line-height: 1.6; padding-left: 1.25rem; position: relative;
+}
+.modal-body ul li::before {
+  content: '—'; position: absolute; left: 0;
+  color: var(--brg); font-size: 11px;
+}
+.modal-skills {
+  margin-top: 1.5rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--g200);
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.modal-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--g500); padding: 3px 8px;
+  border: 1px solid var(--g200);
+}
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.in { opacity: 1; transform: none; }
 
-@media (max-width: 900px) {
-  .nav-inner { padding: 0 1.5rem; }
+@media (max-width: 960px) {
   .nav-links { display: none; }
-  .hero { padding: 120px 1.5rem 80px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .hero-accent { display: none; }
-  .section { padding: 70px 1.5rem; }
-  .cert-grid { grid-template-columns: 1fr; }
+  .nav-inner { padding: 0 1.5rem; }
+  .hero { padding: 110px 1.5rem 70px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .photo-frame { aspect-ratio: 4/3; max-width: 320px; }
+  .section { padding: 60px 1.5rem; }
+  .cert-primary { grid-template-columns: 1fr; }
+  .cert-secondary { grid-template-columns: repeat(2,1fr); }
   .services-grid { grid-template-columns: 1fr; }
-  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .contact-main { padding: 2.5rem; }
-  .contact-footer { padding: 1.25rem 2.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-main { padding: 2rem; }
+  .contact-foot { padding: 1rem 2rem; }
   footer { padding: 1.5rem; }
+  .exp-card { flex: 0 0 calc(85% - 1px); }
+  .modal { max-width: 100%; }
 }
 </style>
 </head>
@@ -436,6 +467,7 @@ footer {
     <a href="#" class="nav-logo">L.K. Munyuki</a>
     <div class="nav-links">
       <a href="#certifications">Certifications</a>
+      <a href="#experience">Experience</a>
       <a href="#services">Services</a>
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
@@ -446,29 +478,42 @@ footer {
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-accent"></div>
   <div class="hero-grid">
     <div>
       <div class="hero-label">Salesforce Administrator · CRM Specialist</div>
       <h1>Precision.<br>Systems.<br>Results.</h1>
-      <p class="hero-sub">Salesforce Certified Administrator with a background in freight logistics. I build CRM systems that match how businesses actually operate — and automate everything that shouldn't require a human.</p>
+      <p class="hero-sub">Salesforce Certified Administrator with a background in freight logistics and data operations. I build CRM systems that match how businesses actually operate — and automate everything that shouldn't require a human.</p>
       <div class="hero-btns">
         <a href="#projects" class="btn btn-primary">View work →</a>
         <a href="#contact" class="btn btn-secondary">Get in touch</a>
       </div>
     </div>
-    <div class="hero-meta">
-      <div class="meta-item">
-        <div class="meta-label">Certified</div>
-        <div class="meta-val">SCA · May 2026</div>
+    <div>
+      <!-- PHOTO: Replace the div below with <img src="your-photo.jpg"> when ready -->
+      <div class="photo-frame">
+        <div class="photo-placeholder">
+          [ Photo ]<br><br>
+          Replace this block with<br>your image file
+        </div>
+        <div class="photo-caption">Lionel K. Munyuki · Salesforce Administrator</div>
       </div>
-      <div class="meta-item">
-        <div class="meta-label">Location</div>
-        <div class="meta-val">Raleigh, NC</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Credential ID</div>
-        <div class="meta-val">7787112</div>
+      <div class="hero-meta">
+        <div class="meta-row">
+          <span class="meta-label">Certified</span>
+          <span class="meta-val">SCA · May 2026</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Location</span>
+          <span class="meta-val">Raleigh, NC</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Credential</span>
+          <span class="meta-val">ID 7787112</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Founder</span>
+          <span class="meta-val">Tinkerbell · VEEL</span>
+        </div>
       </div>
     </div>
   </div>
@@ -481,12 +526,13 @@ footer {
   <div class="section-header reveal">
     <div class="section-label">Certifications</div>
     <h2 class="section-title">Earned. Verified. Growing.</h2>
-    <p class="section-body">Every certification built on the same foundation of deep Salesforce knowledge. Administrator certified. Developer next. The list will grow.</p>
+    <p class="section-body">A foundation built on Salesforce, data, and continuous learning. The primary certifications are the anchor. Everything else shows range.</p>
   </div>
-  <div class="cert-grid reveal">
+
+  <div class="cert-primary reveal">
     <div class="cert-card">
       <div class="cert-provider">Salesforce</div>
-      <div class="cert-name">Administrator</div>
+      <div class="cert-name">Certified Administrator</div>
       <div class="cert-detail">Credential ID 7787112 · Issued May 2026<br>Org management, security, automation, Flow, data.</div>
       <span class="cert-badge live"><span class="cert-dot"></span>Certified</span>
       <a href="https://trailhead.salesforce.com/credentials/verification" target="_blank" class="cert-link">Verify credential →</a>
@@ -502,6 +548,125 @@ footer {
       <div class="cert-name">Advanced Administrator</div>
       <div class="cert-detail">Advanced automation, complex security models, enterprise data management.</div>
       <span class="cert-badge pending">Coming soon</span>
+    </div>
+  </div>
+
+  <div class="cert-secondary reveal">
+    <div class="cert-card sm">
+      <div class="cert-provider">Toastmasters</div>
+      <div class="cert-name">Public Speaking Professional</div>
+      <div class="cert-detail">May 2025 · Speech Writing & Presentation</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+    <div class="cert-card sm">
+      <div class="cert-provider">Google · Coursera</div>
+      <div class="cert-name">Data Analytics Certificate</div>
+      <div class="cert-detail">Oct 2021 · Credential ID V65MYBca</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+    <div class="cert-card sm">
+      <div class="cert-provider">LinkedIn</div>
+      <div class="cert-name">Business Analysis for PMs</div>
+      <div class="cert-detail">Apr 2025 · Business Analysis, Project Management</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+    <div class="cert-card sm">
+      <div class="cert-provider">LinkedIn</div>
+      <div class="cert-name">SQL: Data Reporting & Analysis</div>
+      <div class="cert-detail">Apr 2025 · Data Analysis, SQL</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+    <div class="cert-card sm">
+      <div class="cert-provider">LinkedIn</div>
+      <div class="cert-name">Agile at Work</div>
+      <div class="cert-detail">Apr 2025 · Retrospectives, Agile Methodologies</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+    <div class="cert-card sm">
+      <div class="cert-provider">LinkedIn</div>
+      <div class="cert-name">Account Management</div>
+      <div class="cert-detail">May 2025 · Relationship Management</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+    <div class="cert-card sm">
+      <div class="cert-provider">LinkedIn</div>
+      <div class="cert-name">International Business & Finance</div>
+      <div class="cert-detail">Apr 2025 · Corporate Finance, International Business</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+    <div class="cert-card sm">
+      <div class="cert-provider">LinkedIn</div>
+      <div class="cert-name">MySQL Essential Training</div>
+      <div class="cert-detail">May 2023 · MySQL</div>
+      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <div class="section-header reveal">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">The work behind the work.</h2>
+    <p class="section-body">A career built through deliberate progression — from data to logistics to Salesforce. Click any role to see the full detail.</p>
+  </div>
+  <div class="carousel-wrap reveal">
+    <div class="carousel-track" id="carouselTrack">
+
+      <div class="exp-card" onclick="openModal('modal-pd')">
+        <div class="exp-period">Sep 2025 – Present · Riyadh, SA</div>
+        <div class="exp-title">Professional Development</div>
+        <div class="exp-company">Career Break · International Business Accelerator</div>
+        <div class="exp-excerpt">Engaged in an international business accelerator focused on leadership, cross-border strategy, and global entrepreneurship.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
+      <div class="exp-card" onclick="openModal('modal-tql')">
+        <div class="exp-period">Jul 2025 – Sep 2025 · Raleigh, NC</div>
+        <div class="exp-title">Logistics Account Executive</div>
+        <div class="exp-company">Total Quality Logistics · Full-time</div>
+        <div class="exp-excerpt">Managed the full lifecycle of freight transactions — prospecting, booking, real-time tracking, and client relationship management.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
+      <div class="exp-card" onclick="openModal('modal-prosource')">
+        <div class="exp-period">Jun 2024 – Feb 2025 · On-site</div>
+        <div class="exp-title">Delivery Technician</div>
+        <div class="exp-company">Prosource Fitness Equipment · Full-time</div>
+        <div class="exp-excerpt">Delivered, installed, and commissioned fitness equipment across residential and commercial facilities with full safety compliance.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
+      <div class="exp-card" onclick="openModal('modal-lseg')">
+        <div class="exp-period">Jan 2023 – Feb 2024 · Fort Mill, SC</div>
+        <div class="exp-title">SI Operations Data Analyst</div>
+        <div class="exp-company">LSEG (London Stock Exchange Group) · Hybrid</div>
+        <div class="exp-excerpt">Performed in-depth ESG data analysis across company 10-Ks, Annual Reports, and credible reporting forums using SQL and Excel.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
+      <div class="exp-card" onclick="openModal('modal-ixl')">
+        <div class="exp-period">May 2022 – Oct 2022 · Morrisville, NC</div>
+        <div class="exp-title">Account Specialist</div>
+        <div class="exp-company">IXL Learning · Full-time</div>
+        <div class="exp-excerpt">Provided intradepartmental support for product integrations, diagnosed daily integration issues, and escalated bugs to engineering.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
+      <div class="exp-card" onclick="openModal('modal-ncstate')">
+        <div class="exp-period">Oct 2021 – Dec 2021 · Raleigh, NC</div>
+        <div class="exp-title">Data Analyst</div>
+        <div class="exp-company">NC State University · Full-time</div>
+        <div class="exp-excerpt">Designed and deployed Tableau dashboards for the Y Analytics team covering ESG performance benchmarking and impact reporting.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
+    </div>
+    <div class="carousel-controls">
+      <button class="carousel-btn" onclick="scrollCarousel(-1)" aria-label="Previous">←</button>
+      <button class="carousel-btn" onclick="scrollCarousel(1)" aria-label="Next">→</button>
     </div>
   </div>
 </section>
@@ -548,7 +713,7 @@ footer {
     <h2 class="section-title">Built. Documented. Deployed.</h2>
     <p class="section-body">Real Salesforce orgs built from requirements to delivery. Every project demonstrates what I can contribute on day one.</p>
   </div>
-  <div class="project-list reveal">
+  <div class="reveal">
     <div class="project-row">
       <div class="project-num">01</div>
       <div class="project-body">
@@ -617,45 +782,24 @@ footer {
   </div>
   <div class="about-grid reveal">
     <div class="about-text">
-      <p>I grew up in <strong>Zimbabwe</strong>. Built a career in <strong>logistics and freight operations</strong> at Total Quality Logistics in Raleigh, NC — learning how supply chains break, how deals are won, and how much inefficiency lives inside systems that weren't designed to talk to each other.</p>
-      <p>Then I made a deliberate move into Salesforce. Not a pivot driven by trend — a calculated step toward building the kind of consulting career that compounds.</p>
-      <p>I passed the <strong>Salesforce Certified Administrator exam in May 2026</strong>. Multiple prep sessions. 4am study mornings. A practice set that felt like a mental war. I also built <strong>Tinkerbell</strong> — a Salesforce certification prep platform — while studying for the cert myself. It's live. It has users. It's proof I don't just learn. I build.</p>
-      <p>Platform Developer I is next. Then Advanced Admin. Then consulting engagements that put all of it to work at scale.</p>
+      <p class="about-origin">Born in Raleigh, NC, and raised across the EMEA<br>(Zimbabwe, South Africa, Dubai),<br>moving through the world with my eyes wide open.</p>
+      <p>That early exposure to different cultures, economies, and ways of doing things planted something early: the understanding that there was more out there, and that the only way to reach it was to build toward it yourself.</p>
+      <p>That instinct showed up in small ways at first: self-starter projects, websites, quiet experiments in what technology could do.</p>
+      <p>When the time came to return to the United States in 2021, there was no easing in. I landed at NC State as a Data Analyst and kept moving — through each role, each certification, each early morning that nobody asked for but showed up for anyway.</p>
+      <p>That journey eventually led to Salesforce. Nine months in Saudi Arabia, an Administrator certification earned, and Tinkerbell — a live certification prep platform — built from the ground up in the middle of it all. What started as curiosity about a platform has grown into a clear conviction: the Salesforce ecosystem is where technology, business, and human systems meet most powerfully.</p>
+      <p>The projects are already showing what's possible & the best work is still ahead.</p>
     </div>
     <div>
       <div class="fact-grid">
-        <div class="fact-row">
-          <div class="fact-label">Location</div>
-          <div class="fact-val">Raleigh, NC</div>
-        </div>
-        <div class="fact-row">
-          <div class="fact-label">Background</div>
-          <div class="fact-val">Logistics → SF</div>
-        </div>
-        <div class="fact-row">
-          <div class="fact-label">SCA Certified</div>
-          <div class="fact-val">May 2026</div>
-        </div>
-        <div class="fact-row">
-          <div class="fact-label">Credential</div>
-          <div class="fact-val">7787112</div>
-        </div>
-        <div class="fact-row">
-          <div class="fact-label">Next cert</div>
-          <div class="fact-val">Platform Dev I</div>
-        </div>
-        <div class="fact-row">
-          <div class="fact-label">Founder</div>
-          <div class="fact-val">Tinkerbell · VEEL</div>
-        </div>
-        <div class="fact-row">
-          <div class="fact-label">LinkedIn</div>
-          <div class="fact-val"><a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank">lionelkmunyuki</a></div>
-        </div>
-        <div class="fact-row">
-          <div class="fact-label">GitHub</div>
-          <div class="fact-val"><a href="https://github.com/LionelKMunyuki" target="_blank">LionelKMunyuki</a></div>
-        </div>
+        <div class="fact-row"><span class="fact-label">Born</span><span class="fact-val">Raleigh, NC, USA</span></div>
+        <div class="fact-row"><span class="fact-label">Raised</span><span class="fact-val">ZW · ZA · UAE</span></div>
+        <div class="fact-row"><span class="fact-label">Based</span><span class="fact-val">Raleigh, NC</span></div>
+        <div class="fact-row"><span class="fact-label">SCA Certified</span><span class="fact-val">May 2026 · ID 7787112</span></div>
+        <div class="fact-row"><span class="fact-label">Next cert</span><span class="fact-val">Platform Developer I</span></div>
+        <div class="fact-row"><span class="fact-label">Founder</span><span class="fact-val">Tinkerbell · VEEL Consulting</span></div>
+        <div class="fact-row"><span class="fact-label">Background</span><span class="fact-val">Data · Logistics · Salesforce</span></div>
+        <div class="fact-row"><span class="fact-label">LinkedIn</span><span class="fact-val"><a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank">lionelkmunyuki</a></span></div>
+        <div class="fact-row"><span class="fact-label">GitHub</span><span class="fact-val"><a href="https://github.com/LionelKMunyuki" target="_blank">LionelKMunyuki</a></span></div>
       </div>
     </div>
   </div>
@@ -675,7 +819,7 @@ footer {
         <a href="https://github.com/LionelKMunyuki" target="_blank" class="btn btn-secondary">GitHub</a>
       </div>
     </div>
-    <div class="contact-footer">
+    <div class="contact-foot">
       <span class="contact-email">lionelkmunyuki@gmail.com</span>
       <span class="contact-copy">© 2026 Lionel Munyuki</span>
     </div>
@@ -691,7 +835,216 @@ footer {
   </div>
 </footer>
 
+<!-- EXPERIENCE MODALS -->
+<div class="modal-overlay" id="modal-pd" onclick="closeOnOverlay(event, 'modal-pd')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Sep 2025 – Present · Riyadh, Saudi Arabia</div>
+        <div class="modal-title">Professional Development</div>
+        <div class="modal-company">International Business Accelerator · Career Break</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-pd')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <p>Engaged in an international business accelerator in Riyadh, Saudi Arabia, working closely with business leaders to strengthen business portfolios and design scalable ventures across logistics, real estate, and technology sectors.</p>
+      <ul>
+        <li>Leadership development and cross-border strategy across multiple industry verticals</li>
+        <li>Mastering the fundamentals of global entrepreneurship and wealth management</li>
+        <li>Attained Salesforce Certified Administrator certification during this period</li>
+        <li>Built and launched Tinkerbell — a live Salesforce certification prep platform</li>
+      </ul>
+      <div class="modal-skills">
+        <span class="modal-tag">Entrepreneurship</span>
+        <span class="modal-tag">Cross-border Strategy</span>
+        <span class="modal-tag">Leadership</span>
+        <span class="modal-tag">Salesforce</span>
+        <span class="modal-tag">Product Development</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-tql" onclick="closeOnOverlay(event, 'modal-tql')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Jul 2025 – Sep 2025 · Raleigh-Durham, NC</div>
+        <div class="modal-title">Logistics Account Executive</div>
+        <div class="modal-company">Total Quality Logistics · Full-time · On-site</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-tql')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <p>Served as the vital link between shippers and carriers, ensuring freight moves efficiently, on time, and within budget. Managed the full lifecycle of freight transactions from prospecting to real-time tracking and client relationship management.</p>
+      <ul>
+        <li>Built and maintained relationships with shippers and carriers nationwide through consistent outreach and service excellence</li>
+        <li>Negotiated rates and secured capacity for shipments, maximising profitability while meeting client expectations</li>
+        <li>Coordinated freight movements from origin to destination, ensuring on-time pickup and delivery</li>
+        <li>Tracked shipments in real time, proactively resolving issues or delays to ensure customer satisfaction</li>
+        <li>Prospected new clients through cold calling, referrals, and targeted marketing efforts</li>
+        <li>Leveraged CRM and TMS tools to manage daily operations, communication logs, and performance analytics</li>
+        <li>Collaborated cross-functionally with carrier sales, finance, and operations teams</li>
+      </ul>
+      <div class="modal-skills">
+        <span class="modal-tag">Strategic Negotiations</span>
+        <span class="modal-tag">Sales</span>
+        <span class="modal-tag">CRM</span>
+        <span class="modal-tag">Supply Chain</span>
+        <span class="modal-tag">Client Management</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-prosource" onclick="closeOnOverlay(event, 'modal-prosource')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Jun 2024 – Feb 2025 · On-site</div>
+        <div class="modal-title">Delivery Technician</div>
+        <div class="modal-company">Prosource Fitness Equipment · Full-time</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-prosource')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Transported fitness equipment from warehouse to residential homes, gyms, and fitness centres</li>
+        <li>Assembled and set up equipment on-site, ensuring proper installation and safety compliance</li>
+        <li>Demonstrated equipment operation to customers with clear, professional instructions</li>
+        <li>Conducted post-installation inspections and troubleshot issues on-site</li>
+        <li>Completed all required documentation — customer sign-offs and service reports</li>
+        <li>Maintained safety protocols throughout transportation and installation processes</li>
+      </ul>
+      <div class="modal-skills">
+        <span class="modal-tag">Safety & Risk Management</span>
+        <span class="modal-tag">Customer Service</span>
+        <span class="modal-tag">Logistics</span>
+        <span class="modal-tag">Field Operations</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-lseg" onclick="closeOnOverlay(event, 'modal-lseg')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Jan 2023 – Feb 2024 · Fort Mill, SC · Hybrid</div>
+        <div class="modal-title">SI Operations Data Analyst</div>
+        <div class="modal-company">LSEG — London Stock Exchange Group · Full-time</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-lseg')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Provided rationale Excel files referencing Company 10-Ks, Annual Reports, and credible ESG reporting forums for Mergers, Acquisitions, Spinoffs, and Demergers</li>
+        <li>Acquired and applied automation techniques using Microsoft Excel — built indices using pre-built macros and maintained data quality oversight</li>
+        <li>Engaged in building and comparison of complex company data files using company methodology</li>
+        <li>Performed in-depth analysis of large SQL datasets through observation and querying, utilising ETL processes within the data warehouse</li>
+      </ul>
+      <div class="modal-skills">
+        <span class="modal-tag">Data Analysis</span>
+        <span class="modal-tag">ESG</span>
+        <span class="modal-tag">SQL</span>
+        <span class="modal-tag">Excel Automation</span>
+        <span class="modal-tag">ETL</span>
+        <span class="modal-tag">Financial Markets</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ixl" onclick="closeOnOverlay(event, 'modal-ixl')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">May 2022 – Oct 2022 · Morrisville, NC</div>
+        <div class="modal-title">Account Specialist</div>
+        <div class="modal-company">IXL Learning · Full-time</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-ixl')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Identified, analysed, and reported integration-related bugs and enhancements to product engineering and management</li>
+        <li>Provided intradepartmental support for new integrations and integration enhancements</li>
+        <li>Diagnosed daily integration issues using internal tools and escalated where necessary</li>
+        <li>Planned, organised, and documented daily tasks to maintain multiple implementation and support workflows</li>
+      </ul>
+      <div class="modal-skills">
+        <span class="modal-tag">Microsoft Excel</span>
+        <span class="modal-tag">Salesforce Lightning</span>
+        <span class="modal-tag">Account Management</span>
+        <span class="modal-tag">Integration Support</span>
+        <span class="modal-tag">Problem Solving</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ncstate" onclick="closeOnOverlay(event, 'modal-ncstate')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Oct 2021 – Dec 2021 · Raleigh, NC</div>
+        <div class="modal-title">Data Analyst</div>
+        <div class="modal-company">NC State University · Full-time</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-ncstate')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <p>Contributed to the Y Analytics team primarily through the design and deployment of Tableau dashboards to build efficiencies in key aspects of ESG performance benchmarking, impact reporting, and insight dissemination.</p>
+      <ul>
+        <li>Designed and deployed Tableau dashboards for ESG performance benchmarking</li>
+        <li>Supported impact reporting and data insight dissemination across the analytics team</li>
+        <li>Applied statistical analysis and data wrangling techniques across datasets</li>
+      </ul>
+      <div class="modal-skills">
+        <span class="modal-tag">Tableau</span>
+        <span class="modal-tag">Statistical Analysis</span>
+        <span class="modal-tag">Data Wrangling</span>
+        <span class="modal-tag">ESG</span>
+        <span class="modal-tag">Data Visualisation</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+// Carousel
+let carouselPos = 0;
+function scrollCarousel(dir) {
+  const track = document.getElementById('carouselTrack');
+  const card = track.querySelector('.exp-card');
+  const cardW = card.offsetWidth + 1;
+  const maxPos = track.children.length - 3;
+  carouselPos = Math.max(0, Math.min(carouselPos + dir, maxPos));
+  track.style.transform = `translateX(-${carouselPos * cardW}px)`;
+}
+
+// Modals
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnOverlay(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+
+// Reveal
 const obs = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
     if (e.isIntersecting) {
@@ -699,7 +1052,7 @@ const obs = new IntersectionObserver((entries) => {
       obs.unobserve(e.target);
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
