@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carspec Motorsport Configurator — Lionel Munyuki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brg: #1a3a2a;
+    --brg-light: #2a5a40;
+    --black: #0a0a0a;
+    --white: #f5f4f0;
+    --g100: #e8e6e0;
+    --g200: #c8c5bc;
+    --g400: #6b6860;
+    --accent: #c8a84b;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
+
+  /* ── PAGE SHELL ── */
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 900px;
+    margin: 0 auto;
+    border-left: 1px solid var(--g200);
+    border-right: 1px solid var(--g200);
+  }
+
+  /* ── FIXED TOP ── */
+  .top-bar {
+    flex-shrink: 0;
+    background: var(--black);
+    color: var(--white);
+    padding: 28px 32px 24px;
+    border-bottom: 3px solid var(--brg);
+    position: relative;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--g400);
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--white); }
+  .back-link::before { content: '←'; font-size: 12px; }
+
+  .top-meta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .top-left { flex: 1; min-width: 200px; }
+
+  .domain-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brg-light);
+    margin-bottom: 6px;
+  }
+
+  .project-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 52px);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--white);
+  }
+
+  .project-sub {
+    font-size: 13px;
+    color: var(--g200);
+    margin-top: 8px;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.4;
+  }
+
+  .process-doc-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: transparent;
+    border: 1px solid var(--g400);
+    padding: 10px 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    align-self: flex-end;
+  }
+  .process-doc-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .process-doc-btn svg { width: 12px; height: 12px; }
+
+  .stack-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--brg-light);
+    color: var(--brg-light);
+  }
+
+  /* ── SCROLLABLE MIDDLE ── */
+  .scroll-zone {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  .scroll-zone::-webkit-scrollbar { width: 4px; }
+  .scroll-zone::-webkit-scrollbar-track { background: var(--g100); }
+  .scroll-zone::-webkit-scrollbar-thumb { background: var(--brg); }
+
+  /* Scroll artifact indicator */
+  .scroll-artifact {
+    position: sticky;
+    top: 0;
+    float: right;
+    width: 3px;
+    height: 100%;
+    background: var(--g100);
+    margin-right: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ── CONTENT ROWS ── */
+  .content-rows { padding: 0; }
+
+  .content-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 280px;
+    border-bottom: 1px solid var(--g200);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .content-row:nth-child(1) { animation-delay: 0.05s; }
+  .content-row:nth-child(2) { animation-delay: 0.1s; }
+  .content-row:nth-child(3) { animation-delay: 0.15s; }
+  .content-row:nth-child(4) { animation-delay: 0.2s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Alternating: image-left, desc-right / desc-left, image-right */
+  .content-row:nth-child(even) .cell-image { order: 2; }
+  .content-row:nth-child(even) .cell-desc  { order: 1; border-right: 1px solid var(--g200); border-left: none; }
+
+  .cell-image {
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    min-height: 260px;
+    border-right: 1px solid var(--g200);
+  }
+
+  .cell-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+  }
+
+  /* Placeholder when no image */
+  .cell-image.placeholder {
+    background: var(--black);
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cell-image.placeholder .img-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--g400);
+  }
+  .cell-image.placeholder .img-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--g400);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--g400);
+    font-size: 18px;
+  }
+
+  /* Row number badge */
+  .row-num {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--g400);
+    background: rgba(0,0,0,0.5);
+    padding: 3px 7px;
+  }
+
+  .cell-desc {
+    padding: 28px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--g200);
+    background: var(--white);
+  }
+
+  .cell-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brg);
+    margin-bottom: 10px;
+  }
+
+  .cell-heading {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    margin-bottom: 10px;
+  }
+
+  .cell-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--g400);
+    font-weight: 300;
+  }
+
+  .cell-body strong { color: var(--black); font-weight: 500; }
+
+  .cell-bullets {
+    list-style: none;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cell-bullets li {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--g400);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .cell-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--brg);
+  }
+
+  /* ── FIXED BOTTOM ── */
+  .bottom-bar {
+    flex-shrink: 0;
+    border-top: 1px solid var(--g200);
+    background: var(--white);
+  }
+
+  .interact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 22px 32px;
+    background: var(--brg);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+  .interact-btn:hover { background: var(--brg-light); color: var(--accent); }
+  .interact-btn .arrow {
+    font-size: 22px;
+    transition: transform 0.2s, color 0.2s;
+  }
+  .interact-btn:hover .arrow { transform: translateX(6px); color: var(--accent); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .page { border: none; }
+    .top-bar { padding: 20px 20px 18px; }
+    .content-row { grid-template-columns: 1fr; min-height: auto; }
+    .cell-image { min-height: 200px; order: 1 !important; border-right: none !important; border-bottom: 1px solid var(--g200); }
+    .cell-desc { order: 2 !important; padding: 20px; border-left: none !important; border-right: none !important; }
+    .content-row:nth-child(even) .cell-desc { border-right: none; }
+    .interact-btn { padding: 18px 20px; font-size: 16px; }
+    .top-meta { flex-direction: column; align-items: flex-start; }
+    .process-doc-btn { align-self: flex-start; margin-top: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── FIXED TOP ── -->
+  <header class="top-bar">
+    <a class="back-link" href="index.html">All Projects</a>
+    <div class="top-meta">
+      <div class="top-left">
+        <div class="domain-tag">Automotive · Salesforce CRM</div>
+        <h1 class="project-title">Carspec Motorsport<br>Configurator</h1>
+        <p class="project-sub">A Salesforce Sales Cloud org built for a high-end supercar configurator — from customer enquiry to bespoke vehicle order.</p>
+        <div class="stack-pills">
+          <span class="pill">Sales Cloud</span>
+          <span class="pill">Screen Flow</span>
+          <span class="pill">Custom Objects</span>
+          <span class="pill">Flow Automation</span>
+          <span class="pill">Validation Rules</span>
+        </div>
+      </div>
+      <a class="process-doc-btn" href="#" target="_blank">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="1" width="10" height="14" rx="1"/>
+          <line x1="6" y1="5" x2="10" y2="5"/>
+          <line x1="6" y1="8" x2="10" y2="8"/>
+          <line x1="6" y1="11" x2="8" y2="11"/>
+        </svg>
+        Process Doc
+      </a>
+    </div>
+  </header>
+
+  <!-- ── SCROLLABLE MIDDLE ── -->
+  <div class="scroll-zone" id="scrollZone">
+    <div class="content-rows">
+
+      <!-- ROW 1: Image left, description right -->
+      <div class="content-row">
+        <div class="cell-image placeholder">
+          <div class="row-num">01</div>
+          <div class="img-icon">🏎</div>
+          <span class="img-label">Supercar Catalogue</span>
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Catalogue</div>
+          <div class="cell-heading">50 Supercars. One Object.</div>
+          <p class="cell-body">A custom <strong>Supercars__c</strong> object holds the full vehicle catalogue — 50 records across manufacturers including Ferrari, Lamborghini, Mercedes-AMG, and Aston Martin.</p>
+          <ul class="cell-bullets">
+            <li>Make, model, year, base price fields</li>
+            <li>Linked to manufacturer Account records</li>
+            <li>23 manufacturer accounts — real brand data</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROW 2: Description left, image right -->
+      <div class="content-row">
+        <div class="cell-image placeholder">
+          <div class="row-num">02</div>
+          <div class="img-icon">⚙️</div>
+          <span class="img-label">Screen Flow Configurator</span>
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Configurator</div>
+          <div class="cell-heading">Guided. Screen by Screen.</div>
+          <p class="cell-body">A <strong>Screen Flow</strong> walks customers through the full configuration — from contact capture to vehicle selection, option packages, and order summary.</p>
+          <ul class="cell-bullets">
+            <li>Customer info capture with validation</li>
+            <li>Vehicle picker from live Supercar catalogue</li>
+            <li>Auto-creates Opportunity on completion</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROW 3: Image left, description right -->
+      <div class="content-row">
+        <div class="cell-image placeholder">
+          <div class="row-num">03</div>
+          <div class="img-icon">📊</div>
+          <span class="img-label">Opportunity Pipeline</span>
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Pipeline</div>
+          <div class="cell-heading">31 Deals. Full Lifecycle.</div>
+          <p class="cell-body">A full Sales Cloud <strong>opportunity pipeline</strong> tracks each configured build from initial enquiry through to Closed Won — with real amounts and close dates.</p>
+          <ul class="cell-bullets">
+            <li>Custom stages: Enquiry → Configured → Quote Sent → Closed Won</li>
+            <li>31 opportunity records across all stages</li>
+            <li>Closed Won triggers automated follow-up task</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROW 4: Description left, image right -->
+      <div class="content-row">
+        <div class="cell-image placeholder">
+          <div class="row-num">04</div>
+          <div class="img-icon">📈</div>
+          <span class="img-label">Executive Dashboard</span>
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Dashboard</div>
+          <div class="cell-heading">Pipeline at a Glance.</div>
+          <p class="cell-body">A <strong>custom dashboard</strong> surfaces pipeline value by stage, total closed won revenue, and top manufacturers — built to demo business insight on day one.</p>
+          <ul class="cell-bullets">
+            <li>Pipeline by stage (bar chart)</li>
+            <li>Total opportunity value (metric)</li>
+            <li>Closed won revenue vs target</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FIXED BOTTOM ── -->
+  <footer class="bottom-bar">
+    <a class="interact-btn" href="https://login.salesforce.com" target="_blank">
+      <span>Interact With Project</span>
+      <span class="arrow">→</span>
+    </a>
+  </footer>
+
+</div>
+
+<script>
+  // Scroll progress indicator
+  const scrollZone = document.getElementById('scrollZone');
+  // Subtle: add a class to top-bar when scrolled
+  scrollZone.addEventListener('scroll', () => {
+    document.querySelector('.top-bar').style.boxShadow =
+      scrollZone.scrollTop > 10 ? '0 4px 20px rgba(0,0,0,0.15)' : 'none';
+  });
+</script>
+
+</body>
+</html>
