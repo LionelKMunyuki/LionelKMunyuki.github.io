@@ -3,1204 +3,480 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lionel Munyuki — Salesforce Administrator</title>
+<title>Carspec Motorsport Configurator — Lionel Munyuki</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-:root {
-  --black:  #0a0a0a;
-  --g900:   #1a1a1a;
-  --g800:   #2a2a2a;
-  --g700:   #404040;
-  --g500:   #737373;
-  --g400:   #a3a3a3;
-  --g200:   #e5e5e5;
-  --g100:   #f5f5f5;
-  --white:  #fafafa;
-  --brg:    #004225;
-  --brgl:   #0d6b42;
-  --silver: #c0bfbc;
-}
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--white);
-  color: var(--black);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+  :root {
+    --brg: #1a3a2a;
+    --brg-light: #2a5a40;
+    --black: #0a0a0a;
+    --white: #f5f4f0;
+    --g100: #e8e6e0;
+    --g200: #c8c5bc;
+    --g400: #6b6860;
+    --accent: #c8a84b;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
 
-/* NAV */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(250,250,250,0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--g200);
-}
-.nav-inner {
-  max-width: 1400px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2.5rem; height: 56px;
-}
-.nav-logo {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--black); text-decoration: none;
-}
-.nav-links { display: flex; gap: 2rem; }
-.nav-links a {
-  font-size: 13px; color: var(--g500);
-  text-decoration: none; transition: color 0.15s;
-}
-.nav-links a:hover { color: var(--black); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* HERO */
-.hero {
-  padding: 140px 2.5rem 100px;
-  max-width: 1400px; margin: 0 auto;
-}
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 80px; align-items: start;
-}
-.hero-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--brg); margin-bottom: 1.75rem;
-}
-h1 {
-  font-size: clamp(48px, 6.5vw, 84px);
-  font-weight: 600; line-height: 1.0;
-  letter-spacing: -0.02em; color: var(--black);
-  margin-bottom: 1.5rem;
-}
-.hero-sub {
-  font-size: 17px; font-weight: 300;
-  color: var(--g700); line-height: 1.65;
-  max-width: 520px; margin-bottom: 2.5rem;
-}
-.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 12px 24px; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 8px;
-  transition: all 0.2s; border: 1px solid transparent;
-}
-.btn-primary { background: var(--brg); color: var(--white); border-color: var(--brg); }
-.btn-primary:hover { background: var(--brgl); border-color: var(--brgl); }
-.btn-secondary { background: transparent; color: var(--black); border-color: var(--g200); }
-.btn-secondary:hover { border-color: var(--g400); }
+  html, body {
+    height: 100%;
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
 
-/* PHOTO FRAME */
-.photo-frame {
-  width: 100%; aspect-ratio: 3/4;
-  border: 1px solid var(--g200);
-  background: var(--g100);
-  position: relative; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 12px;
-}
-.photo-frame img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: top center;
-  display: block;
-}
-.photo-placeholder {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--g400); text-align: center; padding: 2rem;
-}
-.photo-caption {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 0.75rem 1rem;
-  background: rgba(250,250,250,0.92);
-  border-top: 1px solid var(--g200);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--g500);
-}
-.hero-meta {
-  margin-top: 1rem;
-  display: flex; flex-direction: column; gap: 0;
-  border: 1px solid var(--g200);
-}
-.meta-row {
-  display: flex; justify-content: space-between;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--g200);
-}
-.meta-row:last-child { border-bottom: none; }
-.meta-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--g500);
-}
-.meta-val { font-size: 12px; font-weight: 400; color: var(--black); }
+  /* ── PAGE SHELL ── */
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
 
-/* DIVIDER */
-.divider { height: 1px; background: var(--g200); }
-.divider-full { height: 1px; background: var(--g200); max-width: 1400px; margin: 0 auto; }
+  /* ── FIXED TOP ── */
+  .top-bar {
+    flex-shrink: 0;
+    background: var(--black);
+    color: var(--white);
+    padding: 28px 32px 24px;
+    border-bottom: 3px solid var(--brg);
+    position: relative;
+  }
 
-/* SECTION */
-.section { padding: 90px 2.5rem; max-width: 1400px; margin: 0 auto; }
-.section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--brg); margin-bottom: 1rem;
-}
-.section-title {
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 600; line-height: 1.15;
-  color: var(--black); margin-bottom: 0.75rem;
-}
-.section-body {
-  font-size: 15px; font-weight: 300;
-  color: var(--g700); line-height: 1.7;
-  max-width: 580px;
-}
-.section-header { margin-bottom: 3.5rem; }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--g400);
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--white); }
+  .back-link::before { content: '←'; font-size: 12px; }
 
-/* CERT TIERS */
-.cert-primary {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 1px; background: var(--g200);
-  border: 1px solid var(--g200);
-  margin-bottom: 2rem;
-}
-.cert-secondary {
-  display: grid; grid-template-columns: repeat(4,1fr);
-  gap: 1px; background: var(--g200);
-  border: 1px solid var(--g200);
-}
-.cert-card {
-  background: var(--white); padding: 1.75rem;
-  transition: background 0.2s;
-}
-.cert-card:hover { background: #f8f8f8; }
-.cert-card.muted { background: var(--g100); }
-.cert-card.muted:hover { background: #f0f0f0; }
-.cert-card.sm { padding: 1.25rem 1.5rem; }
-.cert-provider {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--g400); margin-bottom: 0.6rem;
-}
-.cert-name {
-  font-size: 17px; font-weight: 600;
-  color: var(--black); margin-bottom: 0.5rem; line-height: 1.25;
-}
-.cert-card.muted .cert-name { color: var(--g500); }
-.cert-card.sm .cert-name { font-size: 13px; font-weight: 500; }
-.cert-detail {
-  font-size: 12px; font-weight: 300;
-  color: var(--g500); line-height: 1.5; margin-bottom: 1rem;
-}
-.cert-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 3px 9px; border: 1px solid;
-}
-.cert-badge.live { background: rgba(0,66,37,0.05); border-color: var(--brg); color: var(--brg); }
-.cert-badge.pending { background: transparent; border-color: var(--g200); color: var(--g400); }
-.cert-badge.earned { background: rgba(0,66,37,0.05); border-color: var(--brg); color: var(--brg); }
-.cert-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
-.cert-link {
-  display: inline-block; margin-top: 0.75rem;
-  font-size: 11px; color: var(--g400);
-  text-decoration: none; transition: color 0.2s;
-}
-.cert-link:hover { color: var(--black); }
+  .top-meta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
 
-/* SERVICES */
-.services-grid {
-  display: grid; grid-template-columns: repeat(2,1fr);
-  gap: 1px; background: var(--g200); border: 1px solid var(--g200);
-}
-.service-card {
-  background: var(--white); padding: 2.25rem;
-  transition: background 0.2s;
-}
-.service-card:hover { background: #fcfcfc; }
-.service-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--g400);
-  margin-bottom: 1.25rem; letter-spacing: 0.06em;
-}
-.service-name { font-size: 17px; font-weight: 600; color: var(--black); margin-bottom: 0.6rem; }
-.service-desc { font-size: 13px; font-weight: 300; color: var(--g700); line-height: 1.65; }
+  .top-left { flex: 1; min-width: 200px; }
 
-/* EXPERIENCE CAROUSEL */
-.carousel-wrap { position: relative; overflow: hidden; border-top: 1px solid var(--g200); border-bottom: 1px solid var(--g200); }
-.carousel-track {
-  display: flex; gap: 1px;
-  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-  background: var(--g200);
-}
-.exp-card {
-  flex: 0 0 calc(33.333% - 1px);
-  min-width: 280px;
-  background: var(--white);
-  padding: 2rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-decoration: none; color: inherit;
-  display: block;
-  border: 1px solid var(--g200);
-  border-right: none;
-}
-.exp-card:last-child { border-right: 1px solid var(--g200); }
-@media (max-width: 700px) {
-  .exp-card {
-    flex: 0 0 calc(100% - 1px);
+  .domain-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brg-light);
+    margin-bottom: 6px;
+  }
+
+  .project-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 52px);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--white);
+  }
+
+  .project-sub {
+    font-size: 13px;
+    color: var(--g200);
+    margin-top: 8px;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.4;
+  }
+
+  .process-doc-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: transparent;
+    border: 1px solid var(--g400);
+    padding: 10px 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    align-self: flex-end;
+  }
+  .process-doc-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .process-doc-btn svg { width: 12px; height: 12px; }
+
+  .stack-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--brg-light);
+    color: var(--brg-light);
+  }
+
+  /* ── SCROLLABLE MIDDLE ── */
+  .scroll-zone {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  .scroll-zone::-webkit-scrollbar { width: 4px; }
+  .scroll-zone::-webkit-scrollbar-track { background: var(--g100); }
+  .scroll-zone::-webkit-scrollbar-thumb { background: var(--brg); }
+
+  /* Scroll artifact indicator */
+  .scroll-artifact {
+    position: sticky;
+    top: 0;
+    float: right;
+    width: 3px;
+    height: 100%;
+    background: var(--g100);
+    margin-right: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ── CONTENT ROWS ── */
+  .content-rows { padding: 0; }
+
+  .content-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 280px;
+    border-bottom: 1px solid var(--g200);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .content-row:nth-child(1) { animation-delay: 0.05s; }
+  .content-row:nth-child(2) { animation-delay: 0.1s; }
+  .content-row:nth-child(3) { animation-delay: 0.15s; }
+  .content-row:nth-child(4) { animation-delay: 0.2s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Alternating: image-left, desc-right / desc-left, image-right */
+  .content-row:nth-child(even) .cell-image { order: 2; }
+  .content-row:nth-child(even) .cell-desc  { order: 1; border-right: 1px solid var(--g200); border-left: none; }
+
+  .cell-image {
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    min-height: 260px;
     border-right: 1px solid var(--g200);
   }
-}
-@media (min-width: 701px) and (max-width: 1023px) {
-  .exp-card { flex: 0 0 calc(50% - 1px); }
-}
-.exp-card:hover { background: #f8f8f8; }
-.exp-card:hover .exp-arrow { color: var(--brg); transform: translateX(3px); }
-.exp-period {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--g400); margin-bottom: 1rem;
-}
-.exp-title { font-size: 17px; font-weight: 600; color: var(--black); margin-bottom: 0.3rem; line-height: 1.25; }
-.exp-company { font-size: 13px; font-weight: 400; color: var(--g500); margin-bottom: 1rem; }
-.exp-excerpt { font-size: 13px; font-weight: 300; color: var(--g700); line-height: 1.6; }
-.exp-arrow {
-  display: block; margin-top: 1.25rem;
-  font-size: 13px; color: var(--g400);
-  transition: all 0.2s;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.06em;
-}
-.carousel-controls {
-  display: flex; gap: 8px; margin-top: 1rem;
-  justify-content: flex-end;
-}
-.carousel-btn {
-  width: 36px; height: 36px;
-  border: 1px solid var(--g200);
-  background: var(--white);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; font-size: 16px; color: var(--g500);
-  transition: all 0.2s;
-}
-.carousel-btn:hover { border-color: var(--g400); color: var(--black); }
 
-/* PROJECTS */
-.project-row {
-  display: grid; grid-template-columns: 32px 1fr 20px;
-  gap: 2rem; padding: 2rem 0;
-  border-bottom: 1px solid var(--g200);
-  transition: all 0.2s;
-}
-.project-row:first-child { border-top: 1px solid var(--g200); }
-.project-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  color: var(--g400); padding-top: 4px; transition: color 0.2s;
-}
-.project-row:hover .project-num { color: var(--brg); }
-.project-name { font-size: 18px; font-weight: 600; color: var(--black); margin-bottom: 0.4rem; line-height: 1.3; }
-.project-desc { font-size: 13px; font-weight: 300; color: var(--g700); line-height: 1.65; margin-bottom: 0.75rem; }
-.project-tags { display: flex; gap: 5px; flex-wrap: wrap; }
-.project-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--g500); padding: 3px 7px;
-  border: 1px solid var(--g200);
-}
-.project-arrow { font-size: 16px; color: var(--g400); padding-top: 4px; transition: all 0.2s; }
-.project-row:hover .project-arrow { color: var(--brg); transform: translateX(3px); }
+  .cell-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+  }
 
-/* ABOUT */
-.about-grid {
-  display: grid; grid-template-columns: 1.3fr 1fr;
-  gap: 5rem; align-items: start;
-}
-.about-text p {
-  font-size: 15px; font-weight: 300;
-  color: var(--g700); line-height: 1.8;
-  margin-bottom: 1.1rem;
-}
-.about-text p strong { color: var(--black); font-weight: 500; }
-.about-text .about-origin {
-  font-size: 16px; font-style: italic;
-  color: var(--black); line-height: 1.6;
-  margin-bottom: 1.5rem;
-  border-left: 2px solid var(--brg);
-  padding-left: 1.25rem;
-}
-.fact-grid {
-  display: grid; grid-template-columns: 1fr;
-  gap: 1px; background: var(--g200); border: 1px solid var(--g200);
-}
-.fact-row {
-  background: var(--white);
-  display: flex; justify-content: space-between;
-  padding: 0.85rem 1.25rem; gap: 1rem;
-}
-.fact-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--g500); white-space: nowrap;
-}
-.fact-val { font-size: 12px; font-weight: 400; color: var(--black); text-align: right; }
-.fact-val a { color: var(--brg); text-decoration: none; }
-.fact-val a:hover { color: var(--brgl); }
+  /* Placeholder when no image */
+  .cell-image.placeholder {
+    background: var(--black);
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cell-image.placeholder .img-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--g400);
+  }
+  .cell-image.placeholder .img-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--g400);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--g400);
+    font-size: 18px;
+  }
 
-/* CONTACT */
-.contact-box { border: 1px solid var(--g200); }
-.contact-main { padding: 4rem; background: var(--white); }
-.contact-title { font-size: clamp(32px, 4vw, 52px); font-weight: 600; line-height: 1.1; color: var(--black); margin-bottom: 0.75rem; }
-.contact-sub { font-size: 15px; font-weight: 300; color: var(--g700); line-height: 1.7; max-width: 480px; margin-bottom: 2.25rem; }
-.contact-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-.contact-foot {
-  padding: 1.25rem 4rem;
-  background: var(--g100); border-top: 1px solid var(--g200);
-  display: flex; justify-content: space-between;
-  align-items: center; flex-wrap: wrap; gap: 1rem;
-}
-.contact-email { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--g500); }
-.contact-copy { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g400); }
+  /* Row number badge */
+  .row-num {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--g400);
+    background: rgba(0,0,0,0.5);
+    padding: 3px 7px;
+  }
 
-/* FOOTER */
-footer {
-  border-top: 1px solid var(--g200);
-  padding: 1.75rem 2.5rem;
-  max-width: 1400px; margin: 0 auto;
-  display: flex; justify-content: space-between;
-  align-items: center; flex-wrap: wrap; gap: 1rem;
-}
-.footer-logo { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g500); }
-.footer-links { display: flex; gap: 1.75rem; }
-.footer-links a { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--g500); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: var(--black); }
+  .cell-desc {
+    padding: 28px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--g200);
+    background: var(--white);
+  }
 
-/* MODAL */
-.modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 2000;
-  background: rgba(10,10,10,0.7);
-  backdrop-filter: blur(4px);
-  align-items: flex-start; justify-content: center;
-  padding: 60px 1.5rem;
-  overflow-y: auto;
-}
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--white); width: 100%; max-width: 720px;
-  border: 1px solid var(--g200);
-  animation: modalIn 0.25s ease;
-}
-@keyframes modalIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform:none; } }
-.modal-header {
-  padding: 2rem 2.5rem 1.5rem;
-  border-bottom: 1px solid var(--g200);
-  display: flex; justify-content: space-between; align-items: flex-start;
-}
-.modal-close {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: var(--g400);
-  background: none; border: none; cursor: pointer;
-  padding: 4px; transition: color 0.2s; letter-spacing: 0.06em;
-}
-.modal-close:hover { color: var(--black); }
-.modal-period { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brg); margin-bottom: 0.5rem; }
-.modal-title { font-size: 22px; font-weight: 600; color: var(--black); margin-bottom: 0.25rem; }
-.modal-company { font-size: 14px; color: var(--g500); }
-.modal-body { padding: 2rem 2.5rem; }
-.modal-body p { font-size: 14px; font-weight: 300; color: var(--g700); line-height: 1.75; margin-bottom: 1rem; }
-.modal-body ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-.modal-body ul li {
-  font-size: 13px; font-weight: 300; color: var(--g700);
-  line-height: 1.6; padding-left: 1.25rem; position: relative;
-}
-.modal-body ul li::before {
-  content: '—'; position: absolute; left: 0;
-  color: var(--brg); font-size: 11px;
-}
-.modal-skills {
-  margin-top: 1.5rem; padding-top: 1.5rem;
-  border-top: 1px solid var(--g200);
-  display: flex; gap: 6px; flex-wrap: wrap;
-}
-.modal-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--g500); padding: 3px 8px;
-  border: 1px solid var(--g200);
-}
+  .cell-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brg);
+    margin-bottom: 10px;
+  }
 
-/* REVEAL */
-.reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal.in { opacity: 1; transform: none; }
+  .cell-heading {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    margin-bottom: 10px;
+  }
 
-@media (max-width: 960px) {
-  .nav-links { display: none; }
-  .nav-inner { padding: 0 1.5rem; }
-  .hero { padding: 110px 1.5rem 70px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .photo-frame { aspect-ratio: 4/3; max-width: 320px; }
-  .section { padding: 60px 1.5rem; }
-  .cert-primary { grid-template-columns: 1fr; }
-  .cert-secondary { grid-template-columns: repeat(2,1fr); }
-  .services-grid { grid-template-columns: 1fr; }
-  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .contact-main { padding: 2rem; }
-  .contact-foot { padding: 1rem 2rem; }
-  footer { padding: 1.5rem; }
-  .exp-card { flex: 0 0 calc(85% - 1px); }
-  .modal { max-width: 100%; }
-}
-/* ── PROJECT FILTER NAV ── */
-.proj-filter-wrap {
-  border-top: 1px solid var(--g200);
-  border-bottom: 1px solid var(--g200);
-  background: var(--g100);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.proj-filter-inner {
-  max-width: 1400px; margin: 0 auto;
-  padding: 0 2.5rem;
-  display: flex; gap: 0; align-items: center;
-  min-width: max-content;
-}
-.proj-filter-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--g500); background: none; border: none;
-  padding: 14px 20px; cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s; white-space: nowrap;
-}
-.proj-filter-btn:hover { color: var(--black); }
-.proj-filter-btn.active { color: var(--brg); border-bottom-color: var(--brg); }
-.project-row.hidden { display: none; }
-@media (max-width: 960px) {
-  .proj-filter-inner { padding: 0 1.5rem; }
-}
+  .cell-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--g400);
+    font-weight: 300;
+  }
+
+  .cell-body strong { color: var(--black); font-weight: 500; }
+
+  .cell-bullets {
+    list-style: none;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cell-bullets li {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--g400);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .cell-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--brg);
+  }
+
+  /* ── FIXED BOTTOM ── */
+  .bottom-bar {
+    flex-shrink: 0;
+    border-top: 1px solid var(--g200);
+    background: var(--white);
+  }
+
+  .interact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 22px 32px;
+    background: var(--brg);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+  .interact-btn:hover { background: var(--brg-light); color: var(--accent); }
+  .interact-btn .arrow {
+    font-size: 22px;
+    transition: transform 0.2s, color 0.2s;
+  }
+  .interact-btn:hover .arrow { transform: translateX(6px); color: var(--accent); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .top-bar { padding: 20px 20px 18px; }
+    .content-row { grid-template-columns: 1fr; min-height: auto; }
+    .cell-image { min-height: 200px; order: 1 !important; border-right: none !important; border-bottom: 1px solid var(--g200); }
+    .cell-desc { order: 2 !important; padding: 20px; border-left: none !important; border-right: none !important; }
+    .content-row:nth-child(even) .cell-desc { border-right: none; }
+    .interact-btn { padding: 18px 20px; font-size: 16px; }
+    .top-meta { flex-direction: column; align-items: flex-start; }
+    .process-doc-btn { align-self: flex-start; margin-top: 4px; }
+  }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">L.K. Munyuki</a>
-    <div class="nav-links">
-      <a href="#certifications">Certifications</a>
-      <a href="#experience">Experience</a>
-      <a href="#services">Services</a>
-      <a href="#projects">Projects</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </div>
-</nav>
+<div class="page">
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid">
-    <div>
-      <div class="hero-label">Salesforce Administrator · CRM Specialist</div>
-      <h1>Precision.<br>Systems.<br>Results.</h1>
-      <p class="hero-sub">Salesforce Certified Administrator with a background in freight logistics and data operations. I build CRM systems that match how businesses actually operate — and automate everything that shouldn't require a human.</p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn btn-primary">View work →</a>
-        <a href="#contact" class="btn btn-secondary">Get in touch</a>
-      </div>
-    </div>
-    <div>
-      <div class="photo-frame">
-        <img src="lionel.JPG" alt="Lionel Munyuki — Salesforce Administrator">
-        <div class="photo-caption">Lionel K. Munyuki · Salesforce Administrator</div>
-      </div>
-      <div class="hero-meta">
-        <div class="meta-row">
-          <span class="meta-label">Certified</span>
-          <span class="meta-val">SCA · May 2026</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Location</span>
-          <span class="meta-val">Raleigh, NC</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Credential</span>
-          <span class="meta-val">ID 7787112</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Founder</span>
-          <span class="meta-val">Tinkerbell · VEEL</span>
+  <!-- ── FIXED TOP ── -->
+  <header class="top-bar">
+    <a class="back-link" href="index.html">All Projects</a>
+    <div class="top-meta">
+      <div class="top-left">
+        <div class="domain-tag">Automotive · Salesforce CRM</div>
+        <h1 class="project-title">Carspec Motorsport<br>Configurator</h1>
+        <p class="project-sub">A Salesforce Sales Cloud org built for a high-end supercar configurator — from customer enquiry to bespoke vehicle order.</p>
+        <div class="stack-pills">
+          <span class="pill">Sales Cloud</span>
+          <span class="pill">Screen Flow</span>
+          <span class="pill">Custom Objects</span>
+          <span class="pill">Flow Automation</span>
+          <span class="pill">Validation Rules</span>
         </div>
       </div>
+      <a class="process-doc-btn" href="#" target="_blank">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="1" width="10" height="14" rx="1"/>
+          <line x1="6" y1="5" x2="10" y2="5"/>
+          <line x1="6" y1="8" x2="10" y2="8"/>
+          <line x1="6" y1="11" x2="8" y2="11"/>
+        </svg>
+        Process Doc
+      </a>
     </div>
-  </div>
-</section>
+  </header>
 
-<div class="divider"></div>
+  <!-- ── SCROLLABLE MIDDLE ── -->
+  <div class="scroll-zone" id="scrollZone">
+    <div class="content-rows">
 
-<!-- CERTIFICATIONS -->
-<section class="section" id="certifications">
-  <div class="section-header reveal">
-    <div class="section-label">Certifications</div>
-    <h2 class="section-title">Earned. Verified. Growing.</h2>
-    <p class="section-body">A foundation built on Salesforce, data, and continuous learning. The primary certifications are the anchor. Everything else shows range.</p>
-  </div>
-
-  <div class="cert-primary reveal">
-    <div class="cert-card">
-      <div class="cert-provider">Salesforce</div>
-      <div class="cert-name">Certified Administrator</div>
-      <div class="cert-detail">Credential ID 7787112 · Issued May 2026<br>Org management, security, automation, Flow, data.</div>
-      <span class="cert-badge live"><span class="cert-dot"></span>Certified</span>
-      <a href="https://trailhead.salesforce.com/credentials/verification" target="_blank" class="cert-link">Verify credential →</a>
-    </div>
-    <div class="cert-card muted">
-      <div class="cert-provider">Salesforce</div>
-      <div class="cert-name">Platform Developer I</div>
-      <div class="cert-detail">Apex, Lightning Web Components, SOQL, custom API development. In active preparation.</div>
-      <span class="cert-badge pending">Coming Q3 2026</span>
-    </div>
-    <div class="cert-card muted">
-      <div class="cert-provider">Salesforce</div>
-      <div class="cert-name">Advanced Administrator</div>
-      <div class="cert-detail">Advanced automation, complex security models, enterprise data management.</div>
-      <span class="cert-badge pending">Coming soon</span>
-    </div>
-  </div>
-
-  <div class="cert-secondary reveal">
-    <div class="cert-card sm">
-      <div class="cert-provider">Toastmasters</div>
-      <div class="cert-name">Public Speaking Professional</div>
-      <div class="cert-detail">May 2025 · Speech Writing & Presentation</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-    <div class="cert-card sm">
-      <div class="cert-provider">Google · Coursera</div>
-      <div class="cert-name">Data Analytics Certificate</div>
-      <div class="cert-detail">Oct 2021 · Credential ID V65MYBca</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-    <div class="cert-card sm">
-      <div class="cert-provider">LinkedIn</div>
-      <div class="cert-name">Business Analysis for PMs</div>
-      <div class="cert-detail">Apr 2025 · Business Analysis, Project Management</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-    <div class="cert-card sm">
-      <div class="cert-provider">LinkedIn</div>
-      <div class="cert-name">SQL: Data Reporting & Analysis</div>
-      <div class="cert-detail">Apr 2025 · Data Analysis, SQL</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-    <div class="cert-card sm">
-      <div class="cert-provider">LinkedIn</div>
-      <div class="cert-name">Agile at Work</div>
-      <div class="cert-detail">Apr 2025 · Retrospectives, Agile Methodologies</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-    <div class="cert-card sm">
-      <div class="cert-provider">LinkedIn</div>
-      <div class="cert-name">Account Management</div>
-      <div class="cert-detail">May 2025 · Relationship Management</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-    <div class="cert-card sm">
-      <div class="cert-provider">LinkedIn</div>
-      <div class="cert-name">International Business & Finance</div>
-      <div class="cert-detail">Apr 2025 · Corporate Finance, International Business</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-    <div class="cert-card sm">
-      <div class="cert-provider">LinkedIn</div>
-      <div class="cert-name">MySQL Essential Training</div>
-      <div class="cert-detail">May 2023 · MySQL</div>
-      <span class="cert-badge earned"><span class="cert-dot"></span>Earned</span>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- EXPERIENCE -->
-<section class="section" id="experience">
-  <div class="section-header reveal">
-    <div class="section-label">Experience</div>
-    <h2 class="section-title">The work behind the work.</h2>
-    <p class="section-body">A career built through deliberate progression — from data to logistics to Salesforce. Click any role to see the full detail.</p>
-  </div>
-  <div class="carousel-wrap reveal">
-    <div class="carousel-track" id="carouselTrack">
-
-      <div class="exp-card" onclick="openModal('modal-upforjobs')">
-        <div class="exp-period">Nov 2025 – Present · Dubai, UAE · Remote</div>
-        <div class="exp-title">Salesforce CRM Consultant</div>
-        <div class="exp-company">UpForJobs · Contract</div>
-        <div class="exp-excerpt">Built and implemented a recruitment CRM on Salesforce — custom objects, automated candidate pipeline, Flow automation, and executive dashboards for a Dubai-based talent technology platform.</div>
-        <span class="exp-arrow">View details →</span>
-      </div>
-
-      <div class="exp-card" onclick="openModal('modal-pd')">
-        <div class="exp-period">Nov 2025 – Present · Riyadh, SA</div>
-        <div class="exp-title">Professional Development</div>
-        <div class="exp-company">Career Break · International Business Accelerator</div>
-        <div class="exp-excerpt">Engaged in an international business accelerator focused on leadership, cross-border strategy, and global entrepreneurship.</div>
-        <span class="exp-arrow">View details →</span>
-      </div>
-
-      <div class="exp-card" onclick="openModal('modal-tql')">
-        <div class="exp-period">Jul 2025 – Sep 2025 · Raleigh, NC</div>
-        <div class="exp-title">Logistics Account Executive</div>
-        <div class="exp-company">Total Quality Logistics · Full-time</div>
-        <div class="exp-excerpt">Managed the full lifecycle of freight transactions — prospecting, booking, real-time tracking, and client relationship management.</div>
-        <span class="exp-arrow">View details →</span>
-      </div>
-
-      <div class="exp-card" onclick="openModal('modal-prosource')">
-        <div class="exp-period">Jun 2024 – Feb 2025 · On-site</div>
-        <div class="exp-title">Delivery Technician</div>
-        <div class="exp-company">Prosource Fitness Equipment · Full-time</div>
-        <div class="exp-excerpt">Delivered, installed, and commissioned fitness equipment across residential and commercial facilities with full safety compliance.</div>
-        <span class="exp-arrow">View details →</span>
-      </div>
-
-      <div class="exp-card" onclick="openModal('modal-lseg')">
-        <div class="exp-period">Jan 2023 – Feb 2024 · Fort Mill, SC</div>
-        <div class="exp-title">SI Operations Data Analyst</div>
-        <div class="exp-company">LSEG (London Stock Exchange Group) · Hybrid</div>
-        <div class="exp-excerpt">Performed in-depth ESG data analysis across company 10-Ks, Annual Reports, and credible reporting forums using SQL and Excel.</div>
-        <span class="exp-arrow">View details →</span>
-      </div>
-
-      <div class="exp-card" onclick="openModal('modal-ixl')">
-        <div class="exp-period">May 2022 – Oct 2022 · Morrisville, NC</div>
-        <div class="exp-title">Account Specialist</div>
-        <div class="exp-company">IXL Learning · Full-time</div>
-        <div class="exp-excerpt">Provided intradepartmental support for product integrations, diagnosed daily integration issues, and escalated bugs to engineering.</div>
-        <span class="exp-arrow">View details →</span>
-      </div>
-
-      <div class="exp-card" onclick="openModal('modal-ncstate')">
-        <div class="exp-period">Oct 2021 – Dec 2021 · Raleigh, NC</div>
-        <div class="exp-title">Data Analyst</div>
-        <div class="exp-company">NC State University · Full-time</div>
-        <div class="exp-excerpt">Designed and deployed Tableau dashboards for the Y Analytics team covering ESG performance benchmarking and impact reporting.</div>
-        <span class="exp-arrow">View details →</span>
-      </div>
-
-    </div>
-    <div class="carousel-controls">
-      <button class="carousel-btn" onclick="scrollCarousel(-1)" aria-label="Previous">←</button>
-      <button class="carousel-btn" onclick="scrollCarousel(1)" aria-label="Next">→</button>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- SERVICES -->
-<section class="section" id="services">
-  <div class="section-header reveal">
-    <div class="section-label">What I do</div>
-    <h2 class="section-title">Skills that move businesses forward.</h2>
-    <p class="section-body">I don't just administer Salesforce — I configure it to match how your business actually runs, then automate what shouldn't need a human.</p>
-  </div>
-  <div class="services-grid reveal">
-    <div class="service-card">
-      <div class="service-num">01</div>
-      <div class="service-name">Salesforce Administration</div>
-      <div class="service-desc">User management, profiles, roles, permission sets, org setup, and field-level security configured correctly from day one.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-num">02</div>
-      <div class="service-name">CRM Implementation</div>
-      <div class="service-desc">End-to-end CRM builds for freight, logistics, and sales operations. Accounts, opportunities, pipelines, and automated reporting.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-num">03</div>
-      <div class="service-name">Workflow & Flow Automation</div>
-      <div class="service-desc">Flows, approval processes, auto-routing, and escalation logic that eliminate manual work and reduce the cost of human error.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-num">04</div>
-      <div class="service-name">Reports & Dashboards</div>
-      <div class="service-desc">Real-time visibility into what matters. Custom reports and dashboards that give leadership answers — not spreadsheets to interpret.</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- PROJECTS -->
-<section class="section" id="projects">
-  <div class="section-header reveal">
-    <div class="section-label">Projects</div>
-    <h2 class="section-title">Built. Documented. Deployed.</h2>
-    <p class="section-body">Real Salesforce orgs built from requirements to delivery. Every project demonstrates what I can contribute on day one.</p>
-  </div>
-<!-- PROJECTS FILTER NAV -->
-<div class="proj-filter-wrap reveal">
-  <div class="proj-filter-inner">
-    <button class="proj-filter-btn active" onclick="filterProjects('all')">All Projects</button>
-    <button class="proj-filter-btn" onclick="filterProjects('recruitment')">Recruitment</button>
-    <button class="proj-filter-btn" onclick="filterProjects('automotive')">Automotive</button>
-    <button class="proj-filter-btn" onclick="filterProjects('logistics')">Logistics</button>
-    <button class="proj-filter-btn" onclick="filterProjects('automation')">Automation</button>
-    <button class="proj-filter-btn" onclick="filterProjects('banking')">Banking & Finance</button>
-  </div>
-</div>
-  <div class="reveal" id="projectList">
-    <div class="project-row" data-domain="recruitment">
-      <div class="project-num">01</div>
-      <div class="project-body">
-        <div class="project-name">UpForJobs — Recruitment CRM</div>
-        <div class="project-desc">Full Salesforce CRM implementation for a Dubai-based talent technology platform. Custom objects for Candidates, Job Listings, Employers, and Placements. Six-stage pipeline with Flow-triggered recruiter tasks, validation rules for data integrity, and an executive dashboard tracking placement rates and time-to-hire across the MENA region.</div>
-        <div class="project-tags">
-          <span class="project-tag">Salesforce Admin</span>
-          <span class="project-tag">Sales Cloud</span>
-          <span class="project-tag">Flow Automation</span>
-          <span class="project-tag">Custom Objects</span>
-          <span class="project-tag">Recruitment</span>
-          <span class="project-tag">Live client</span>
+      <!-- ROW 1: Image left, description right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">01</div>
+          <img src="img-configurator.png" alt="Carspec Supercar Configurator — Brand Selector">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Catalogue</div>
+          <div class="cell-heading">50 Supercars. One Object.</div>
+          <p class="cell-body">A custom <strong>Supercars__c</strong> object holds the full vehicle catalogue — 50 records across manufacturers including Ferrari, Lamborghini, Mercedes-AMG, and Aston Martin.</p>
+          <ul class="cell-bullets">
+            <li>Make, model, year, base price fields</li>
+            <li>Linked to manufacturer Account records</li>
+            <li>23 manufacturer accounts — real brand data</li>
+          </ul>
         </div>
       </div>
-      <div class="project-arrow">→</div>
-    </div>
-    <div class="project-row" data-domain="automotive">
-      <div class="project-num">02</div>
-      <div class="project-body">
-        <div class="project-name">Carspec Motorsport Configurator</div>
-        <div class="project-desc">A Salesforce org built for a motorsport vehicle configurator — custom objects for vehicle specs, option packages, and pricing rules. Sales Cloud opportunity pipeline tracks each configured build from enquiry to order. Flow automation handles approval routing and spec-change notifications.</div>
-        <div class="project-tags">
-          <span class="project-tag">Salesforce Admin</span>
-          <span class="project-tag">Sales Cloud</span>
-          <span class="project-tag">Custom Objects</span>
-          <span class="project-tag">Flow</span>
-          <span class="project-tag">Automotive</span>
+
+      <!-- ROW 2: Description left, image right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">02</div>
+          <img src="img-orders.png" alt="Carspec Customer Orders List View">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Configurator</div>
+          <div class="cell-heading">Guided. Screen by Screen.</div>
+          <p class="cell-body">A <strong>Screen Flow</strong> walks customers through the full configuration — from contact capture to vehicle selection, option packages, and order summary.</p>
+          <ul class="cell-bullets">
+            <li>Customer info capture with validation</li>
+            <li>Vehicle picker from live Supercar catalogue</li>
+            <li>Auto-creates Opportunity on completion</li>
+          </ul>
         </div>
       </div>
-      <a class="project-arrow" href="project-page1.html">→</a>
-    </div>
-    <div class="project-row" data-domain="logistics">
-      <div class="project-num">03</div>
-      <div class="project-body">
-        <div class="project-name">Freight Brokerage CRM</div>
-        <div class="project-desc">A Salesforce org built for freight brokerage operations — carrier accounts, client contacts, shipment opportunity pipeline, and automated status reporting with Flow-based assignment logic.</div>
-        <div class="project-tags">
-          <span class="project-tag">Salesforce Admin</span>
-          <span class="project-tag">CRM</span>
-          <span class="project-tag">Logistics</span>
-          <span class="project-tag">Flow</span>
+
+      <!-- ROW 3: Image left, description right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">03</div>
+          <img src="img-opportunities.png" alt="Carspec All Opportunities Pipeline">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Pipeline</div>
+          <div class="cell-heading">10 Deals. Full Lifecycle.</div>
+          <p class="cell-body">A full Sales Cloud <strong>opportunity pipeline</strong> tracks each configured build from initial enquiry through to Closed Won — with real amounts and close dates.</p>
+          <ul class="cell-bullets">
+            <li>Custom stages: Enquiry → Needs Analysis → Proposal/Price Quote → Closed Won</li>
+            <li>10 opportunity records across all stages</li>
+            <li>Closed Won triggers automated follow-up task</li>
+          </ul>
         </div>
       </div>
-      <div class="project-arrow">→</div>
-    </div>
-    <div class="project-row" data-domain="automation">
-      <div class="project-num">04</div>
-      <div class="project-body">
-        <div class="project-name">Lead Scoring & Auto Routing Engine</div>
-        <div class="project-desc">Flow-based lead scoring with round-robin territory assignment, SLA escalation rules, and dynamic routing logic based on lead source, score threshold, and rep availability.</div>
-        <div class="project-tags">
-          <span class="project-tag">Salesforce Admin</span>
-          <span class="project-tag">Flow</span>
-          <span class="project-tag">Automation</span>
+
+      <!-- ROW 4: Description left, image right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">04</div>
+          <img src="img-dashboard.png" alt="Carspec Motorsport Overview Dashboard">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Dashboard</div>
+          <div class="cell-heading">Pipeline at a Glance.</div>
+          <p class="cell-body">A <strong>custom dashboard</strong> surfaces pipeline value by stage, total closed won revenue, and top manufacturers — built to demo business insight on day one.</p>
+          <ul class="cell-bullets">
+            <li>Pipeline by stage (bar chart)</li>
+            <li>Total opportunity value (metric)</li>
+            <li>Closed won revenue vs target</li>
+          </ul>
         </div>
       </div>
-      <div class="project-arrow">→</div>
-    </div>
-    <div class="project-row" data-domain="banking">
-      <div class="project-num">05</div>
-      <div class="project-body">
-        <div class="project-name">ESG Data Intake & Compliance Tracker</div>
-        <div class="project-desc">Custom Salesforce org for ESG data collection with validation rules, compliance workflow automation, and executive dashboards showing real-time regulatory status across reporting periods.</div>
-        <div class="project-tags">
-          <span class="project-tag">Salesforce Admin</span>
-          <span class="project-tag">Custom Objects</span>
-          <span class="project-tag">Dashboards</span>
-          <span class="project-tag">Compliance</span>
-        </div>
-      </div>
-      <div class="project-arrow">→</div>
+
     </div>
   </div>
-</section>
 
-<div class="divider"></div>
+  <!-- ── FIXED BOTTOM ── -->
+  <footer class="bottom-bar">
+    <a class="interact-btn" href="https://login.salesforce.com" target="_blank">
+      <span>Interact With Project</span>
+      <span class="arrow">→</span>
+    </a>
+  </footer>
 
-<!-- ABOUT -->
-<section class="section" id="about">
-  <div class="section-header reveal">
-    <div class="section-label">About</div>
-    <h2 class="section-title">The man behind the work.</h2>
-  </div>
-  <div class="about-grid reveal">
-    <div class="about-text">
-      <p class="about-origin">Born in Raleigh, NC, and raised across the EMEA<br>(Zimbabwe, South Africa, Dubai),<br>moving through the world with my eyes wide open.</p>
-      <p>That early exposure to different cultures, economies, and ways of doing things planted something early: the understanding that there was more out there, and that the only way to reach it was to build toward it yourself.</p>
-      <p>That instinct showed up in small ways at first: self-starter projects, websites, quiet experiments in what technology could do.</p>
-      <p>When the time came to return to the United States in 2021, there was no easing in. I landed at NC State as a Data Analyst and kept moving — through each role, each certification, each early morning that nobody asked for but showed up for anyway.</p>
-      <p>That journey eventually led to Salesforce. Nine months in Saudi Arabia, an Administrator certification earned, and Tinkerbell — a live certification prep platform — built from the ground up in the middle of it all. What started as curiosity about a platform has grown into a clear conviction: the Salesforce ecosystem is where technology, business, and human systems meet most powerfully.</p>
-      <p>The projects are already showing what's possible & the best work is still ahead.</p>
-    </div>
-    <div>
-      <div class="fact-grid">
-        <div class="fact-row"><span class="fact-label">Born</span><span class="fact-val">Raleigh, NC, USA</span></div>
-        <div class="fact-row"><span class="fact-label">Raised</span><span class="fact-val">ZW · ZA · UAE</span></div>
-        <div class="fact-row"><span class="fact-label">Based</span><span class="fact-val">Raleigh, NC</span></div>
-        <div class="fact-row"><span class="fact-label">SCA Certified</span><span class="fact-val">May 2026 · ID 7787112</span></div>
-        <div class="fact-row"><span class="fact-label">Next cert</span><span class="fact-val">Platform Developer I</span></div>
-        <div class="fact-row"><span class="fact-label">Founder</span><span class="fact-val">Tinkerbell · VEEL Consulting</span></div>
-        <div class="fact-row"><span class="fact-label">Background</span><span class="fact-val">Data · Logistics · Salesforce</span></div>
-        <div class="fact-row"><span class="fact-label">LinkedIn</span><span class="fact-val"><a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank">lionelkmunyuki</a></span></div>
-        <div class="fact-row"><span class="fact-label">GitHub</span><span class="fact-val"><a href="https://github.com/LionelKMunyuki" target="_blank">LionelKMunyuki</a></span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- CONTACT -->
-<section class="section" id="contact">
-  <div class="contact-box reveal">
-    <div class="contact-main">
-      <h2 class="contact-title">Ready to work together?</h2>
-      <p class="contact-sub">Open to Salesforce Administrator roles, CRM consulting engagements, and implementation projects. Let's have a conversation.</p>
-      <div class="contact-btns">
-        <a href="mailto:lionelkmunyuki@gmail.com" class="btn btn-primary">Send an email →</a>
-        <a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank" class="btn btn-secondary">LinkedIn</a>
-        <a href="https://github.com/LionelKMunyuki" target="_blank" class="btn btn-secondary">GitHub</a>
-      </div>
-    </div>
-    <div class="contact-foot">
-      <span class="contact-email">lionelkmunyuki@gmail.com</span>
-      <span class="contact-copy">© 2026 Lionel Munyuki</span>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <span class="footer-logo">L.K. Munyuki · Salesforce Administrator</span>
-  <div class="footer-links">
-    <a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank">LinkedIn</a>
-    <a href="https://github.com/LionelKMunyuki" target="_blank">GitHub</a>
-    <a href="mailto:lionelkmunyuki@gmail.com">Email</a>
-  </div>
-</footer>
-
-<!-- EXPERIENCE MODALS -->
-<!-- UPFORJOBS MODAL -->
-<div class="modal-overlay" id="modal-upforjobs" onclick="closeOnOverlay(event, 'modal-upforjobs')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-period">Nov 2025 – Present · Dubai, UAE · Remote</div>
-        <div class="modal-title">Salesforce CRM Consultant</div>
-        <div class="modal-company">UpForJobs · Contract</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('modal-upforjobs')">[ Close ]</button>
-    </div>
-    <div class="modal-body">
-      <p>Designed and implemented a full Salesforce CRM solution for UpForJobs — a Dubai-based talent technology and recruitment platform operating across the MENA region. Delivered end-to-end: requirements gathering, object architecture, automation, and reporting.</p>
-
-      <div class="modal-section-label">What was built</div>
-      <ul>
-        <li>Custom object architecture — Candidates, Job Listings, Employers, Placements — with defined relationships and field-level security</li>
-        <li>Candidate pipeline with 6 stages: Applied → Screened → Interviewed → Offer Sent → Placed → Closed</li>
-        <li>Flow automation — when a candidate reaches Interviewed stage, assigned recruiter receives a task to follow up within 48 hours</li>
-        <li>Employer account management — tracks open roles, active candidates, and placement history per client</li>
-        <li>Executive dashboard — open roles by employer, candidates per pipeline stage, placement rate by month, average time-to-hire</li>
-        <li>Validation rules — enforces required fields at each pipeline stage to maintain data integrity</li>
-        <li>Email alert templates — automated candidate status notifications to employers</li>
-      </ul>
-
-      <div class="modal-section-label">Business impact</div>
-      <ul>
-        <li>Replaced manual spreadsheet tracking with a structured, automated CRM pipeline</li>
-        <li>Gave leadership real-time visibility into recruiter activity and placement performance</li>
-        <li>Reduced manual follow-up work through Flow-triggered task automation</li>
-      </ul>
-
-      <div class="modal-skills">
-        <span class="modal-tag">Salesforce Admin</span>
-        <span class="modal-tag">Custom Objects</span>
-        <span class="modal-tag">Flow Automation</span>
-        <span class="modal-tag">Sales Cloud</span>
-        <span class="modal-tag">Reports & Dashboards</span>
-        <span class="modal-tag">Recruitment CRM</span>
-        <span class="modal-tag">MENA</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CAREER BREAK MODAL -->
-<div class="modal-overlay" id="modal-pd" onclick="closeOnOverlay(event, 'modal-pd')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-period">Nov 2025 – Present · Riyadh, Saudi Arabia</div>
-        <div class="modal-title">Professional Development</div>
-        <div class="modal-company">International Business Accelerator · Career Break</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('modal-pd')">[ Close ]</button>
-    </div>
-    <div class="modal-body">
-      <p>A structured period of international development running in parallel with consulting work — focused on Salesforce specialisation, business strategy, and long-term venture building.</p>
-
-      <div class="modal-section-label">Salesforce Specialisation</div>
-      <ul>
-        <li>Pursued and passed the Salesforce Certified Administrator exam — May 2026, Credential ID 7787112</li>
-        <li>Built four portfolio CRM projects across automotive, logistics, automation, and compliance domains</li>
-        <li>Portfolio live at lionelkmunyuki.github.io</li>
-      </ul>
-
-      <div class="modal-section-label">Business & Strategy</div>
-      <ul>
-        <li>Engaged with business leaders across logistics, real estate, and technology sectors on cross-border strategy and venture design</li>
-        <li>Applied wealth management and global entrepreneurship fundamentals to real portfolio frameworks</li>
-      </ul>
-
-      <div class="modal-skills">
-        <span class="modal-tag">Salesforce</span>
-        <span class="modal-tag">Entrepreneurship</span>
-        <span class="modal-tag">Cross-border Strategy</span>
-        <span class="modal-tag">Venture Design</span>
-        <span class="modal-tag">MENA</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-tql" onclick="closeOnOverlay(event, 'modal-tql')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-period">Jul 2025 – Sep 2025 · Raleigh-Durham, NC</div>
-        <div class="modal-title">Logistics Account Executive</div>
-        <div class="modal-company">Total Quality Logistics · Full-time · On-site</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('modal-tql')">[ Close ]</button>
-    </div>
-    <div class="modal-body">
-      <p>Served as the vital link between shippers and carriers, ensuring freight moves efficiently, on time, and within budget. Managed the full lifecycle of freight transactions from prospecting to real-time tracking and client relationship management.</p>
-      <ul>
-        <li>Built and maintained relationships with shippers and carriers nationwide through consistent outreach and service excellence</li>
-        <li>Negotiated rates and secured capacity for shipments, maximising profitability while meeting client expectations</li>
-        <li>Coordinated freight movements from origin to destination, ensuring on-time pickup and delivery</li>
-        <li>Tracked shipments in real time, proactively resolving issues or delays to ensure customer satisfaction</li>
-        <li>Prospected new clients through cold calling, referrals, and targeted marketing efforts</li>
-        <li>Leveraged CRM and TMS tools to manage daily operations, communication logs, and performance analytics</li>
-        <li>Collaborated cross-functionally with carrier sales, finance, and operations teams</li>
-      </ul>
-      <div class="modal-skills">
-        <span class="modal-tag">Strategic Negotiations</span>
-        <span class="modal-tag">Sales</span>
-        <span class="modal-tag">CRM</span>
-        <span class="modal-tag">Supply Chain</span>
-        <span class="modal-tag">Client Management</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-prosource" onclick="closeOnOverlay(event, 'modal-prosource')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-period">Jun 2024 – Feb 2025 · On-site</div>
-        <div class="modal-title">Delivery Technician</div>
-        <div class="modal-company">Prosource Fitness Equipment · Full-time</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('modal-prosource')">[ Close ]</button>
-    </div>
-    <div class="modal-body">
-      <ul>
-        <li>Transported fitness equipment from warehouse to residential homes, gyms, and fitness centres</li>
-        <li>Assembled and set up equipment on-site, ensuring proper installation and safety compliance</li>
-        <li>Demonstrated equipment operation to customers with clear, professional instructions</li>
-        <li>Conducted post-installation inspections and troubleshot issues on-site</li>
-        <li>Completed all required documentation — customer sign-offs and service reports</li>
-        <li>Maintained safety protocols throughout transportation and installation processes</li>
-      </ul>
-      <div class="modal-skills">
-        <span class="modal-tag">Safety & Risk Management</span>
-        <span class="modal-tag">Customer Service</span>
-        <span class="modal-tag">Logistics</span>
-        <span class="modal-tag">Field Operations</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-lseg" onclick="closeOnOverlay(event, 'modal-lseg')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-period">Jan 2023 – Feb 2024 · Fort Mill, SC · Hybrid</div>
-        <div class="modal-title">SI Operations Data Analyst</div>
-        <div class="modal-company">LSEG — London Stock Exchange Group · Full-time</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('modal-lseg')">[ Close ]</button>
-    </div>
-    <div class="modal-body">
-      <ul>
-        <li>Provided rationale Excel files referencing Company 10-Ks, Annual Reports, and credible ESG reporting forums for Mergers, Acquisitions, Spinoffs, and Demergers</li>
-        <li>Acquired and applied automation techniques using Microsoft Excel — built indices using pre-built macros and maintained data quality oversight</li>
-        <li>Engaged in building and comparison of complex company data files using company methodology</li>
-        <li>Performed in-depth analysis of large SQL datasets through observation and querying, utilising ETL processes within the data warehouse</li>
-      </ul>
-      <div class="modal-skills">
-        <span class="modal-tag">Data Analysis</span>
-        <span class="modal-tag">ESG</span>
-        <span class="modal-tag">SQL</span>
-        <span class="modal-tag">Excel Automation</span>
-        <span class="modal-tag">ETL</span>
-        <span class="modal-tag">Financial Markets</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-ixl" onclick="closeOnOverlay(event, 'modal-ixl')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-period">May 2022 – Oct 2022 · Morrisville, NC</div>
-        <div class="modal-title">Account Specialist</div>
-        <div class="modal-company">IXL Learning · Full-time</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('modal-ixl')">[ Close ]</button>
-    </div>
-    <div class="modal-body">
-      <ul>
-        <li>Identified, analysed, and reported integration-related bugs and enhancements to product engineering and management</li>
-        <li>Provided intradepartmental support for new integrations and integration enhancements</li>
-        <li>Diagnosed daily integration issues using internal tools and escalated where necessary</li>
-        <li>Planned, organised, and documented daily tasks to maintain multiple implementation and support workflows</li>
-      </ul>
-      <div class="modal-skills">
-        <span class="modal-tag">Microsoft Excel</span>
-        <span class="modal-tag">Salesforce Lightning</span>
-        <span class="modal-tag">Account Management</span>
-        <span class="modal-tag">Integration Support</span>
-        <span class="modal-tag">Problem Solving</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-ncstate" onclick="closeOnOverlay(event, 'modal-ncstate')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-period">Oct 2021 – Dec 2021 · Raleigh, NC</div>
-        <div class="modal-title">Data Analyst</div>
-        <div class="modal-company">NC State University · Full-time</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('modal-ncstate')">[ Close ]</button>
-    </div>
-    <div class="modal-body">
-      <p>Contributed to the Y Analytics team primarily through the design and deployment of Tableau dashboards to build efficiencies in key aspects of ESG performance benchmarking, impact reporting, and insight dissemination.</p>
-      <ul>
-        <li>Designed and deployed Tableau dashboards for ESG performance benchmarking</li>
-        <li>Supported impact reporting and data insight dissemination across the analytics team</li>
-        <li>Applied statistical analysis and data wrangling techniques across datasets</li>
-      </ul>
-      <div class="modal-skills">
-        <span class="modal-tag">Tableau</span>
-        <span class="modal-tag">Statistical Analysis</span>
-        <span class="modal-tag">Data Wrangling</span>
-        <span class="modal-tag">ESG</span>
-        <span class="modal-tag">Data Visualisation</span>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
-// Carousel
-let carouselPos = 0;
-function scrollCarousel(dir) {
-  const track = document.getElementById('carouselTrack');
-  const cards = track.querySelectorAll('.exp-card');
-  const card = cards[0];
-  const cardW = card.offsetWidth + 1;
-  const visible = window.innerWidth < 700 ? 1 : window.innerWidth < 1024 ? 2 : 3;
-  const maxPos = cards.length - visible;
-  carouselPos = Math.max(0, Math.min(carouselPos + dir, maxPos));
-  track.style.transform = `translateX(-${carouselPos * cardW}px)`;
-}
-window.addEventListener('resize', () => { carouselPos = 0; scrollCarousel(0); });
-
-// Modals
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-function closeOnOverlay(e, id) {
-  if (e.target === document.getElementById(id)) closeModal(id);
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.open').forEach(m => {
-      m.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  }
-});
-
-// Reveal
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('in'), i * 80);
-      obs.unobserve(e.target);
-    }
+  // Scroll progress indicator
+  const scrollZone = document.getElementById('scrollZone');
+  // Subtle: add a class to top-bar when scrolled
+  scrollZone.addEventListener('scroll', () => {
+    document.querySelector('.top-bar').style.boxShadow =
+      scrollZone.scrollTop > 10 ? '0 4px 20px rgba(0,0,0,0.15)' : 'none';
   });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-// ── PROJECT FILTER ──
-function filterProjects(domain) {
-  document.querySelectorAll('.proj-filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  document.querySelectorAll('.project-row').forEach(row => {
-    if (domain === 'all' || row.dataset.domain === domain) {
-      row.classList.remove('hidden');
-    } else {
-      row.classList.add('hidden');
-    }
-  });
-  // renumber visible rows
-  let n = 1;
-  document.querySelectorAll('.project-row:not(.hidden) .project-num').forEach(el => {
-    el.textContent = String(n++).padStart(2,'0');
-  });
-}
 </script>
+
 </body>
 </html>
