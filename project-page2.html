@@ -1,1 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UpForJobs Recruitment CRM — Lionel Munyuki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #6B4FBB;
+    --brand-light: #8B6FDB;
+    --black: #0a0a0a;
+    --white: #f5f4f0;
+    --g100: #e8e6e0;
+    --g200: #c8c5bc;
+    --g400: #6b6860;
+    --accent: #c8a84b;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
+
+  /* ── PAGE SHELL ── */
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
+
+  /* ── FIXED TOP ── */
+  .top-bar {
+    flex-shrink: 0;
+    background: var(--black);
+    color: var(--white);
+    padding: 28px 32px 24px;
+    border-bottom: 3px solid var(--brand);
+    position: relative;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--g400);
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--white); }
+  .back-link::before { content: '←'; font-size: 12px; }
+
+  .top-meta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .top-left { flex: 1; min-width: 200px; }
+
+  .domain-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brand-light);
+    margin-bottom: 6px;
+  }
+
+  .project-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 52px);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--white);
+  }
+
+  .project-sub {
+    font-size: 13px;
+    color: var(--g200);
+    margin-top: 8px;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.4;
+  }
+
+  .process-doc-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: transparent;
+    border: 1px solid var(--g400);
+    padding: 10px 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    align-self: flex-end;
+  }
+  .process-doc-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .process-doc-btn svg { width: 12px; height: 12px; }
+
+  .stack-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--brand-light);
+    color: var(--brand-light);
+  }
+
+  /* ── SCROLLABLE MIDDLE ── */
+  .scroll-zone {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+  }
+
+  .scroll-zone::-webkit-scrollbar { width: 4px; }
+  .scroll-zone::-webkit-scrollbar-track { background: var(--g100); }
+  .scroll-zone::-webkit-scrollbar-thumb { background: var(--brand); }
+
+  /* ── CONTENT ROWS ── */
+  .content-rows { padding: 0; }
+
+  .content-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 280px;
+    border-bottom: 1px solid var(--g200);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .content-row:nth-child(1) { animation-delay: 0.05s; }
+  .content-row:nth-child(2) { animation-delay: 0.1s; }
+  .content-row:nth-child(3) { animation-delay: 0.15s; }
+  .content-row:nth-child(4) { animation-delay: 0.2s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .content-row:nth-child(even) .cell-image { order: 2; }
+  .content-row:nth-child(even) .cell-desc  { order: 1; border-right: 1px solid var(--g200); border-left: none; }
+
+  .cell-image {
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    min-height: 260px;
+    border-right: 1px solid var(--g200);
+  }
+
+  .cell-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+  }
+
+  .cell-image.placeholder {
+    background: var(--black);
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cell-image.placeholder .img-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--g400);
+  }
+  .cell-image.placeholder .img-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--g400);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--g400);
+    font-size: 18px;
+  }
+
+  /* Purple accent overlay for placeholder cells */
+  .cell-image.placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(107,79,187,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .row-num {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--g400);
+    background: rgba(0,0,0,0.5);
+    padding: 3px 7px;
+    z-index: 2;
+  }
+
+  /* Grid pattern for placeholder cells */
+  .cell-image.placeholder .grid-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background-image:
+      linear-gradient(var(--brand-light) 1px, transparent 1px),
+      linear-gradient(90deg, var(--brand-light) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Central icon for placeholder */
+  .cell-image.placeholder .center-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cell-image.placeholder .center-icon {
+    width: 56px;
+    height: 56px;
+    border: 1px solid rgba(107,79,187,0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cell-image.placeholder .center-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--brand-light);
+    fill: none;
+    stroke-width: 1.2;
+  }
+
+  .cell-image.placeholder .img-label {
+    color: rgba(107,79,187,0.7);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+
+  .cell-desc {
+    padding: 28px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--g200);
+    background: var(--white);
+  }
+
+  .cell-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 10px;
+  }
+
+  .cell-heading {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    margin-bottom: 10px;
+  }
+
+  .cell-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--g400);
+    font-weight: 300;
+  }
+
+  .cell-body strong { color: var(--black); font-weight: 500; }
+
+  .cell-bullets {
+    list-style: none;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cell-bullets li {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--g400);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .cell-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--brand);
+  }
+
+  /* ── FIXED BOTTOM ── */
+  .bottom-bar {
+    flex-shrink: 0;
+    border-top: 1px solid var(--g200);
+    background: var(--white);
+  }
+
+  .interact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 22px 32px;
+    background: var(--brand);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+  .interact-btn:hover { background: var(--brand-light); color: var(--accent); }
+  .interact-btn .arrow {
+    font-size: 22px;
+    transition: transform 0.2s, color 0.2s;
+  }
+  .interact-btn:hover .arrow { transform: translateX(6px); color: var(--accent); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .top-bar { padding: 20px 20px 18px; }
+    .content-row { grid-template-columns: 1fr; min-height: auto; }
+    .cell-image { min-height: 200px; order: 1 !important; border-right: none !important; border-bottom: 1px solid var(--g200); }
+    .cell-desc { order: 2 !important; padding: 20px; border-left: none !important; border-right: none !important; }
+    .content-row:nth-child(even) .cell-desc { border-right: none; }
+    .interact-btn { padding: 18px 20px; font-size: 16px; }
+    .top-meta { flex-direction: column; align-items: flex-start; }
+    .process-doc-btn { align-self: flex-start; margin-top: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── FIXED TOP ── -->
+  <header class="top-bar">
+    <a class="back-link" href="index.html">All Projects</a>
+    <div class="top-meta">
+      <div class="top-left">
+        <div class="domain-tag">Recruitment · Salesforce CRM · MENA</div>
+        <h1 class="project-title">UpForJobs<br>Recruitment CRM</h1>
+        <p class="project-sub">A full Salesforce CRM implementation for a Dubai-based AI talent platform — candidate management, client engagements, and placement tracking across the MENA region.</p>
+        <div class="stack-pills">
+          <span class="pill">Sales Cloud</span>
+          <span class="pill">Screen Flow</span>
+          <span class="pill">Custom Objects</span>
+          <span class="pill">Flow Automation</span>
+          <span class="pill">Validation Rules</span>
+          <span class="pill">Executive Dashboard</span>
+          <span class="pill">Live Client</span>
+        </div>
+      </div>
+      <a class="process-doc-btn" href="https://docs.google.com/document/d/1z1Qmo0FeTAOtSJBBbEekJLyxEyuf63IN/preview" target="_blank">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="1" width="10" height="14" rx="1"/>
+          <line x1="6" y1="5" x2="10" y2="5"/>
+          <line x1="6" y1="8" x2="10" y2="8"/>
+          <line x1="6" y1="11" x2="8" y2="11"/>
+        </svg>
+        Process Doc
+      </a>
+    </div>
+  </header>
+
+  <!-- ── SCROLLABLE MIDDLE ── -->
+  <div class="scroll-zone" id="scrollZone">
+    <div class="content-rows">
+
+      <!-- ROW 1: Image left, description right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">01</div>
+          <img src="ufj-candidates.png" alt="UpForJobs Candidates List View">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Talent Pool</div>
+          <div class="cell-heading">Candidates. Skills. Availability.</div>
+          <p class="cell-body">A custom <strong>Candidate__c</strong> object manages the full freelancer roster — 11 fields capturing skills, sprint rates, availability status, and MENA location data.</p>
+          <ul class="cell-bullets">
+            <li>Multi-select Skills picklist — 8 categories including LLMs, MLOps & UI/UX</li>
+            <li>Availability stages — Available, In Sprint, Placed, Inactive</li>
+            <li>Sprint Rate (USD) and LinkedIn Profile fields</li>
+            <li>MENA Based checkbox for regional filtering</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROW 2: Description left, image right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">02</div>
+          <img src="ufj-flow.png" alt="UpForJobs Talent Matcher Flow Canvas">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Matcher</div>
+          <div class="cell-heading">Brief. Match. Deploy.</div>
+          <p class="cell-body">A guided <strong>Talent Matcher Screen Flow</strong> walks the recruitment team through the full client briefing process — from selecting a client and region to choosing an UpPaq service package.</p>
+          <ul class="cell-bullets">
+            <li>Screen 1 — Client Brief: client, region & skills required</li>
+            <li>Screen 2 — UpPaq Selection: service package & sprint duration</li>
+            <li>Screen 3 — Confirmation summary before submission</li>
+            <li>Auto-creates Engagement record with Status set to Briefing</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROW 3: Image left, description right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">03</div>
+          <img src="ufj-engagements.png" alt="UpForJobs Engagements Pipeline List View">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Pipeline</div>
+          <div class="cell-heading">5 Engagements. Full Lifecycle.</div>
+          <p class="cell-body">The <strong>Engagement__c</strong> object links every Candidate, Client, and UpPaq into a single placement record — auto-numbered ENG-0001 through ENG-0005 — tracked across a 5-stage pipeline.</p>
+          <ul class="cell-bullets">
+            <li>Stages: Briefing → Matching → Active Sprint → Completed → Cancelled</li>
+            <li>Lookup relationships to Candidate, Account & UpPaq</li>
+            <li>Region picklist — UAE, KSA, Egypt, Qatar, Kuwait, Other MENA</li>
+            <li>Completed status triggers automated follow-up task</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROW 4: Description left, image right -->
+      <div class="content-row">
+        <div class="cell-image">
+          <div class="row-num">04</div>
+          <img src="ufj-dashboard.png" alt="UpForJobs Executive Dashboard">
+        </div>
+        <div class="cell-desc">
+          <div class="cell-label">The Dashboard</div>
+          <div class="cell-heading">MENA Pipeline. At a Glance.</div>
+          <p class="cell-body">An <strong>executive dashboard</strong> embedded as the app home page surfaces placement performance, revenue by client, and candidate availability — built for C-suite visibility across the MENA region.</p>
+          <ul class="cell-bullets">
+            <li>Active Sprints — total pipeline value metric ($31k)</li>
+            <li>Revenue by Client — bar chart across all 5 MENA accounts</li>
+            <li>Active Engagements by Region — UAE vs KSA donut chart</li>
+            <li>Candidate Availability — Available, In Sprint, Placed breakdown</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FIXED BOTTOM ── -->
+  <footer class="bottom-bar">
+    <a class="interact-btn" href="https://login.salesforce.com" target="_blank">
+      <span>Interact With Project</span>
+      <span class="arrow">→</span>
+    </a>
+  </footer>
+
+</div>
+
+<script>
+  const scrollZone = document.getElementById('scrollZone');
+  scrollZone.addEventListener('scroll', () => {
+    document.querySelector('.top-bar').style.boxShadow =
+      scrollZone.scrollTop > 10 ? '0 4px 20px rgba(0,0,0,0.15)' : 'none';
+  });
+</script>
+
+</body>
+</html>
