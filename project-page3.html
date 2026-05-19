@@ -1059,123 +1059,201 @@
     letter-spacing: 0.08em;
   }
 
-  @media (max-width: 900px) {
+  /* BACK BUTTON */
+  .back-btn {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--slate-600);
+    text-decoration: none;
+    border: 1px solid var(--slate-200);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .back-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    background: none;
+    border: 1px solid var(--slate-200);
+    color: var(--slate-600);
+    font-size: 1.1rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 2px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  /* NAV LOGO as link */
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    color: var(--teal);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* FOOTER LOGO as link */
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 2rem;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-title { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-subtitle { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.3s ease both; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+
+    /* NAV */
+    nav { padding: 0.85rem 1.25rem; flex-wrap: wrap; gap: 0; }
+    .nav-logo { font-size: 1.3rem; }
+    .nav-tag { display: none; }
+    .hamburger { display: block; }
+    .back-btn { font-size: 0.65rem; padding: 0.2rem 0.5rem; }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      padding: 0.75rem 0 0.5rem;
+      gap: 0;
+      border-top: 1px solid var(--slate-200);
+      margin-top: 0.75rem;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li a {
+      display: block;
+      padding: 0.6rem 0;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--slate-100);
+    }
+
+    /* HERO — stack vertically */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding-top: 70px;
+    }
+    .hero-left {
+      padding: 2.5rem 1.5rem 2rem;
+    }
+    .hero-left::after { display: none; }
+    .hero-title { font-size: 4rem; }
+    .hero-subtitle { font-size: 0.95rem; margin: 1rem 0 1.75rem; }
+    .hero-cta { flex-wrap: wrap; gap: 0.75rem; }
+    .btn-primary { padding: 0.75rem 1.5rem; font-size: 0.8rem; }
+
+    .hero-right {
+      padding: 2rem 1.5rem 2.5rem;
+      min-height: auto;
+    }
+    .hero-right::before { display: none; }
+    .donut-stage { width: 240px; height: 240px; }
     .donut-seg { fill: var(--teal) !important; }
+    .donut-instructions {
+      gap: 0.4rem 1rem;
+      font-size: 0.6rem;
+    }
+
+    /* TICKER */
+    .ticker-item { font-size: 0.65rem; }
+
+    /* SECTIONS */
+    section { padding: 3rem 1.5rem; }
+    .section-title { font-size: 2rem; }
+
+    /* OVERVIEW */
+    .overview { grid-template-columns: 1fr; gap: 2rem; }
+
+    /* ARCHITECTURE */
+    .objects-grid { grid-template-columns: 1fr; }
+
+    /* AUTOMATION */
+    .automation { grid-template-columns: 1fr; gap: 1.5rem; }
+
+    /* DATA GRID */
+    .data-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .data-number { font-size: 2rem; }
+
+    /* PERMISSION SETS */
+    .perm-grid { grid-template-columns: 1fr; }
+    .perm-name { font-size: 1.1rem; }
+
+    /* PROCESS */
+    .process > div { grid-template-columns: 1fr !important; gap: 2rem !important; }
+    .timeline { padding-left: 1.5rem; }
+    .timeline-body { font-size: 0.82rem; }
+
+    /* DESIGN NOTES */
+    .design-notes { padding: 3rem 1.5rem; }
+    .notes-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+    /* FOOTER */
+    footer {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+    }
+    .footer-meta { text-align: center; }
+
+    /* LIGHTBOX */
+    .lightbox-panel { width: 96vw; }
+    .lightbox-body { padding: 1rem; min-height: 200px; }
+  }
+
+  /* ─── TABLET ─── */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    nav { padding: 1rem 2rem; }
+    .nav-links { gap: 1.2rem; }
+    .nav-tag { font-size: 0.65rem; padding: 0.2rem 0.5rem; }
+    .hero { grid-template-columns: 1fr 1fr; }
+    .hero-left { padding: 3rem 2rem 3rem 3rem; }
+    .hero-right { padding: 2rem 2rem; }
+    .hero-title { font-size: 4.5rem; }
     .donut-stage { width: 260px; height: 260px; }
+    .objects-grid { grid-template-columns: 1fr 1fr; }
+    .data-grid { grid-template-columns: 1fr 1fr; }
+    .perm-grid { grid-template-columns: 1fr 1fr; }
+    section { padding: 4rem 2.5rem; }
+    .overview { gap: 3rem; }
+    .automation { gap: 3rem; }
+    .process > div { gap: 3rem !important; }
   }
 </style>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const screenshots = [
-    { label: 'Dashboard Reporting', src: 'FreightPath_DashboardReporting.png' },
-    { label: 'Loads List View',     src: 'FreightPath_Loads.png' },
-    { label: 'Load Record',         src: 'FreightPath_IndivLoad.png' },
-    { label: 'Active Flows',        src: 'FreightPath_Flows.png' },
-  ];
-
-  let current = 0;
-
-  const lightbox  = document.getElementById('lightbox');
-  const lbTitle   = document.getElementById('lightbox-title');
-  const lbImg     = document.getElementById('lightbox-img');
-  const lbHolder  = document.getElementById('lightbox-placeholder');
-  const lbCounter = document.getElementById('lb-counter');
-  const segs      = document.querySelectorAll('.donut-seg');
-
-  function openLightbox(idx) {
-    current = idx;
-    renderLightbox();
-    lightbox.classList.add('open');
-    segs.forEach((s, i) => {
-      s.classList.remove('active');
-      s.style.fill = '';
-      const l = document.getElementById('lbl-' + i);
-      if (l) l.style.fill = '';
-    });
-    const activeSeg = document.getElementById('seg-' + idx);
-    const activeLbl = document.getElementById('lbl-' + idx);
-    activeSeg.classList.add('active');
-    activeSeg.style.fill = 'var(--teal)';
-    if (activeLbl) activeLbl.style.fill = '#ffffff';
-  }
-
-  function renderLightbox() {
-    const s = screenshots[current];
-    lbTitle.textContent = s.label;
-    lbCounter.textContent = (current + 1) + ' / ' + screenshots.length;
-    if (s.src) {
-      lbImg.src = s.src;
-      lbImg.alt = s.label;
-      lbImg.style.display = 'block';
-      lbHolder.style.display = 'none';
-    } else {
-      lbImg.style.display = 'none';
-      lbHolder.style.display = 'block';
-    }
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    segs.forEach((s, i) => {
-      s.classList.remove('active');
-      s.style.fill = '';
-      const l = document.getElementById('lbl-' + i);
-      if (l) l.style.fill = '';
-    });
-  }
-
-  segs.forEach(seg => {
-    const idx = parseInt(seg.dataset.idx);
-    const lbl = document.getElementById('lbl-' + idx);
-
-    seg.addEventListener('mouseenter', () => {
-      seg.style.fill = 'var(--teal)';
-      if (lbl) lbl.style.fill = '#ffffff';
-    });
-
-    seg.addEventListener('mouseleave', () => {
-      if (!seg.classList.contains('active')) {
-        seg.style.fill = '';
-        if (lbl) lbl.style.fill = '';
-      }
-    });
-
-    seg.addEventListener('click', () => openLightbox(idx));
-  });
-
-  document.getElementById('lightbox-overlay').addEventListener('click', closeLightbox);
-  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-
-  document.getElementById('lb-prev').addEventListener('click', () => {
-    current = (current - 1 + screenshots.length) % screenshots.length;
-    renderLightbox();
-  });
-
-  document.getElementById('lb-next').addEventListener('click', () => {
-    current = (current + 1) % screenshots.length;
-    renderLightbox();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowRight') { current = (current + 1) % screenshots.length; renderLightbox(); }
-    if (e.key === 'ArrowLeft')  { current = (current - 1 + screenshots.length) % screenshots.length; renderLightbox(); }
-  });
-}); // end DOMContentLoaded
-</script>
 </head>
-<body>
+<body id="top">
 
 <nav>
-  <div class="nav-logo">FreightPath</div>
-  <ul class="nav-links">
+  <a href="#top" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">FreightPath</a>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#overview">Overview</a></li>
     <li><a href="#architecture">Architecture</a></li>
     <li><a href="#automation">Automation</a></li>
     <li><a href="#process">Process</a></li>
   </ul>
-  <div class="nav-tag">Project 03 — Salesforce CRM</div>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <a href="https://lionelkmunyuki.github.io" class="back-btn">← Projects</a>
+    <div class="nav-tag">Project 03 — Salesforce CRM</div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1741,7 +1819,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">FreightPath</div>
+  <a href="#top" class="footer-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">FreightPath</a>
   <div class="footer-meta">
     <div>Salesforce Administrator Portfolio</div>
     <div>Project 03 of 05</div>
@@ -1750,5 +1828,107 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 
+<script>
+  const screenshots = [
+    { label: 'Dashboard Reporting', src: 'FreightPath_DashboardReporting.png' },
+    { label: 'Loads List View',     src: 'FreightPath_Loads.png' },
+    { label: 'Load Record',         src: 'FreightPath_IndivLoad.png' },
+    { label: 'Active Flows',        src: 'FreightPath_Flows.png' },
+  ];
+
+  let current = 0;
+
+  const lightbox  = document.getElementById('lightbox');
+  const lbTitle   = document.getElementById('lightbox-title');
+  const lbImg     = document.getElementById('lightbox-img');
+  const lbHolder  = document.getElementById('lightbox-placeholder');
+  const lbCounter = document.getElementById('lb-counter');
+  const segs      = document.querySelectorAll('.donut-seg');
+
+  function openLightbox(idx) {
+    current = idx;
+    renderLightbox();
+    lightbox.classList.add('open');
+    segs.forEach((s, i) => {
+      s.classList.remove('active');
+      s.style.fill = '';
+      const l = document.getElementById('lbl-' + i);
+      if (l) l.style.fill = '';
+    });
+    const activeSeg = document.getElementById('seg-' + idx);
+    const activeLbl = document.getElementById('lbl-' + idx);
+    activeSeg.classList.add('active');
+    activeSeg.style.fill = 'var(--teal)';
+    if (activeLbl) activeLbl.style.fill = '#ffffff';
+  }
+
+  function renderLightbox() {
+    const s = screenshots[current];
+    lbTitle.textContent = s.label;
+    lbCounter.textContent = (current + 1) + ' / ' + screenshots.length;
+    if (s.src) {
+      lbImg.src = s.src;
+      lbImg.alt = s.label;
+      lbImg.style.display = 'block';
+      lbHolder.style.display = 'none';
+    } else {
+      lbImg.style.display = 'none';
+      lbHolder.style.display = 'block';
+    }
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    segs.forEach((s, i) => {
+      s.classList.remove('active');
+      s.style.fill = '';
+      const l = document.getElementById('lbl-' + i);
+      if (l) l.style.fill = '';
+    });
+  }
+
+  segs.forEach(seg => {
+    const idx = parseInt(seg.dataset.idx);
+    const lbl = document.getElementById('lbl-' + idx);
+    seg.addEventListener('mouseenter', () => {
+      seg.style.fill = 'var(--teal)';
+      if (lbl) lbl.style.fill = '#ffffff';
+    });
+    seg.addEventListener('mouseleave', () => {
+      if (!seg.classList.contains('active')) {
+        seg.style.fill = '';
+        if (lbl) lbl.style.fill = '';
+      }
+    });
+    seg.addEventListener('click', () => openLightbox(idx));
+  });
+
+  document.getElementById('lightbox-overlay').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', () => {
+    current = (current - 1 + screenshots.length) % screenshots.length;
+    renderLightbox();
+  });
+  document.getElementById('lb-next').addEventListener('click', () => {
+    current = (current + 1) % screenshots.length;
+    renderLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') { current = (current + 1) % screenshots.length; renderLightbox(); }
+    if (e.key === 'ArrowLeft')  { current = (current - 1 + screenshots.length) % screenshots.length; renderLightbox(); }
+  });
+
+  // Hamburger
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('nav-links').classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('nav-links').classList.remove('open');
+    });
+  });
+</script>
 </body>
 </html>
