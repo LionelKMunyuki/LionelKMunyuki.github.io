@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cavendish ESG — Salesforce Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest:   #0F2B24;
+  --forest-mid: #1a3d32;
+  --forest-light: #2a5445;
+  --gold:     #B08D57;
+  --gold-light: #c9a96e;
+  --gold-dim: rgba(176,141,87,0.12);
+  --gold-dim2: rgba(176,141,87,0.06);
+  --ivory:    #F6F2E9;
+  --ivory-mid: #ede8dc;
+  --graphite: #1B1E1C;
+  --fog:      #C9C6BE;
+  --fog-dim:  rgba(201,198,190,0.15);
+  --white:    #ffffff;
+  --mono: 'DM Mono', monospace;
+  --display: 'Cormorant Garamond', serif;
+  --body: 'Outfit', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--ivory);
+  color: var(--graphite);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(246,242,233,0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--ivory-mid);
+}
+
+.nav-logo {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--forest);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--forest-light);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.nav-tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--forest);
+  background: var(--gold-dim);
+  border: 1px solid var(--gold);
+  padding: 0.25rem 0.75rem;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+
+.back-btn {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--forest-light);
+  text-decoration: none;
+  border: 1px solid var(--fog);
+  padding: 0.25rem 0.75rem;
+  border-radius: 2px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.back-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+.hamburger {
+  display: none;
+  background: none;
+  border: 1px solid var(--fog);
+  color: var(--forest);
+  font-size: 1.1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 68px;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 3rem 5rem 5rem;
+  background: var(--forest);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(176,141,87,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(176,141,87,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-left::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: fadeUp 0.7s ease both;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 2.5rem;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.6;
+}
+
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(4.5rem, 9vw, 8rem);
+  line-height: 0.88;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  color: var(--ivory);
+  margin-bottom: 0.5rem;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  color: var(--fog);
+  font-weight: 300;
+  max-width: 460px;
+  margin: 1.75rem 0 3rem;
+  line-height: 1.9;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--forest);
+  border: none;
+  padding: 0.85rem 2rem;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 1px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: var(--gold-light); }
+
+.btn-ghost {
+  color: var(--fog);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+  font-family: var(--body);
+}
+
+.btn-ghost:hover { color: var(--ivory); }
+.btn-ghost::after { content: '↓'; }
+
+/* ── HERO RIGHT — LIVING CTA ── */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 4rem;
+  background: var(--ivory);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-right::before {
+  content: 'CAVENDISH';
+  position: absolute;
+  bottom: -3rem;
+  right: -2rem;
+  font-family: var(--display);
+  font-size: 10rem;
+  color: var(--ivory-mid);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+  font-weight: 300;
+}
+
+.living-cta {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  z-index: 1;
+}
+
+/* Two donuts, layered */
+.donut-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.donut-ring.ring-outer { z-index: 2; }
+.donut-ring.ring-inner {
+  inset: 40px;
+  width: calc(100% - 80px);
+  height: calc(100% - 80px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.cta-hint {
+  position: absolute;
+  bottom: -2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--fog);
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.cta-center-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.cta-center-label .big {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--forest);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  display: block;
+}
+
+.cta-center-label .sub {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  color: var(--fog);
+  text-transform: uppercase;
+  display: block;
+  margin-top: 0.3rem;
+}
+
+/* Outer SVG donut segments */
+.seg-outer {
+  fill: var(--ivory-mid);
+  stroke: var(--ivory);
+  stroke-width: 3;
+  cursor: pointer;
+  transition: fill 0.25s, transform 0.25s;
+  transform-origin: 180px 180px;
+}
+
+.seg-outer:hover { fill: var(--gold); }
+.seg-outer.peek { fill: var(--gold-light); opacity: 0.7; }
+
+/* Inner SVG donut segments */
+.seg-inner {
+  fill: var(--forest);
+  stroke: var(--ivory);
+  stroke-width: 2;
+  transition: fill 0.25s;
+}
+
+.seg-inner.active { fill: var(--gold); }
+
+/* Continuous pulse ring */
+@keyframes pulse-ring {
+  0%   { r: 130; opacity: 0.3; }
+  50%  { r: 148; opacity: 0.08; }
+  100% { r: 130; opacity: 0.3; }
+}
+
+.pulse-circle {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+
+/* Continuous slow rotation on outer ring */
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.spin-group {
+  transform-origin: 180px 180px;
+  animation: slow-spin 60s linear infinite;
+}
+
+/* Orbit dots */
+@keyframes orbit {
+  from { transform: rotate(var(--start-angle)) translateX(155px) rotate(calc(-1 * var(--start-angle))); }
+  to   { transform: rotate(calc(var(--start-angle) + 360deg)) translateX(155px) rotate(calc(-1 * (var(--start-angle) + 360deg))); }
+}
+
+.orbit-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  position: absolute;
+  top: calc(50% - 2.5px);
+  left: calc(50% - 2.5px);
+  opacity: 0.5;
+}
+
+/* ── LIGHTBOX ── */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15,43,36,0.92);
+  cursor: pointer;
+}
+
+.lightbox-panel {
+  position: relative;
+  z-index: 1;
+  background: var(--forest);
+  border: 1px solid rgba(176,141,87,0.2);
+  border-radius: 4px;
+  width: min(92vw, 1020px);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lightbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(176,141,87,0.15);
+}
+
+.lightbox-title {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.lightbox-close {
+  background: none;
+  border: none;
+  color: var(--fog);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.15s;
+}
+
+.lightbox-close:hover { color: var(--ivory); }
+
+.lightbox-body {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 1.5rem;
+  background: var(--forest-mid);
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 68vh;
+  border-radius: 2px;
+  display: block;
+}
+
+.lightbox-placeholder {
+  text-align: center;
+  padding: 3rem;
+}
+
+.placeholder-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+
+.placeholder-text {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--ivory);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-sub {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--fog);
+  letter-spacing: 0.08em;
+}
+
+.lightbox-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid rgba(176,141,87,0.15);
+}
+
+.lightbox-btn {
+  background: none;
+  border: 1px solid rgba(176,141,87,0.25);
+  color: var(--fog);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.lightbox-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+.lightbox-counter {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--fog);
+  letter-spacing: 0.08em;
+}
+
+/* ── TICKER ── */
+.ticker {
+  background: var(--forest);
+  color: var(--fog);
+  padding: 0.65rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid rgba(176,141,87,0.3);
+  border-bottom: 1px solid rgba(176,141,87,0.1);
+}
+
+.ticker-inner {
+  display: inline-flex;
+  gap: 3rem;
+  animation: ticker 40s linear infinite;
+}
+
+.ticker-item {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.ticker-item::before {
+  content: '◆';
+  margin-right: 1rem;
+  opacity: 0.35;
+  color: var(--gold);
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── SECTIONS ── */
+section { padding: 6rem 5rem; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--graphite);
+  margin-bottom: 1rem;
+}
+
+.section-body {
+  font-size: 0.95rem;
+  color: #4a5750;
+  font-weight: 300;
+  max-width: 580px;
+  line-height: 1.9;
+}
+
+/* ── OVERVIEW ── */
+.overview {
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.challenge-block {
+  border-left: 2px solid var(--gold);
+  padding: 1.25rem 1.5rem;
+  background: var(--gold-dim);
+  border-radius: 0 2px 2px 0;
+  margin: 2rem 0;
+}
+
+.challenge-block p {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--forest);
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.scope-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--ivory-mid);
+  border-radius: 2px;
+  margin-bottom: 0.6rem;
+  background: var(--ivory);
+  transition: border-color 0.2s;
+}
+
+.scope-row:hover { border-color: var(--gold); }
+
+.scope-row span:first-child {
+  font-size: 0.83rem;
+  color: #4a5750;
+}
+
+.scope-row span:last-child {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--forest);
+}
+
+/* ── ARCHITECTURE ── */
+.architecture {
+  background: var(--forest);
+  color: var(--ivory);
+}
+
+.architecture .section-title { color: var(--ivory); font-weight: 300; }
+.architecture .section-body { color: var(--fog); }
+.architecture .section-label { color: var(--gold); }
+
+.objects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(176,141,87,0.1);
+  border: 1px solid rgba(176,141,87,0.1);
+  margin-top: 3rem;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.object-card {
+  background: rgba(255,255,255,0.02);
+  padding: 2rem 1.75rem;
+  transition: background 0.2s;
+}
+
+.object-card:hover { background: rgba(176,141,87,0.05); }
+
+.object-type {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
+.object-name {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--ivory);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.object-desc {
+  font-size: 0.8rem;
+  color: var(--fog);
+  line-height: 1.65;
+}
+
+.object-fields {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.field-tag {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  padding: 0.18rem 0.5rem;
+  background: rgba(176,141,87,0.08);
+  border: 1px solid rgba(176,141,87,0.2);
+  border-radius: 1px;
+  color: var(--fog);
+  letter-spacing: 0.05em;
+}
+
+/* ── AUTOMATION ── */
+.automation {
+  background: var(--ivory);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.flow-card {
+  background: var(--white);
+  border: 1px solid var(--ivory-mid);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.flow-header {
+  background: var(--forest);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-left: 3px solid var(--gold);
+}
+
+.flow-number {
+  font-family: var(--display);
+  font-size: 2rem;
+  color: rgba(176,141,87,0.3);
+  line-height: 1;
+}
+
+.flow-title {
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--ivory);
+  letter-spacing: 0.03em;
+}
+
+.flow-trigger {
+  font-size: 0.68rem;
+  color: var(--fog);
+  font-family: var(--mono);
+  margin-top: 0.2rem;
+}
+
+.flow-steps {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.flow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: #4a5750;
+}
+
+.flow-step-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 0.55rem;
+  flex-shrink: 0;
+}
+
+/* ── DATA ── */
+.data-section { background: var(--white); }
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+.data-card {
+  border: 1px solid var(--ivory-mid);
+  border-radius: 2px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: var(--ivory);
+}
+
+.data-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--fog);
+}
+
+.data-card.gold-accent::before { background: var(--gold); }
+
+.data-number {
+  font-family: var(--display);
+  font-size: 2.8rem;
+  font-weight: 300;
+  color: var(--forest);
+  line-height: 1;
+}
+
+.data-number.gold { color: var(--gold); }
+
+.data-label {
+  font-size: 0.75rem;
+  color: var(--fog);
+  margin-top: 0.4rem;
+  font-weight: 400;
+}
+
+/* ── PERMISSIONS ── */
+.permissions {
+  background: var(--forest);
+  color: var(--ivory);
+}
+
+.permissions .section-title { color: var(--ivory); font-weight: 300; }
+.permissions .section-label { color: var(--gold); }
+
+.perm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.perm-card {
+  border: 1px solid rgba(176,141,87,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.perm-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(176,141,87,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(176,141,87,0.04);
+}
+
+.perm-name {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--ivory);
+  letter-spacing: 0.04em;
+}
+
+.perm-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 1px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.perm-badge.submitter {
+  background: rgba(176,141,87,0.1);
+  color: var(--gold-light);
+  border: 1px solid rgba(176,141,87,0.25);
+}
+
+.perm-badge.reviewer {
+  background: rgba(255,255,255,0.05);
+  color: var(--fog);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.perm-badge.cco {
+  background: rgba(176,141,87,0.18);
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.35);
+}
+
+.perm-col-labels {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  padding: 0.25rem 1.5rem 0;
+}
+
+.perm-col-label {
+  width: 20px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.05em;
+  position: relative;
+  cursor: default;
+}
+
+.perm-col-label:hover { color: var(--gold); }
+
+.perm-col-label::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--forest);
+  font-size: 0.62rem;
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  padding: 0.2rem 0.55rem;
+  border-radius: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+}
+
+.perm-col-label:hover::after { opacity: 1; }
+
+.perm-rows { padding: 0.4rem 0; }
+
+.perm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 1.5rem;
+  font-size: 0.78rem;
+}
+
+.perm-row:hover { background: rgba(255,255,255,0.02); }
+.perm-object { color: var(--fog); }
+
+.perm-access { display: flex; gap: 0.3rem; }
+
+.perm-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-family: var(--mono);
+}
+
+.perm-dot.on {
+  background: rgba(176,141,87,0.12);
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+}
+
+.perm-dot.off {
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── PROCESS ── */
+.process { background: var(--ivory); }
+
+.timeline {
+  position: relative;
+  margin-top: 3rem;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), var(--ivory-mid));
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 2.5rem 2.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 0.4rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--forest);
+  border: 2px solid var(--ivory);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+
+.timeline-phase {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.timeline-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--graphite);
+  margin-bottom: 0.4rem;
+}
+
+.timeline-body {
+  font-size: 0.82rem;
+  color: #4a5750;
+  line-height: 1.75;
+  max-width: 520px;
+}
+
+/* ── DESIGN NOTES ── */
+.design-notes {
+  background: var(--forest);
+  padding: 5rem;
+}
+
+.design-notes .section-title { color: var(--ivory); font-size: 2.2rem; }
+.design-notes .section-label { color: var(--gold); }
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.note-card {
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(176,141,87,0.12);
+  border-radius: 2px;
+  border-top: 2px solid var(--gold);
+}
+
+.note-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ivory);
+  margin-bottom: 0.5rem;
+}
+
+.note-body {
+  font-size: 0.78rem;
+  color: var(--fog);
+  line-height: 1.75;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--graphite);
+  color: var(--fog);
+  padding: 3rem 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(176,141,87,0.3);
+}
+
+.footer-logo {
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--ivory);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer-meta {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-align: right;
+  line-height: 2.2;
+}
+
+.footer-meta span { color: var(--gold); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0.85rem 1.25rem; flex-wrap: wrap; }
+  .nav-tag { display: none; }
+  .hamburger { display: block; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.75rem 0 0.5rem;
+    gap: 0;
+    border-top: 1px solid var(--ivory-mid);
+    margin-top: 0.75rem;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li a { display: block; padding: 0.6rem 0; font-size: 0.9rem; }
+
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 68px; }
+  .hero-left { padding: 2.5rem 1.5rem 2rem; }
+  .hero-left::after { display: none; }
+  .hero-title { font-size: 4.5rem; }
+  .hero-subtitle { font-size: 0.9rem; margin: 1.25rem 0 2rem; }
+  .hero-right { padding: 2.5rem 1.5rem 3.5rem; }
+  .hero-right::before { display: none; }
+  .living-cta { width: 280px; height: 280px; }
+
+  section { padding: 3rem 1.5rem; }
+  .section-title { font-size: 2.5rem; }
+  .overview { grid-template-columns: 1fr; gap: 2rem; }
+  .objects-grid { grid-template-columns: 1fr; }
+  .automation { grid-template-columns: 1fr; gap: 2rem; }
+  .data-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .perm-grid { grid-template-columns: 1fr; }
+  .process > div { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  .design-notes { padding: 3rem 1.5rem; }
+  .notes-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 1.5rem; padding: 2.5rem 1.5rem; text-align: center; }
+  .footer-meta { text-align: center; }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .objects-grid { grid-template-columns: 1fr 1fr; }
+  .data-grid { grid-template-columns: 1fr 1fr; }
+  .perm-grid { grid-template-columns: 1fr 1fr; }
+  section { padding: 4rem 2.5rem; }
+  .overview { gap: 3rem; }
+}
+</style>
+</head>
+<body id="top">
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Cavendish ESG</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#automation">Automation</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <a href="https://lionelkmunyuki.github.io/#projects" class="back-btn">← Projects</a>
+    <div class="nav-tag">Project 05 — ESG Compliance</div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Salesforce Administrator Portfolio</div>
+    <h1 class="hero-title">
+      Cavendish<em>ESG</em>
+    </h1>
+    <p class="hero-subtitle">
+      A custom Salesforce org for ESG data intake, validation, and compliance tracking — built for a £4.2bn asset manager operating across EMEA. Inspired by firsthand experience in ESG data infrastructure at LSEG.
+    </p>
+    <div class="hero-cta">
+      <a href="#overview" class="btn-primary">Explore the build</a>
+      <a href="#process" class="btn-ghost">View process</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="living-cta" id="living-cta">
+
+      <!-- Outer SVG ring — 10 segments, loops continuously, hover opens lightbox group -->
+      <svg class="donut-ring ring-outer" id="outer-svg" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="outer-clip">
+            <path d="M180,180 m-155,0 a155,155 0 1,0 310,0 a155,155 0 1,0 -310,0
+                     M180,180 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0 Z"/>
+          </clipPath>
+        </defs>
+        <!-- 10 outer segments — evenly spaced at 36° each -->
+        <g id="outer-segs" clip-path="url(#outer-clip)">
+          <path class="seg-outer" data-group="0" d="M180,180 L180,25 A155,155 0 0,1 270.6,54.4 Z"/>
+          <path class="seg-outer" data-group="1" d="M180,180 L270.6,54.4 A155,155 0 0,1 335,144.1 Z"/>
+          <path class="seg-outer" data-group="2" d="M180,180 L335,144.1 A155,155 0 0,1 335,215.9 Z"/>
+          <path class="seg-outer" data-group="3" d="M180,180 L335,215.9 A155,155 0 0,1 270.6,305.6 Z"/>
+          <path class="seg-outer" data-group="4" d="M180,180 L270.6,305.6 A155,155 0 0,1 180,335 Z"/>
+          <path class="seg-outer" data-group="5" d="M180,180 L180,335 A155,155 0 0,1 89.4,305.6 Z"/>
+          <path class="seg-outer" data-group="6" d="M180,180 L89.4,305.6 A155,155 0 0,1 25,215.9 Z"/>
+          <path class="seg-outer" data-group="7" d="M180,180 L25,215.9 A155,155 0 0,1 25,144.1 Z"/>
+          <path class="seg-outer" data-group="8" d="M180,180 L25,144.1 A155,155 0 0,1 89.4,54.4 Z"/>
+          <path class="seg-outer" data-group="9" d="M180,180 L89.4,54.4 A155,155 0 0,1 180,25 Z"/>
+        </g>
+        <!-- Pulsing ring -->
+        <circle class="pulse-circle" cx="180" cy="180" r="130"/>
+        <!-- Orbit tick marks -->
+        <g class="spin-group" id="spin-group">
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(36,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(72,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(108,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(144,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(180,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(216,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(252,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(288,180,180)"/>
+          <line x1="180" y1="8" x2="180" y2="16" stroke="rgba(176,141,87,0.4)" stroke-width="1.5" transform="rotate(324,180,180)"/>
+        </g>
+        <!-- Segment labels -->
+        <text x="225" y="82"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)" text-transform="uppercase">OBJECT</text>
+        <text x="296" y="145" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">FIELDS</text>
+        <text x="310" y="195" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">RULES</text>
+        <text x="296" y="245" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">PERIOD</text>
+        <text x="225" y="300" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">APP NAV</text>
+        <text x="135" y="300" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">ALL SUBS</text>
+        <text x="64" y="245"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">METRICS</text>
+        <text x="50" y="195"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">FLOWS</text>
+        <text x="64" y="145"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">ROLES</text>
+        <text x="135" y="82"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" letter-spacing="0.1em" fill="rgba(176,141,87,0.55)">PROFILES</text>
+      </svg>
+
+      <!-- Inner SVG ring — 10 segments, reports + dashboard -->
+      <svg class="donut-ring ring-inner" id="inner-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="inner-clip">
+            <path d="M140,140 m-110,0 a110,110 0 1,0 220,0 a110,110 0 1,0 -220,0
+                     M140,140 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0 Z"/>
+          </clipPath>
+        </defs>
+        <g id="inner-segs" clip-path="url(#inner-clip)">
+          <path class="seg-inner" data-group="10" d="M140,140 L140,30 A110,110 0 0,1 217.9,62.1 Z"/>
+          <path class="seg-inner" data-group="11" d="M140,140 L217.9,62.1 A110,110 0 0,1 250,140 Z"/>
+          <path class="seg-inner" data-group="12" d="M140,140 L250,140 A110,110 0 0,1 217.9,217.9 Z"/>
+          <path class="seg-inner" data-group="13" d="M140,140 L217.9,217.9 A110,110 0 0,1 140,250 Z"/>
+          <path class="seg-inner" data-group="14" d="M140,140 L140,250 A110,110 0 0,1 62.1,217.9 Z"/>
+          <path class="seg-inner" data-group="15" d="M140,140 L62.1,217.9 A110,110 0 0,1 30,140 Z"/>
+          <path class="seg-inner" data-group="16" d="M140,140 L30,140 A110,110 0 0,1 62.1,62.1 Z"/>
+          <path class="seg-inner" data-group="17" d="M140,140 L62.1,62.1 A110,110 0 0,1 140,30 Z"/>
+          <!-- 2 extra for FY2024 & H12025 -->
+          <path class="seg-inner" data-group="18" d="M140,140 L140,30 A110,110 0 0,1 217.9,62.1 Z" style="display:none"/>
+          <path class="seg-inner" data-group="19" d="M140,140 L217.9,62.1 A110,110 0 0,1 250,140 Z" style="display:none"/>
+        </g>
+        <text x="140" y="134" text-anchor="middle" font-family="'DM Mono',monospace" font-size="8" letter-spacing="0.12em" fill="rgba(176,141,87,0.6)">ESG</text>
+        <text x="140" y="149" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" letter-spacing="0.1em" fill="rgba(201,198,190,0.5)">REPORTS</text>
+        <!-- Inner labels -->
+        <text x="175" y="78"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">RPT 1</text>
+        <text x="210" y="116" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">RPT 2</text>
+        <text x="210" y="168" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">RPT 3</text>
+        <text x="175" y="206" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">RPT 4</text>
+        <text x="105" y="206" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">FY24</text>
+        <text x="70"  y="168" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">H125</text>
+        <text x="70"  y="116" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">FLAGS</text>
+        <text x="105" y="78"  text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(246,242,233,0.35)">DASH</text>
+      </svg>
+
+      <!-- Centre label -->
+      <div class="cta-center-label">
+        <span class="big">ESG</span>
+        <span class="sub">20 screens</span>
+      </div>
+
+      <div class="cta-hint">Hover outer · click to open</div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-overlay" id="lightbox-overlay"></div>
+  <div class="lightbox-panel">
+    <div class="lightbox-header">
+      <span class="lightbox-title" id="lightbox-title"></span>
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+    </div>
+    <div class="lightbox-body">
+      <div class="lightbox-placeholder" id="lightbox-placeholder">
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Screenshot ready</div>
+        <div class="placeholder-sub">Upload esg-XX-name.png to repo root</div>
+      </div>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="" style="display:none;"/>
+    </div>
+    <div class="lightbox-nav">
+      <button class="lightbox-btn" id="lb-prev">← Prev</button>
+      <span class="lightbox-counter" id="lb-counter">1 / 20</span>
+      <button class="lightbox-btn" id="lb-next">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Custom Object Modelling</span>
+    <span class="ticker-item">Validation Rules</span>
+    <span class="ticker-item">Record-Triggered Flows</span>
+    <span class="ticker-item">Scheduled Flows</span>
+    <span class="ticker-item">Role Hierarchy</span>
+    <span class="ticker-item">Profile Permissions</span>
+    <span class="ticker-item">ESG Compliance</span>
+    <span class="ticker-item">Data Import Wizard</span>
+    <span class="ticker-item">Executive Dashboard</span>
+    <span class="ticker-item">Reporting Periods</span>
+    <span class="ticker-item">LSEG Industry Experience</span>
+    <span class="ticker-item">Cavendish Sustainable Finance</span>
+    <span class="ticker-item">£4.2bn AUM</span>
+    <span class="ticker-item">Custom Object Modelling</span>
+    <span class="ticker-item">Validation Rules</span>
+    <span class="ticker-item">Record-Triggered Flows</span>
+    <span class="ticker-item">Scheduled Flows</span>
+    <span class="ticker-item">Role Hierarchy</span>
+    <span class="ticker-item">Profile Permissions</span>
+    <span class="ticker-item">ESG Compliance</span>
+    <span class="ticker-item">Data Import Wizard</span>
+    <span class="ticker-item">Executive Dashboard</span>
+    <span class="ticker-item">Reporting Periods</span>
+    <span class="ticker-item">LSEG Industry Experience</span>
+    <span class="ticker-item">Cavendish Sustainable Finance</span>
+    <span class="ticker-item">£4.2bn AUM</span>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview" class="overview">
+  <div>
+    <div class="section-label">Project Overview</div>
+    <h2 class="section-title">Data integrity at institutional scale</h2>
+    <p class="section-body">
+      Cavendish Sustainable Finance is a £4.2bn EMEA-focused asset manager with mandatory ESG reporting obligations across four business units. Their compliance team needed a system to collect metrics, enforce data quality, automate escalation, and give the CCO a live regulatory status view — without relying on spreadsheets.
+    </p>
+    <div class="challenge-block">
+      <p>"Built on firsthand experience ingesting, validating, and rationale-drafting ESG classification data at LSEG — the same operational rigour, now native to Salesforce."</p>
+    </div>
+    <p class="section-body">
+      The org manages the full compliance pipeline: business units submit ESG metrics per reporting period, reviewers approve or reject submissions, validation rules enforce data quality at point of entry, automated flows create compliance flags, and the executive dashboard surfaces regulatory status in real time.
+    </p>
+  </div>
+
+  <div>
+    <div class="section-label">Scope</div>
+    <div style="margin-top:1rem;">
+      <div class="scope-row"><span>Custom objects</span><span>5 custom · 0 standard</span></div>
+      <div class="scope-row"><span>Custom fields</span><span>35+ across all objects</span></div>
+      <div class="scope-row"><span>Validation rules</span><span>5 rules on ESG Submission</span></div>
+      <div class="scope-row"><span>Automated flows</span><span>3 flows — record-triggered + scheduled</span></div>
+      <div class="scope-row"><span>Profiles &amp; roles</span><span>3 personas — Submitter · Reviewer · CCO</span></div>
+      <div class="scope-row"><span>Reporting periods</span><span>FY 2024 · H1 2025</span></div>
+      <div class="scope-row"><span>Sample submissions</span><span>28 records · 4 business units · 12 metrics</span></div>
+      <div class="scope-row"><span>Dashboard components</span><span>4 components · 4 reports</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture" class="architecture">
+  <div class="section-label">Data Model</div>
+  <h2 class="section-title">Object architecture</h2>
+  <p class="section-body">
+    Five custom objects — no standard CRM objects required. A purpose-built internal operational system where every object and relationship reflects real ESG compliance process logic, not CRM convention.
+  </p>
+
+  <div class="objects-grid">
+    <div class="object-card">
+      <div class="object-type">Custom Object</div>
+      <div class="object-name">Reporting Period</div>
+      <div class="object-desc">The master record every submission anchors to. Defines the regulatory cycle, framework, date range, and operational status.</div>
+      <div class="object-fields">
+        <span class="field-tag">Period_Name__c</span>
+        <span class="field-tag">Start_Date__c</span>
+        <span class="field-tag">End_Date__c</span>
+        <span class="field-tag">Framework__c</span>
+        <span class="field-tag">Status__c</span>
+        <span class="field-tag">Period_Owner__c</span>
+        <span class="field-tag">Period_External_ID__c</span>
+      </div>
+    </div>
+
+    <div class="object-card">
+      <div class="object-type">Custom Object</div>
+      <div class="object-name">Business Unit</div>
+      <div class="object-desc">Internal departments responsible for ESG data submission. Investment Management, Risk &amp; Compliance, Operations, Corporate Affairs.</div>
+      <div class="object-fields">
+        <span class="field-tag">Unit_Name__c</span>
+        <span class="field-tag">Region__c</span>
+        <span class="field-tag">Unit_Head__c</span>
+        <span class="field-tag">Active__c</span>
+        <span class="field-tag">Unit_External_ID__c</span>
+      </div>
+    </div>
+
+    <div class="object-card">
+      <div class="object-type">Custom Object</div>
+      <div class="object-name">ESG Metric</div>
+      <div class="object-desc">Master catalogue of 12 data points across Environmental, Social, and Governance categories — each with unit of measure and framework tag.</div>
+      <div class="object-fields">
+        <span class="field-tag">Metric_Name__c</span>
+        <span class="field-tag">Category__c</span>
+        <span class="field-tag">Unit_of_Measure__c</span>
+        <span class="field-tag">Mandatory__c</span>
+        <span class="field-tag">Framework_Tag__c</span>
+        <span class="field-tag">Metric_External_ID__c</span>
+      </div>
+    </div>
+
+    <div class="object-card">
+      <div class="object-type">Core Object</div>
+      <div class="object-name">ESG Submission</div>
+      <div class="object-desc">One record per metric per business unit per period. The operational heartbeat — submission, review, approval, rejection, and escalation all happen here.</div>
+      <div class="object-fields">
+        <span class="field-tag">Reporting_Period__c</span>
+        <span class="field-tag">Business_Unit__c</span>
+        <span class="field-tag">ESG_Metric__c</span>
+        <span class="field-tag">Submitted_Value__c</span>
+        <span class="field-tag">Status__c</span>
+        <span class="field-tag">Submitted_By__c</span>
+        <span class="field-tag">Approved_By__c</span>
+        <span class="field-tag">Approval_Date__c</span>
+      </div>
+    </div>
+
+    <div class="object-card">
+      <div class="object-type">Child Object</div>
+      <div class="object-name">Compliance Flag</div>
+      <div class="object-desc">Auto-created by Flow when a submission is overdue, rejected, or escalated. Assigns to the submitting user. Tracks resolution status.</div>
+      <div class="object-fields">
+        <span class="field-tag">ESG_Submission__c</span>
+        <span class="field-tag">Flag_Type__c</span>
+        <span class="field-tag">Flag_Date__c</span>
+        <span class="field-tag">Resolved__c</span>
+        <span class="field-tag">Assigned_To__c</span>
+        <span class="field-tag">Resolution_Notes__c</span>
+      </div>
+    </div>
+
+    <div class="object-card">
+      <div class="object-type">Standard Object</div>
+      <div class="object-name">User</div>
+      <div class="object-desc">The only standard object dependency. Referenced via Lookup across all five objects — Period Owner, Unit Head, Submitted By, Approved By, Assigned To.</div>
+      <div class="object-fields">
+        <span class="field-tag">Period_Owner__c →</span>
+        <span class="field-tag">Unit_Head__c →</span>
+        <span class="field-tag">Submitted_By__c →</span>
+        <span class="field-tag">Approved_By__c →</span>
+        <span class="field-tag">Assigned_To__c →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION -->
+<section id="automation" class="automation">
+  <div>
+    <div class="section-label">Flow Automation</div>
+    <h2 class="section-title">Three flows, zero manual intervention</h2>
+    <p class="section-body">
+      The compliance workflow runs automatically. Approvals are date-stamped the moment they happen. Rejections create a flag and notify the submitter immediately. Overdue submissions are caught every morning before the team starts work.
+    </p>
+    <p class="section-body" style="margin-top:1rem;">
+      All three flows are admin-tier only — no Apex, no custom code. Built entirely with Salesforce Flow Builder in a Developer Edition org.
+    </p>
+  </div>
+
+  <div>
+    <div class="flow-card">
+      <div class="flow-header">
+        <div class="flow-number">01</div>
+        <div>
+          <div class="flow-title">Approval Date Stamp</div>
+          <div class="flow-trigger">Record-triggered · Status → Approved</div>
+        </div>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Fires when ESG Submission Status changes to Approved</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Updates Approval_Date__c with NOW() formula — current datetime</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Enforces audit trail — approval timestamp is system-generated, not user-entered</span></div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-header">
+        <div class="flow-number">02</div>
+        <div>
+          <div class="flow-title">Rejection Compliance Flag</div>
+          <div class="flow-trigger">Record-triggered · Status → Rejected</div>
+        </div>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Fires when Status changes to Rejected on any ESG Submission</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Creates a Compliance Flag record with Flag Type = Rejected</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Assigns flag to the original submitting user for resolution</span></div>
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-header">
+        <div class="flow-number">03</div>
+        <div>
+          <div class="flow-title">Overdue Submission Flag</div>
+          <div class="flow-trigger">Scheduled · Daily 08:00</div>
+        </div>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Runs every morning — queries all Submitted records past Submission Date</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Loops through results — creates one Overdue flag per record</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Assigns each flag to the submitting user with Flag Date = today</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA -->
+<section class="data-section">
+  <div class="section-label">Sample Data</div>
+  <h2 class="section-title">Two reporting periods. Institutional scale.</h2>
+  <p class="section-body">
+    Sample data generated via Python CSV and imported with Salesforce Data Import Wizard. Figures reflect real-world benchmarks for a mid-large UK EMEA asset manager — credible in an interview, grounded in LSEG industry context.
+  </p>
+
+  <div class="data-grid">
+    <div class="data-card gold-accent">
+      <div class="data-number gold">£4.2bn</div>
+      <div class="data-label">Assets under management</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">28</div>
+      <div class="data-label">ESG submission records</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">12</div>
+      <div class="data-label">ESG metrics tracked</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">4</div>
+      <div class="data-label">Business units</div>
+    </div>
+    <div class="data-card gold-accent">
+      <div class="data-number gold">2</div>
+      <div class="data-label">Reporting periods — FY 2024 · H1 2025</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">73%</div>
+      <div class="data-label">ESG-screened AUM — FY 2024</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">1,840</div>
+      <div class="data-label">Total Scope 1 &amp; 2 tCO2e</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">41%</div>
+      <div class="data-label">Female leadership ratio</div>
+    </div>
+  </div>
+</section>
+
+<!-- PERMISSIONS -->
+<section class="permissions">
+  <div class="section-label">Security Model</div>
+  <h2 class="section-title">Three-tier access hierarchy</h2>
+
+  <div class="perm-grid">
+    <div class="perm-card">
+      <div class="perm-header">
+        <div class="perm-name">ESG Submitter</div>
+        <div class="perm-badge submitter">Data Entry</div>
+      </div>
+      <div class="perm-col-labels">
+        <span class="perm-col-label" data-label="READ">R</span>
+        <span class="perm-col-label" data-label="CREATE">C</span>
+        <span class="perm-col-label" data-label="EDIT">E</span>
+        <span class="perm-col-label" data-label="DELETE">D</span>
+      </div>
+      <div class="perm-rows">
+        <div class="perm-row"><span class="perm-object">Reporting Period</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">Business Unit</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">ESG Metric</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">ESG Submission</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">Compliance Flag</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+      </div>
+    </div>
+
+    <div class="perm-card">
+      <div class="perm-header">
+        <div class="perm-name">ESG Reviewer</div>
+        <div class="perm-badge reviewer">Review &amp; Approve</div>
+      </div>
+      <div class="perm-col-labels">
+        <span class="perm-col-label" data-label="READ">R</span>
+        <span class="perm-col-label" data-label="CREATE">C</span>
+        <span class="perm-col-label" data-label="EDIT">E</span>
+        <span class="perm-col-label" data-label="DELETE">D</span>
+      </div>
+      <div class="perm-rows">
+        <div class="perm-row"><span class="perm-object">Reporting Period</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">Business Unit</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">ESG Metric</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">ESG Submission</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">Compliance Flag</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot on">✓</div><div class="perm-dot off">–</div></div></div>
+      </div>
+    </div>
+
+    <div class="perm-card">
+      <div class="perm-header">
+        <div class="perm-name">CCO Executive</div>
+        <div class="perm-badge cco">Read-Only · Full View</div>
+      </div>
+      <div class="perm-col-labels">
+        <span class="perm-col-label" data-label="READ">R</span>
+        <span class="perm-col-label" data-label="CREATE">C</span>
+        <span class="perm-col-label" data-label="EDIT">E</span>
+        <span class="perm-col-label" data-label="DELETE">D</span>
+      </div>
+      <div class="perm-rows">
+        <div class="perm-row"><span class="perm-object">Reporting Period</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">Business Unit</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">ESG Metric</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">ESG Submission</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+        <div class="perm-row"><span class="perm-object">Compliance Flag</span><div class="perm-access"><div class="perm-dot on">✓</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div><div class="perm-dot off">–</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="process">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;">
+    <div>
+      <div class="section-label">Build Process</div>
+      <h2 class="section-title">How it was built</h2>
+      <p class="section-body">
+        Built in a Salesforce Developer Edition org across a structured multi-session build. The design draws directly on Lionel's background in ESG data infrastructure at LSEG — every object, field, and workflow reflects a real operational compliance requirement, not a textbook exercise.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 1</div>
+        <div class="timeline-title">Data model &amp; custom app</div>
+        <div class="timeline-body">Created the Cavendish Sustainable Finance Lightning app. Built 5 custom objects from scratch with full field sets, picklist values, and master-detail/lookup relationships. External ID fields added to all parent objects for data import compatibility.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 2</div>
+        <div class="timeline-title">Validation rules</div>
+        <div class="timeline-body">Five validation rules on ESG Submission — blocking negative values, enforcing approval date logic, requiring Approved By user on approval, and enforcing segregation of duties (approver cannot be submitter).</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 3</div>
+        <div class="timeline-title">Page layouts</div>
+        <div class="timeline-body">Custom page layouts for all 5 objects — two-column field arrangement, logical section grouping, Compliance Flags related list surfaced on the ESG Submission layout.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 4</div>
+        <div class="timeline-title">Flow automation</div>
+        <div class="timeline-body">Three flows: approval date stamp (record-triggered), rejection compliance flag (record-triggered), and daily overdue check (scheduled with loop). All admin-tier — no Apex.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 5</div>
+        <div class="timeline-title">Security model</div>
+        <div class="timeline-body">Role hierarchy built across 3 tiers. Three custom profiles cloned from Standard User with object-level permissions enforcing submitter, reviewer, and CCO access boundaries.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 6</div>
+        <div class="timeline-title">Data import</div>
+        <div class="timeline-body">28 ESG submissions across 2 reporting periods imported via Data Import Wizard using Python-generated CSVs. Multiple import strategies tested — resolved via hardcoded Salesforce Record IDs after External ID lookup limitations in the wizard for converted lookup relationships.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 7</div>
+        <div class="timeline-title">Reports &amp; dashboard</div>
+        <div class="timeline-body">Four reports — submission status by business unit, compliance flags by type, approval rate by period, and outstanding submissions. Four-component executive dashboard giving the CCO a single-screen regulatory status view.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN NOTES -->
+<div class="design-notes">
+  <div class="section-label">Architectural Decisions</div>
+  <h2 class="section-title">Key design notes</h2>
+  <div class="notes-grid">
+    <div class="note-card">
+      <div class="note-title">No standard CRM objects</div>
+      <div class="note-body">No Accounts, Contacts, or Opportunities. This is a fully internal operational tool — all five core objects are purpose-built for ESG compliance. Demonstrates the ability to design a domain-specific data model from scratch rather than extending the standard CRM schema.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-title">Master-Detail converted to Lookup</div>
+      <div class="note-body">Reporting Period was initially a Master-Detail relationship on ESG Submission. Converted to Lookup to enable data import via the wizard — the wizard cannot resolve Master-Detail parent references via External ID. A deliberate trade-off: import compatibility over cascade delete behaviour.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-title">Segregation of duties in validation</div>
+      <div class="note-body">The approver cannot be the same user as the submitter — enforced via validation rule at point of entry. Mirrors real financial services governance requirements where the preparer and reviewer must be distinct individuals. Directly transferable to a live compliance environment.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#top" class="footer-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Cavendish ESG</a>
+  <div class="footer-meta">
+    <div>Salesforce Administrator Portfolio</div>
+    <div>Project 05 of 05</div>
+    <div><span>Built by</span> Lionel Kudakwashe Munyuki</div>
+    <div><span>Platform</span> Salesforce Developer Edition</div>
+    <div><span>Industry</span> Financial Services · ESG Compliance</div>
+  </div>
+</footer>
+
+<script>
+const screenshots = [
+  { label: 'Object Manager — All 5 Custom Objects',      src: 'esg-01-object-manager.png',         group: 0  },
+  { label: 'ESG Submission — Fields & Relationships',    src: 'esg-02-submission-fields.png',       group: 1  },
+  { label: 'ESG Submission — Validation Rules',          src: 'esg-03-validation-rules.png',        group: 2  },
+  { label: 'Reporting Period — Record Detail',           src: 'esg-04-reporting-period-record.png', group: 3  },
+  { label: 'App Navigation — All Tabs',                  src: 'esg-05-app-navigation.png',          group: 4  },
+  { label: 'ESG Submission — All 28 Records',            src: 'esg-06-all-submissions.png',         group: 5  },
+  { label: 'ESG Metrics — All 12 Metrics',               src: 'esg-07-esg-metrics.png',             group: 6  },
+  { label: 'Flow — Approval Date Stamp',                 src: 'esg-08-flow-approval.png',           group: 7  },
+  { label: 'Flow — Rejection Compliance Flag',           src: 'esg-09-flow-rejection.png',          group: 7  },
+  { label: 'Flow — Overdue Submission Flag',             src: 'esg-10-flow-overdue.png',            group: 7  },
+  { label: 'Role Hierarchy — 3 Tiers',                   src: 'esg-11-role-hierarchy.png',          group: 8  },
+  { label: 'Profiles — CSF Cloned Profiles',             src: 'esg-12-profiles.png',                group: 9  },
+  { label: 'Report 1 — Submission Status by BU',         src: 'esg-16-report-submission-status.png',group: 10 },
+  { label: 'Report 2 — Compliance Flags by Type',        src: 'esg-17-report-flags.png',            group: 11 },
+  { label: 'Report 3 — Approval Rate by Period',         src: 'esg-18-report-approval-rate.png',    group: 12 },
+  { label: 'Report 4 — Outstanding Submissions',         src: 'esg-19-report-outstanding.png',      group: 13 },
+  { label: 'FY 2024 Submissions — 14 Records',           src: 'esg-13-fy2024-submissions.png',      group: 14 },
+  { label: 'H1 2025 Submissions — 14 Records',           src: 'esg-14-h12025-submissions.png',      group: 15 },
+  { label: 'Compliance Flags — 4 Flags',                 src: 'esg-15-compliance-flags.png',        group: 16 },
+  { label: 'Cavendish ESG Compliance Dashboard',         src: 'esg-20-dashboard.png',               group: 17 },
+];
+
+let current = 0;
+
+const lightbox  = document.getElementById('lightbox');
+const lbTitle   = document.getElementById('lightbox-title');
+const lbImg     = document.getElementById('lightbox-img');
+const lbHolder  = document.getElementById('lightbox-placeholder');
+const lbCounter = document.getElementById('lb-counter');
+
+const outerSegs = document.querySelectorAll('.seg-outer');
+const innerSegs = document.querySelectorAll('.seg-inner');
+
+function openLightbox(idx) {
+  current = idx;
+  renderLightbox();
+  lightbox.classList.add('open');
+  highlightSegs(idx);
+}
+
+function renderLightbox() {
+  const s = screenshots[current];
+  lbTitle.textContent = s.label;
+  lbCounter.textContent = (current + 1) + ' / ' + screenshots.length;
+  lbImg.src = s.src;
+  lbImg.alt = s.label;
+  lbImg.style.display = 'block';
+  lbHolder.style.display = 'none';
+  lbImg.onerror = () => {
+    lbImg.style.display = 'none';
+    lbHolder.style.display = 'block';
+  };
+}
+
+function highlightSegs(idx) {
+  const group = screenshots[idx].group;
+  outerSegs.forEach(s => s.style.fill = '');
+  innerSegs.forEach(s => { s.classList.remove('active'); });
+  if (group <= 9) {
+    const seg = document.querySelector('.seg-outer[data-group="' + group + '"]');
+    if (seg) seg.style.fill = 'var(--gold)';
+  } else {
+    const seg = document.querySelector('.seg-inner[data-group="' + group + '"]');
+    if (seg) seg.classList.add('active');
+  }
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  outerSegs.forEach(s => s.style.fill = '');
+  innerSegs.forEach(s => s.classList.remove('active'));
+}
+
+// Outer segment click — open first screenshot in that group
+outerSegs.forEach(seg => {
+  const g = parseInt(seg.dataset.group);
+  seg.addEventListener('click', () => {
+    const idx = screenshots.findIndex(s => s.group === g);
+    if (idx >= 0) openLightbox(idx);
+  });
+  seg.addEventListener('mouseenter', () => { seg.style.fill = 'var(--gold)'; });
+  seg.addEventListener('mouseleave', () => {
+    if (!lightbox.classList.contains('open') || screenshots[current].group !== g) {
+      seg.style.fill = '';
+    }
+  });
+});
+
+// Inner segment click
+innerSegs.forEach(seg => {
+  const g = parseInt(seg.dataset.group);
+  seg.style.cursor = 'pointer';
+  seg.addEventListener('click', () => {
+    const idx = screenshots.findIndex(s => s.group === g);
+    if (idx >= 0) openLightbox(idx);
+  });
+  seg.addEventListener('mouseenter', () => { seg.style.fill = 'var(--gold-light)'; });
+  seg.addEventListener('mouseleave', () => {
+    if (!seg.classList.contains('active')) seg.style.fill = '';
+  });
+});
+
+document.getElementById('lightbox-overlay').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+
+document.getElementById('lb-prev').addEventListener('click', () => {
+  current = (current - 1 + screenshots.length) % screenshots.length;
+  renderLightbox();
+  highlightSegs(current);
+});
+
+document.getElementById('lb-next').addEventListener('click', () => {
+  current = (current + 1) % screenshots.length;
+  renderLightbox();
+  highlightSegs(current);
+});
+
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') { current = (current + 1) % screenshots.length; renderLightbox(); highlightSegs(current); }
+  if (e.key === 'ArrowLeft')  { current = (current - 1 + screenshots.length) % screenshots.length; renderLightbox(); highlightSegs(current); }
+});
+
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('nav-links').classList.toggle('open');
+});
+
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+});
+</script>
+</body>
+</html>
