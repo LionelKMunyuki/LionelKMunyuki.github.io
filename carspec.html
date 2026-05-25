@@ -1,1 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carspec Motorsport Configurator — Salesforce Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --martini-navy: #003087;
+    --martini-blue: #6CACE4;
+    --martini-red: #CE1126;
+    --martini-stripe: #CE1126;
+    --martini-dim: rgba(0,48,135,0.08);
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --offwhite: #f7f7f8;
+    --g100: #eaeaec;
+    --g200: #d0d0d5;
+    --g400: #6b6b78;
+    --g600: #2a2a35;
+    --mono: 'DM Mono', monospace;
+    --display: 'Bebas Neue', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--white); color: var(--black); line-height: 1.7; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--g200);
+  }
+  .nav-logo { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.05em; color: var(--martini-navy); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--g600); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--martini-navy); }
+  .nav-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--martini-navy); background: rgba(0,48,135,0.06); border: 1px solid rgba(108,172,228,0.6); padding: 0.25rem 0.75rem; border-radius: 2px; letter-spacing: 0.05em; }
+  .back-btn { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--g600); text-decoration: none; border: 1px solid var(--g200); padding: 0.25rem 0.75rem; border-radius: 2px; transition: all 0.2s; white-space: nowrap; }
+  .back-btn:hover { border-color: var(--martini-stripe); color: var(--martini-navy); }
+  .hamburger { display: none; background: none; border: 1px solid var(--g200); color: var(--g600); font-size: 1.1rem; padding: 0.3rem 0.6rem; border-radius: 2px; cursor: pointer; line-height: 1; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 5rem;
+    background: var(--martini-navy);
+    position: relative;
+  }
+  .hero-left::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 1px; background: linear-gradient(to bottom, var(--martini-red) 0%, var(--martini-blue) 50%, var(--martini-navy) 100%); }
+
+  .hero-eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.15em; color: var(--g200); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 2rem; height: 1px; background: var(--martini-blue); }
+
+  .hero-title { font-family: var(--display); font-size: clamp(4rem, 8vw, 7rem); line-height: 0.92; letter-spacing: 0.02em; color: var(--white); margin-bottom: 1rem; }
+  .hero-title span { color: var(--martini-stripe); display: block; }
+
+  .hero-subtitle { font-size: 1.05rem; color: var(--g200); font-weight: 300; max-width: 480px; margin: 1.5rem 0 3rem; line-height: 1.8; }
+
+  .hero-cta { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary { background: var(--martini-navy); color: var(--martini-navy); border: none; padding: 0.85rem 2rem; font-family: var(--body); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border-radius: 2px; text-decoration: none; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--martini-blue); color: var(--white); }
+  .btn-ghost { color: var(--g200); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+  .btn-ghost:hover { color: var(--white); }
+  .btn-ghost::after { content: '↓'; }
+
+  /* HERO RIGHT */
+  .hero-right {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 4rem; background: var(--offwhite);
+    position: relative; overflow: hidden;
+  }
+  .hero-right::before { content: 'CARSPEC'; position: absolute; bottom: -2rem; right: -1rem; font-family: var(--display); font-size: 8rem; color: var(--g100); letter-spacing: 0.05em; line-height: 1; pointer-events: none; white-space: nowrap; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5px; background: var(--g200); border: 1.5px solid var(--g200); border-radius: 4px; overflow: hidden; position: relative; z-index: 1; }
+  .stat-cell { background: var(--white); padding: 1.75rem 1.5rem; }
+  .stat-cell:nth-child(1), .stat-cell:nth-child(2) { border-bottom: 1.5px solid var(--g200); }
+  .stat-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; color: var(--g400); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .stat-value { font-family: var(--display); font-size: 2.8rem; color: var(--black); line-height: 1; letter-spacing: 0.02em; }
+  .stat-value.gold { color: var(--martini-navy); }
+  .stat-desc { font-size: 0.78rem; color: var(--g400); margin-top: 0.4rem; }
+
+  /* TICKER */
+  .ticker { background: var(--martini-navy); color: var(--g200); padding: 0.6rem 0; overflow: hidden; white-space: nowrap; border-top: 6px solid; border-image: linear-gradient(to right, #003087 33.3%, #6CACE4 33.3% 66.6%, #CE1126 66.6%) 1; }
+  .ticker-inner { display: inline-flex; gap: 3rem; animation: ticker 35s linear infinite; }
+  .ticker-item { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+  .ticker-item::before { content: '◆'; margin-right: 1rem; opacity: 0.4; color: var(--martini-stripe); }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { padding: 6rem 5rem; }
+  .section-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--martini-navy); text-transform: uppercase; margin-bottom: 0.75rem; }
+  .section-title { font-family: var(--display); font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1; letter-spacing: 0.02em; color: var(--black); margin-bottom: 1rem; }
+  .section-body { font-size: 1rem; color: var(--g600); font-weight: 300; max-width: 580px; line-height: 1.85; }
+
+  /* OVERVIEW */
+  .overview { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .challenge-block { border-left: 3px solid var(--martini-navy); padding: 1.25rem 1.5rem; background: var(--martini-dim); border-radius: 0 4px 4px 0; margin: 2rem 0; }
+  .challenge-block p { font-size: 0.9rem; color: var(--g600); font-style: italic; line-height: 1.7; }
+
+  .scope-row { display: flex; justify-content: space-between; padding: 1rem; border: 1px solid var(--g200); border-radius: 4px; margin-bottom: 1rem; }
+  .scope-row span:first-child { font-size: 0.85rem; color: var(--g600); }
+  .scope-row span:last-child { font-family: var(--mono); font-size: 0.8rem; color: var(--black); }
+
+  /* ARCHITECTURE */
+  .architecture { background: var(--martini-navy); color: var(--white); }
+  .architecture .section-title { color: var(--white); }
+  .architecture .section-body { color: var(--g200); }
+  .architecture .section-label { color: #6CACE4; }
+
+  .objects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); margin-top: 3rem; border-radius: 4px; overflow: hidden; }
+  .object-card { background: rgba(255,255,255,0.02); padding: 2rem 1.75rem; transition: background 0.2s; }
+  .object-card:hover { background: rgba(0,48,135,0.04); }
+  .object-type { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--g200); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .object-name { font-family: var(--display); font-size: 1.6rem; color: var(--white); letter-spacing: 0.04em; margin-bottom: 0.75rem; }
+  .object-desc { font-size: 0.82rem; color: var(--g200); line-height: 1.6; }
+  .object-fields { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .field-tag { font-family: var(--mono); font-size: 0.62rem; padding: 0.2rem 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(0,48,135,0.25); border-radius: 2px; color: var(--g200); letter-spacing: 0.05em; }
+
+  /* AUTOMATION */
+  .automation { background: var(--offwhite); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .flow-card { background: var(--white); border: 1px solid var(--g200); border-radius: 4px; overflow: hidden; margin-top: 2rem; }
+  .flow-header { background: var(--martini-navy); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-left: 3px solid var(--martini-stripe); }
+  .flow-number { font-family: var(--display); font-size: 1.8rem; color: rgba(255,255,255,0.2); line-height: 1; }
+  .flow-title { font-size: 0.85rem; font-weight: 500; color: var(--white); letter-spacing: 0.03em; }
+  .flow-trigger { font-size: 0.72rem; color: var(--g200); font-family: var(--mono); }
+  .flow-steps { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .flow-step { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.83rem; color: var(--g600); }
+  .flow-step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--martini-blue); margin-top: 0.55rem; flex-shrink: 0; }
+
+  /* DATA */
+  .data-section { background: var(--white); }
+  .data-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .data-card { border: 1px solid var(--g200); border-radius: 4px; padding: 1.5rem; position: relative; overflow: hidden; }
+  .data-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--martini-navy); }
+  .data-card.gold-accent::before { background: var(--martini-stripe); }
+  .data-number { font-family: var(--display); font-size: 2.5rem; color: var(--black); line-height: 1; letter-spacing: 0.02em; }
+  .data-number.gold { color: var(--martini-navy); }
+  .data-label { font-size: 0.8rem; color: var(--g400); margin-top: 0.4rem; }
+
+  /* PERMISSIONS */
+  .permissions { background: var(--martini-navy); color: var(--white); }
+  .permissions .section-title { color: var(--white); }
+  .permissions .section-label { color: #6CACE4; }
+  .perm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+  .perm-card { border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+  .perm-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .perm-name { font-family: var(--display); font-size: 1.4rem; color: var(--white); letter-spacing: 0.04em; }
+  .perm-badge { font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .perm-badge.sales { background: rgba(0,48,135,0.08); color: #6CACE4; border: 1px solid rgba(108,172,228,0.4); }
+  .perm-badge.admin { background: rgba(255,255,255,0.06); color: var(--g200); border: 1px solid rgba(255,255,255,0.1); }
+  .perm-rows { padding: 0.5rem 0; }
+  .perm-row { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 1.5rem; font-size: 0.82rem; }
+  .perm-row:hover { background: rgba(255,255,255,0.03); }
+  .perm-object { color: var(--g200); }
+  .perm-access { display: flex; gap: 0.3rem; align-items: center; }
+  .perm-dot { width: 22px; height: 22px; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-family: var(--mono); flex-shrink: 0; }
+  .perm-dot.on { background: rgba(0,48,135,0.12); color: #6CACE4; border: 1px solid rgba(0,48,135,0.25); }
+  .perm-dot.off { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.07); }
+  .perm-col-labels { display: flex; justify-content: flex-end; gap: 0.3rem; padding: 0.25rem 1.5rem 0; }
+  .perm-col-label { width: 22px; text-align: center; font-family: var(--mono); font-size: 0.58rem; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; position: relative; cursor: default; }
+  .perm-col-label:hover { color: var(--martini-stripe); }
+  .perm-col-label::after { content: attr(data-label); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--martini-navy); color: var(--white); font-size: 0.65rem; font-family: var(--mono); letter-spacing: 0.08em; white-space: nowrap; padding: 0.25rem 0.6rem; border-radius: 2px; pointer-events: none; opacity: 0; transition: opacity 0.15s ease; z-index: 10; }
+  .perm-col-label::before { content: ''; position: absolute; bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: var(--martini-navy); pointer-events: none; opacity: 0; transition: opacity 0.15s ease; z-index: 10; }
+  .perm-col-label:hover::after, .perm-col-label:hover::before { opacity: 1; }
+
+  /* PROCESS */
+  .process { background: var(--white); }
+  .timeline { position: relative; margin-top: 3rem; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0.5rem; width: 1px; background: linear-gradient(to bottom, var(--martini-navy), var(--g200)); }
+  .timeline-item { position: relative; padding: 0 0 2.5rem 2.5rem; }
+  .timeline-item::before { content: ''; position: absolute; left: -4px; top: 0.4rem; width: 9px; height: 9px; border-radius: 50%; background: var(--martini-navy); border: 2px solid var(--white); box-shadow: 0 0 0 1px var(--martini-blue); }
+  .timeline-phase { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.15em; color: var(--martini-blue); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .timeline-title { font-size: 1rem; font-weight: 500; color: var(--black); margin-bottom: 0.4rem; }
+  .timeline-body { font-size: 0.85rem; color: var(--g600); line-height: 1.7; max-width: 560px; }
+
+  /* DESIGN NOTES */
+  .design-notes { background: var(--offwhite); border-top: 1px solid var(--g200); border-bottom: 1px solid var(--g200); padding: 4rem 5rem; }
+  .notes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2.5rem; }
+  .note-card { padding: 1.5rem; background: var(--white); border: 1px solid var(--g200); border-radius: 4px; border-top: 3px solid var(--martini-navy); }
+  .note-title { font-size: 0.9rem; font-weight: 500; color: var(--black); margin-bottom: 0.5rem; }
+  .note-body { font-size: 0.8rem; color: var(--g600); line-height: 1.7; }
+
+  /* FOOTER */
+  footer { background: var(--martini-navy); color: var(--g200); padding: 3rem 5rem; display: flex; align-items: center; justify-content: space-between; border-top: 6px solid; border-image: linear-gradient(to right, #003087 33.3%, #6CACE4 33.3% 66.6%, #CE1126 66.6%) 1; }
+  .footer-logo { font-family: var(--display); font-size: 2rem; color: var(--white); letter-spacing: 0.08em; text-decoration: none; }
+  .footer-meta { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-align: right; line-height: 2; }
+  .footer-meta span { color: var(--martini-stripe); }
+
+  /* DONUT */
+  .donut-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 1.5rem; position: relative; z-index: 1; }
+  .donut-hint { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; color: var(--g400); text-transform: uppercase; }
+  .donut-stage { position: relative; width: 320px; height: 320px; }
+  .donut-svg { width: 100%; height: 100%; filter: drop-shadow(0 8px 32px rgba(0,48,135,0.08)); overflow: visible; }
+  .donut-seg { fill: var(--g100); stroke: var(--offwhite); stroke-width: 2; cursor: pointer; transition: fill 0.2s; }
+  .donut-seg:hover, .donut-seg.active { fill: var(--martini-navy); }
+  .donut-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; fill: var(--g600); text-transform: uppercase; pointer-events: none; transition: fill 0.2s; }
+  .donut-center-top { font-family: var(--display); font-size: 18px; letter-spacing: 0.1em; fill: var(--black); }
+  .donut-center-sub { font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; fill: var(--g400); text-transform: uppercase; }
+  .donut-instructions { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; justify-content: center; }
+  .donut-inst-item { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--g400); text-transform: uppercase; }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 1000; align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lightbox-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.88); cursor: pointer; }
+  .lightbox-panel { position: relative; z-index: 1; background: var(--martini-navy); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; width: min(90vw, 960px); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+  .lightbox-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .lightbox-title { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; color: #6CACE4; text-transform: uppercase; }
+  .lightbox-close { background: none; border: none; color: var(--g200); font-size: 1rem; cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 2px; transition: color 0.15s; }
+  .lightbox-close:hover { color: var(--white); }
+  .lightbox-body { flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center; min-height: 300px; padding: 1.5rem; background: var(--martini-blue); }
+  .lightbox-img { max-width: 100%; max-height: 65vh; border-radius: 4px; display: block; }
+  .lightbox-placeholder { text-align: center; padding: 3rem; }
+  .placeholder-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .placeholder-text { font-family: var(--display); font-size: 1.4rem; color: var(--white); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .placeholder-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--g200); letter-spacing: 0.08em; }
+  .lightbox-nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+  .lightbox-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: var(--g200); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer; transition: all 0.15s; }
+  .lightbox-btn:hover { border-color: var(--martini-stripe); color: var(--martini-stripe); }
+  .lightbox-counter { font-family: var(--mono); font-size: 0.72rem; color: var(--g200); letter-spacing: 0.08em; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-title { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-subtitle { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.3s ease both; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 0.85rem 1.25rem; flex-wrap: wrap; gap: 0; }
+    .nav-logo { font-size: 1.3rem; }
+    .nav-tag { display: none; }
+    .hamburger { display: block; }
+    .nav-links { display: none; flex-direction: column; width: 100%; padding: 0.75rem 0 0.5rem; gap: 0; border-top: 1px solid var(--g200); margin-top: 0.75rem; }
+    .nav-links.open { display: flex; }
+    .nav-links li a { display: block; padding: 0.6rem 0; font-size: 0.9rem; border-bottom: 1px solid var(--g100); }
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 70px; }
+    .hero-left { padding: 2.5rem 1.5rem 2rem; }
+    .hero-left::after { display: none; }
+    .hero-title { font-size: 4rem; }
+    .hero-subtitle { font-size: 0.95rem; margin: 1rem 0 1.75rem; }
+    .hero-right { padding: 2rem 1.5rem 2.5rem; }
+    .hero-right::before { display: none; }
+    .donut-stage { width: 240px; height: 240px; }
+    section { padding: 3rem 1.5rem; }
+    .section-title { font-size: 2rem; }
+    .overview { grid-template-columns: 1fr; gap: 2rem; }
+    .objects-grid { grid-template-columns: 1fr; }
+    .automation { grid-template-columns: 1fr; gap: 1.5rem; }
+    .data-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .perm-grid { grid-template-columns: 1fr; }
+    .process > div { grid-template-columns: 1fr !important; gap: 2rem !important; }
+    .notes-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .design-notes { padding: 3rem 1.5rem; }
+    footer { flex-direction: column; align-items: center; gap: 1.5rem; padding: 2.5rem 1.5rem; text-align: center; }
+    .footer-meta { text-align: center; }
+    .lightbox-panel { width: 96vw; }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    nav { padding: 1rem 2rem; }
+    .hero-left { padding: 3rem 2rem 3rem 3rem; }
+    .hero-right { padding: 2rem 2rem; }
+    .hero-title { font-size: 4.5rem; }
+    .donut-stage { width: 260px; height: 260px; }
+    .objects-grid { grid-template-columns: 1fr 1fr; }
+    .data-grid { grid-template-columns: 1fr 1fr; }
+    .perm-grid { grid-template-columns: 1fr 1fr; }
+    section { padding: 4rem 2.5rem; }
+    .overview { gap: 3rem; }
+    .automation { gap: 3rem; }
+  }
+</style>
+</head>
+<body id="top">
+
+<nav>
+  <a href="#top" class="nav-logo">Carspec</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#automation">Automation</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:0.75rem;">
+  <a href="https://lionelkmunyuki.github.io/#projects" class="back-btn">← All Projects</a>
+  <a href="upforjobs.html" class="back-btn">← Prev</a>
+  <div class="nav-tag">Project 02 — Salesforce Automotive CRM</div>
+  <a href="freightpath.html" class="back-btn">Next →</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Salesforce Administrator Portfolio</div>
+    <h1 class="hero-title">Car<span>spec</span></h1>
+    <p class="hero-subtitle">A Salesforce Sales Cloud org built for a high-end supercar configurator — managing a 50-vehicle catalogue, guided screen flow configuration, and a full opportunity pipeline from enquiry to Closed Won.</p>
+    <div class="hero-cta">
+      <a href="#overview" class="btn-primary">Explore the build</a>
+      <a href="#process" class="btn-ghost">View process</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="donut-wrap">
+      <div class="donut-hint">Click a segment to view screenshot</div>
+      <div class="donut-stage">
+        <svg class="donut-svg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="donut-clip">
+              <path d="M160,160 m-130,0 a130,130 0 1,0 260,0 a130,130 0 1,0 -260,0 M160,160 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0 Z"/>
+            </clipPath>
+          </defs>
+          <path class="donut-seg" id="seg-0" d="M160,160 L160,30 A130,130 0 0,1 290,160 Z" clip-path="url(#donut-clip)" data-idx="0"/>
+          <path class="donut-seg" id="seg-1" d="M160,160 L290,160 A130,130 0 0,1 160,290 Z" clip-path="url(#donut-clip)" data-idx="1"/>
+          <path class="donut-seg" id="seg-2" d="M160,160 L160,290 A130,130 0 0,1 30,160 Z" clip-path="url(#donut-clip)" data-idx="2"/>
+          <path class="donut-seg" id="seg-3" d="M160,160 L30,160 A130,130 0 0,1 160,30 Z" clip-path="url(#donut-clip)" data-idx="3"/>
+          <line x1="160" y1="30" x2="160" y2="88" stroke="var(--offwhite)" stroke-width="3"/>
+          <line x1="290" y1="160" x2="232" y2="160" stroke="var(--offwhite)" stroke-width="3"/>
+          <line x1="160" y1="290" x2="160" y2="232" stroke="var(--offwhite)" stroke-width="3"/>
+          <line x1="30" y1="160" x2="88" y2="160" stroke="var(--offwhite)" stroke-width="3"/>
+          <circle cx="160" cy="160" r="72" fill="var(--offwhite)" stroke="var(--g200)" stroke-width="1"/>
+          <text x="160" y="154" text-anchor="middle" class="donut-center-top">ORG</text>
+          <text x="160" y="172" text-anchor="middle" class="donut-center-sub">SCREENSHOTS</text>
+          <text id="lbl-0" x="223" y="112" text-anchor="middle" class="donut-label">CONFIGURATOR</text>
+          <text id="lbl-1" x="223" y="212" text-anchor="middle" class="donut-label">PIPELINE</text>
+          <text id="lbl-2" x="97" y="212" text-anchor="middle" class="donut-label">DASHBOARD</text>
+          <text id="lbl-3" x="97" y="112" text-anchor="middle" class="donut-label">CATALOGUE</text>
+        </svg>
+      </div>
+      <div class="donut-instructions">
+        <span class="donut-inst-item">● Configurator flow</span>
+        <span class="donut-inst-item">● Opportunities pipeline</span>
+        <span class="donut-inst-item">● Executive dashboard</span>
+        <span class="donut-inst-item">● Supercar catalogue</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-overlay" id="lightbox-overlay"></div>
+  <div class="lightbox-panel">
+    <div class="lightbox-header">
+      <span class="lightbox-title" id="lightbox-title"></span>
+      <button class="lightbox-close" id="lightbox-close">✕</button>
+    </div>
+    <div class="lightbox-body">
+      <div class="lightbox-placeholder" id="lightbox-placeholder">
+        <div class="placeholder-icon">📸</div>
+        <div class="placeholder-text">Screenshot coming soon</div>
+        <div class="placeholder-sub">Upload screenshots to repo and reference below</div>
+      </div>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="" style="display:none;"/>
+    </div>
+    <div class="lightbox-nav">
+      <button class="lightbox-btn" id="lb-prev">← Prev</button>
+      <span class="lightbox-counter" id="lb-counter">1 / 4</span>
+      <button class="lightbox-btn" id="lb-next">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Supercar catalogue</span>
+    <span class="ticker-item">Screen flow configuration</span>
+    <span class="ticker-item">Opportunity pipeline</span>
+    <span class="ticker-item">Sales Cloud</span>
+    <span class="ticker-item">Custom objects</span>
+    <span class="ticker-item">Validation rules</span>
+    <span class="ticker-item">Flow automation</span>
+    <span class="ticker-item">Executive dashboard</span>
+    <span class="ticker-item">23 manufacturer accounts</span>
+    <span class="ticker-item">50 vehicle records</span>
+    <span class="ticker-item">Closed Won automation</span>
+    <span class="ticker-item">Supercar catalogue</span>
+    <span class="ticker-item">Screen flow configuration</span>
+    <span class="ticker-item">Opportunity pipeline</span>
+    <span class="ticker-item">Sales Cloud</span>
+    <span class="ticker-item">Custom objects</span>
+    <span class="ticker-item">Validation rules</span>
+    <span class="ticker-item">Flow automation</span>
+    <span class="ticker-item">Executive dashboard</span>
+    <span class="ticker-item">23 manufacturer accounts</span>
+    <span class="ticker-item">50 vehicle records</span>
+    <span class="ticker-item">Closed Won automation</span>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview" class="overview">
+  <div>
+    <div class="section-label">Project overview</div>
+    <h2 class="section-title">Built for the showroom</h2>
+    <p class="section-body">Carspec Motorsport Configurator is a Salesforce Sales Cloud org designed around the full lifecycle of a high-end supercar retailer — from customer enquiry and bespoke vehicle configuration through to closed order and automated follow-up.</p>
+    <div class="challenge-block">
+      <p>"Automotive retail at the premium end is relationship-driven. The CRM needed to reflect that — a guided configuration experience, not a generic sales pipeline. Every step mirrors how a real supercar dealer would qualify and close a client."</p>
+    </div>
+    <p class="section-body">The build demonstrates screen flow design, custom object modelling, Sales Cloud pipeline management, validation rules, record-triggered automation, and executive dashboard creation.</p>
+  </div>
+  <div>
+    <div class="section-label">Scope</div>
+    <div style="margin-top:1rem;">
+      <div class="scope-row"><span>Custom object</span><span>Supercars__c — 50 records</span></div>
+      <div class="scope-row"><span>Manufacturer accounts</span><span>23 real brands</span></div>
+      <div class="scope-row"><span>Screen flow screens</span><span>3 — info · vehicle · summary</span></div>
+      <div class="scope-row"><span>Opportunity pipeline</span><span>10 records · 4 stages</span></div>
+      <div class="scope-row"><span>Automation</span><span>Closed Won → follow-up task</span></div>
+      <div class="scope-row"><span>Dashboard components</span><span>3 components · 3 reports</span></div>
+    </div>
+    <a class="process-doc-btn" href="https://docs.google.com/document/d/1QIWHLzKNTbfqdjuxFAm27Yn1TTg9Chh8/preview" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:1.5rem;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--martini-navy);border:1px solid var(--martini-stripe);padding:0.6rem 1.2rem;text-decoration:none;transition:all 0.2s;">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="1" width="10" height="14" rx="1"/><line x1="6" y1="5" x2="10" y2="5"/><line x1="6" y1="8" x2="10" y2="8"/><line x1="6" y1="11" x2="8" y2="11"/></svg>
+      Process Doc →
+    </a>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture" class="architecture">
+  <div class="section-label">Data model</div>
+  <h2 class="section-title">Object architecture</h2>
+  <p class="section-body">Three core layers — the vehicle catalogue, the customer pipeline, and the supporting account and contact records — connected through standard and custom relationships to power the guided configurator experience.</p>
+  <div class="objects-grid">
+    <div class="object-card">
+      <div class="object-type">Custom object</div>
+      <div class="object-name">Supercars__c</div>
+      <div class="object-desc">The vehicle catalogue. 50 records across the world's leading performance manufacturers — Ferrari, Lamborghini, Mercedes-AMG, Aston Martin, and more.</div>
+      <div class="object-fields">
+        <span class="field-tag">Make__c</span>
+        <span class="field-tag">Model__c</span>
+        <span class="field-tag">Year__c</span>
+        <span class="field-tag">Base_Price__c</span>
+        <span class="field-tag">Manufacturer__c</span>
+        <span class="field-tag">Colour__c</span>
+        <span class="field-tag">Engine__c</span>
+      </div>
+    </div>
+    <div class="object-card">
+      <div class="object-type">Standard object</div>
+      <div class="object-name">Opportunity</div>
+      <div class="object-desc">Each configured order becomes an Opportunity. Four pipeline stages track the deal from initial enquiry through Needs Analysis, Proposal, and Closed Won.</div>
+      <div class="object-fields">
+        <span class="field-tag">Stage</span>
+        <span class="field-tag">Amount</span>
+        <span class="field-tag">Close_Date</span>
+        <span class="field-tag">Vehicle__c</span>
+        <span class="field-tag">Account</span>
+        <span class="field-tag">Contact</span>
+      </div>
+    </div>
+    <div class="object-card">
+      <div class="object-type">Standard objects</div>
+      <div class="object-name">Account · Contact</div>
+      <div class="object-desc">23 manufacturer account records represent the brand partners. Customer contacts link to enquiry records and are created automatically when the configurator flow completes.</div>
+      <div class="object-fields">
+        <span class="field-tag">Account Name</span>
+        <span class="field-tag">Industry</span>
+        <span class="field-tag">Contact Name</span>
+        <span class="field-tag">Email</span>
+        <span class="field-tag">Phone</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION -->
+<section id="automation" class="automation">
+  <div>
+    <div class="section-label">Flow design</div>
+    <h2 class="section-title">Guided configuration</h2>
+    <p class="section-body">A Screen Flow walks the sales consultant and client through the full configuration journey — from contact capture to vehicle selection to order confirmation — in three structured screens.</p>
+    <p class="section-body" style="margin-top:1rem;">A separate record-triggered Flow fires when an Opportunity reaches Closed Won, automatically creating a follow-up task to schedule the delivery call — no manual step required.</p>
+  </div>
+  <div>
+    <div class="flow-card">
+      <div class="flow-header">
+        <div class="flow-number">01</div>
+        <div>
+          <div class="flow-title">Carspec Motorsport Configurator</div>
+          <div class="flow-trigger">Screen Flow — launched from App Nav</div>
+        </div>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Screen 1 — Customer Info: name, email, phone, and enquiry source captured with validation</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Screen 2 — Vehicle Picker: live lookup from Supercars__c catalogue, filter by make</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Screen 3 — Configuration Summary: display selected vehicle, confirm options, preview price</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>On submission: auto-creates Contact and Opportunity record at Enquiry stage</span></div>
+      </div>
+    </div>
+    <div class="flow-card" style="margin-top:1.5rem;">
+      <div class="flow-header">
+        <div class="flow-number">02</div>
+        <div>
+          <div class="flow-title">Closed Won — Delivery Follow-Up</div>
+          <div class="flow-trigger">Record-Triggered Flow — Opportunity Stage = Closed Won</div>
+        </div>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Triggers when Opportunity Stage changes to Closed Won</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Creates a follow-up Task: "Schedule delivery call" assigned to Opportunity Owner</span></div>
+        <div class="flow-step"><div class="flow-step-dot"></div><span>Due date set to 3 business days from close — no manual action required</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA -->
+<section class="data-section">
+  <div class="section-label">Catalogue and pipeline data</div>
+  <h2 class="section-title">The numbers</h2>
+  <p class="section-body">Sample data was built to demonstrate a realistic showroom operation — from vehicle stock to active opportunities across multiple pipeline stages.</p>
+  <div class="data-grid">
+    <div class="data-card gold-accent">
+      <div class="data-number gold">50</div>
+      <div class="data-label">Supercar records</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">23</div>
+      <div class="data-label">Manufacturer accounts</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">10</div>
+      <div class="data-label">Opportunity records</div>
+    </div>
+    <div class="data-card gold-accent">
+      <div class="data-number gold">4</div>
+      <div class="data-label">Pipeline stages</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">3</div>
+      <div class="data-label">Flow screens</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">9</div>
+      <div class="data-label">Customer contacts</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">3</div>
+      <div class="data-label">Dashboard components</div>
+    </div>
+    <div class="data-card">
+      <div class="data-number">2</div>
+      <div class="data-label">Automated flows</div>
+    </div>
+  </div>
+</section>
+
+<!-- PERMISSIONS -->
+<section class="permissions">
+  <div class="section-label">Security model</div>
+  <h2 class="section-title">Permission sets</h2>
+  <div class="perm-grid">
+    <div class="perm-card">
+      <div class="perm-header">
+        <div class="perm-name">Carspec Sales</div>
+        <div class="perm-badge sales">Showroom Consultant</div>
+      </div>
+      <div class="perm-col-labels">
+        <span class="perm-col-label" data-label="READ">R</span>
+        <span class="perm-col-label" data-label="CREATE">C</span>
+        <span class="perm-col-label" data-label="EDIT">E</span>
+        <span class="perm-col-label" data-label="DELETE">D</span>
+      </div>
+      <div class="perm-rows">
+        <div class="perm-row"><span class="perm-object">Supercars</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot off"></div><div class="perm-dot off"></div><div class="perm-dot off"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Opportunities</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot off"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Contacts</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot off"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Accounts</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot off"></div><div class="perm-dot off"></div><div class="perm-dot off"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Tasks</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot off"></div></div></div>
+      </div>
+    </div>
+    <div class="perm-card">
+      <div class="perm-header">
+        <div class="perm-name">Carspec Admin</div>
+        <div class="perm-badge admin">Full Access</div>
+      </div>
+      <div class="perm-col-labels">
+        <span class="perm-col-label" data-label="READ">R</span>
+        <span class="perm-col-label" data-label="CREATE">C</span>
+        <span class="perm-col-label" data-label="EDIT">E</span>
+        <span class="perm-col-label" data-label="DELETE">D</span>
+      </div>
+      <div class="perm-rows">
+        <div class="perm-row"><span class="perm-object">Supercars</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Opportunities</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Contacts</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Accounts</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div></div></div>
+        <div class="perm-row"><span class="perm-object">Tasks</span><div class="perm-access"><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div><div class="perm-dot on"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="process">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;">
+    <div>
+      <div class="section-label">Build process</div>
+      <h2 class="section-title">How it was built</h2>
+      <p class="section-body">Built in a Salesforce Developer Edition org as the first project in the Administrator portfolio — establishing the build patterns, naming conventions, and documentation standards used across all subsequent projects.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 1</div>
+        <div class="timeline-title">App and object setup</div>
+        <div class="timeline-body">Created the Carspec Motorsport Lightning app. Built the Supercars__c custom object with all fields — make, model, year, base price, colour, engine specs. Configured custom tab and page layout.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 2</div>
+        <div class="timeline-title">Catalogue population</div>
+        <div class="timeline-body">Created 23 manufacturer Account records — Ferrari, Lamborghini, Porsche, Mercedes-AMG, Aston Martin, and more. Manually entered 50 Supercar records linked to manufacturer accounts with accurate base pricing.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 3</div>
+        <div class="timeline-title">Screen flow build</div>
+        <div class="timeline-body">Built the 3-screen configurator flow — customer info capture with required field validation, vehicle picker with live record lookup from Supercars__c, and confirmation summary. Auto-creates Contact and Opportunity on submit.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 4</div>
+        <div class="timeline-title">Pipeline and automation</div>
+        <div class="timeline-body">Created 10 Opportunity records across all 4 pipeline stages. Built the record-triggered Flow for Closed Won → auto-create follow-up task. Added validation rules: phone or email required on contact info screen.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Phase 5</div>
+        <div class="timeline-title">Dashboard</div>
+        <div class="timeline-body">Three reports built — Pipeline by Stage, Total Opportunity Value, and Closed Won Revenue. Three-component dashboard surfacing pipeline health, revenue metrics, and top manufacturers by deal value.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN NOTES -->
+<div class="design-notes">
+  <div class="section-label">Architectural decisions</div>
+  <h2 class="section-title" style="font-size:2rem;">Key design notes</h2>
+  <div class="notes-grid">
+    <div class="note-card">
+      <div class="note-title">Custom object over Product catalogue</div>
+      <div class="note-body">Salesforce's standard Products and Price Books were considered for the vehicle catalogue. Rejected in favour of a custom Supercars__c object — cleaner for portfolio demonstration, more flexible field design, and avoids the complexity of Pricebook management for a single-currency showroom.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-title">Screen Flow over manual entry</div>
+      <div class="note-body">The configurator flow is the centrepiece of the project — it simulates how a real showroom tool would guide a consultant through a client engagement, rather than having reps enter data directly into records. The flow enforces data quality and creates the correct object chain automatically.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-title">Closed Won automation rationale</div>
+      <div class="note-body">Post-sale follow-up is the highest-value touchpoint in premium automotive retail. The record-triggered flow ensures a delivery call task is always created without relying on consultant discipline — demonstrating how automation enforces process compliance at the critical moment.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#top" class="footer-logo">Carspec</a>
+  <div class="footer-meta">
+    <div>Salesforce Administrator Portfolio</div>
+    <div>Project 01 of 05</div>
+    <div><span>Built by</span> Lionel Kudakwashe Munyuki</div>
+    <div><span>Platform</span> Salesforce Developer Edition</div>
+  </div>
+</footer>
+
+<script>
+  const screenshots = [
+    { label: 'Carspec Configurator Flow', src: 'img-configurator.png' },
+    { label: 'Opportunities Pipeline',    src: 'img-opportunities.png' },
+    { label: 'Executive Dashboard',       src: 'img-dashboard.png' },
+    { label: 'Supercar Catalogue',        src: 'img-catalogue.png' },
+  ];
+  let current = 0;
+  const lightbox = document.getElementById('lightbox');
+  const lbTitle  = document.getElementById('lightbox-title');
+  const lbImg    = document.getElementById('lightbox-img');
+  const lbHolder = document.getElementById('lightbox-placeholder');
+  const lbCounter= document.getElementById('lb-counter');
+  const segs     = document.querySelectorAll('.donut-seg');
+
+  function openLightbox(idx) {
+    current = idx;
+    renderLightbox();
+    lightbox.classList.add('open');
+    segs.forEach((s, i) => { s.classList.remove('active'); s.style.fill = ''; const l = document.getElementById('lbl-' + i); if (l) l.style.fill = ''; });
+    const activeSeg = document.getElementById('seg-' + idx);
+    const activeLbl = document.getElementById('lbl-' + idx);
+    if (activeSeg) { activeSeg.classList.add('active'); activeSeg.style.fill = 'var(--martini-navy)'; }
+    if (activeLbl) activeLbl.style.fill = '#6CACE4';
+  }
+
+  function renderLightbox() {
+    const s = screenshots[current];
+    lbTitle.textContent = s.label;
+    lbCounter.textContent = (current + 1) + ' / ' + screenshots.length;
+    if (s.src) { lbImg.src = s.src; lbImg.alt = s.label; lbImg.style.display = 'block'; lbHolder.style.display = 'none'; }
+    else { lbImg.style.display = 'none'; lbHolder.style.display = 'block'; }
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    segs.forEach((s, i) => { s.classList.remove('active'); s.style.fill = ''; const l = document.getElementById('lbl-' + i); if (l) l.style.fill = ''; });
+  }
+
+  segs.forEach(seg => {
+    const idx = parseInt(seg.dataset.idx);
+    const lbl = document.getElementById('lbl-' + idx);
+    seg.addEventListener('mouseenter', () => { seg.style.fill = 'var(--martini-navy)'; if (lbl) lbl.style.fill = '#6CACE4'; });
+    seg.addEventListener('mouseleave', () => { if (!seg.classList.contains('active')) { seg.style.fill = ''; if (lbl) lbl.style.fill = ''; } });
+    seg.addEventListener('click', () => openLightbox(idx));
+  });
+
+  document.getElementById('lightbox-overlay').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', () => { current = (current - 1 + screenshots.length) % screenshots.length; renderLightbox(); });
+  document.getElementById('lb-next').addEventListener('click', () => { current = (current + 1) % screenshots.length; renderLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') { current = (current + 1) % screenshots.length; renderLightbox(); }
+    if (e.key === 'ArrowLeft')  { current = (current - 1 + screenshots.length) % screenshots.length; renderLightbox(); }
+  });
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('nav-links').classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open')));
+</script>
+</body>
+</html>
 
