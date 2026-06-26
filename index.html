@@ -531,7 +531,7 @@ footer {
     </div>
     <div>
       <div class="photo-frame">
-        <img src="lionel.JPG" alt="Lionel Munyuki — Salesforce Administrator">
+        <img src="lionel.jpeg" alt="Lionel Munyuki — Salesforce Administrator">
         <div class="photo-caption">Lionel K. Munyuki · Salesforce Administrator</div>
       </div>
       <div class="hero-meta">
@@ -549,7 +549,7 @@ footer {
         </div>
         <div class="meta-row">
           <span class="meta-label">Founder</span>
-          <span class="meta-val">Tinkerbell · VEEL</span>
+          <span class="meta-val"><a href="https://brenicks.com" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--g300);">Brenicks</a> · <a href="https://certdepo.com" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--g300);">CertDepo</a></span>
         </div>
       </div>
     </div>
@@ -651,6 +651,22 @@ footer {
   </div>
   <div class="carousel-wrap reveal">
     <div class="carousel-track" id="carouselTrack">
+
+      <div class="exp-card" onclick="openModal('modal-brenicks')">
+        <div class="exp-period">Jan 2026 – Present · Raleigh-Durham, NC · Remote</div>
+        <div class="exp-title">Founder</div>
+        <div class="exp-company">The Brenicks Group · Full-time</div>
+        <div class="exp-excerpt">Founded an AI implementation partner closing the gap between enterprise-quality AI, Salesforce, and web implementation and the small businesses that need it most — without bloated quotes or vague scopes.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
+
+      <div class="exp-card" onclick="openModal('modal-certdepo')">
+        <div class="exp-period">Jan 2026 – Present · Raleigh-Durham, NC · Remote</div>
+        <div class="exp-title">Founder</div>
+        <div class="exp-company">CertDepo · Part-time</div>
+        <div class="exp-excerpt">Built and shipped a certification exam prep and hands-on portfolio platform for Salesforce professionals — combining realistic practice exams with project-based work that proves real competency.</div>
+        <span class="exp-arrow">View details →</span>
+      </div>
 
       <div class="exp-card" onclick="openModal('modal-upforjobs')">
         <div class="exp-period">Nov 2025 – Present · Dubai, UAE · Remote</div>
@@ -765,7 +781,7 @@ footer {
     <button class="proj-filter-btn" onclick="filterProjects('recruitment')">Recruitment</button>
     <button class="proj-filter-btn" onclick="filterProjects('automotive')">Automotive</button>
     <button class="proj-filter-btn" onclick="filterProjects('logistics')">Logistics</button>
-    <button class="proj-filter-btn" onclick="filterProjects('field-service')">Field Service</button>
+    <button class="proj-filter-btn" onclick="filterProjects('automation')">Automation</button>
     <button class="proj-filter-btn" onclick="filterProjects('banking')">Banking & Finance</button>
   </div>
 </div>
@@ -784,7 +800,7 @@ footer {
           <span class="project-tag">Live client</span>
         </div>
       </div>
-      <a class="project-arrow" href="upforjobs.html">→</a>
+      <div class="project-arrow">→</div>
     </div>
     <div class="project-row" data-domain="automotive">
       <div class="project-num">02</div>
@@ -799,7 +815,7 @@ footer {
           <span class="project-tag">Automotive</span>
         </div>
       </div>
-      <a class="project-arrow" href="carspec.html">→</a>
+      <div class="project-arrow">→</div>
     </div>
     <div class="project-row" data-domain="logistics">
       <div class="project-num">03</div>
@@ -813,21 +829,20 @@ footer {
           <span class="project-tag">Flow</span>
         </div>
       </div>
-      <a class="project-arrow" href="freightpath.html">→</a>
+      <div class="project-arrow">→</div>
     </div>
-<div class="project-row" data-domain="field-service">
+    <div class="project-row" data-domain="automation">
       <div class="project-num">04</div>
       <div class="project-body">
-        <div class="project-name">SteelDrop Field Services</div>
-        <div class="project-desc">Custom Salesforce org for a commercial and residential fitness equipment delivery and installation company — junction objects, formula-driven job costing, technician scheduling, SLA tracking, and a live operations dashboard across 93 jobs and 7 site types.</div>
+        <div class="project-name">Lead Scoring & Auto Routing Engine</div>
+        <div class="project-desc">Flow-based lead scoring with round-robin territory assignment, SLA escalation rules, and dynamic routing logic based on lead source, score threshold, and rep availability.</div>
         <div class="project-tags">
           <span class="project-tag">Salesforce Admin</span>
-          <span class="project-tag">Custom Objects</span>
-          <span class="project-tag">Dashboards</span>
-          <span class="project-tag">Field Service</span>
+          <span class="project-tag">Flow</span>
+          <span class="project-tag">Automation</span>
         </div>
       </div>
-      <a class="project-arrow" href="steeldrop.html">→</a>
+      <div class="project-arrow">→</div>
     </div>
     <div class="project-row" data-domain="banking">
       <div class="project-num">05</div>
@@ -841,7 +856,7 @@ footer {
           <span class="project-tag">Compliance</span>
         </div>
       </div>
-      <a class="project-arrow" href="cavendish.html">→</a>
+      <div class="project-arrow">→</div>
     </div>
   </div>
 </section>
@@ -870,7 +885,7 @@ footer {
         <div class="fact-row"><span class="fact-label">Based</span><span class="fact-val">Raleigh, NC</span></div>
         <div class="fact-row"><span class="fact-label">SCA Certified</span><span class="fact-val">May 2026 · ID 7787112</span></div>
         <div class="fact-row"><span class="fact-label">Next cert</span><span class="fact-val">Platform Developer I</span></div>
-        <div class="fact-row"><span class="fact-label">Founder</span><span class="fact-val">Tinkerbell · VEEL Consulting</span></div>
+        <div class="fact-row"><span class="fact-label">Founder</span><span class="fact-val"><a href="https://brenicks.com" target="_blank" style="color:var(--brg);text-decoration:none;">The Brenicks Group</a> · <a href="https://certdepo.com" target="_blank" style="color:var(--brg);text-decoration:none;">CertDepo</a></span></div>
         <div class="fact-row"><span class="fact-label">Background</span><span class="fact-val">Data · Logistics · Salesforce</span></div>
         <div class="fact-row"><span class="fact-label">LinkedIn</span><span class="fact-val"><a href="https://www.linkedin.com/in/lionelkmunyuki/" target="_blank">lionelkmunyuki</a></span></div>
         <div class="fact-row"><span class="fact-label">GitHub</span><span class="fact-val"><a href="https://github.com/LionelKMunyuki" target="_blank">LionelKMunyuki</a></span></div>
@@ -911,6 +926,86 @@ footer {
 
 <!-- EXPERIENCE MODALS -->
 <!-- UPFORJOBS MODAL -->
+<!-- THE BRENICKS GROUP MODAL -->
+<div class="modal-overlay" id="modal-brenicks" onclick="closeOnOverlay(event, 'modal-brenicks')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Jan 2026 – Present · Raleigh-Durham, NC · Remote</div>
+        <div class="modal-title">Founder</div>
+        <div class="modal-company">The Brenicks Group · Full-time</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-brenicks')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <p>Founded The Brenicks Group to close the gap between enterprise-quality AI, Salesforce, and web implementation and the small businesses that need it most — without the bloated quotes, vague scopes, or slide-deck strategy work that dominates this market.</p>
+
+      <div class="modal-section-label">What we do</div>
+      <ul>
+        <li>AI Implementation — automate document drafting, knowledge search, and proposal generation inside tools professional services firms already use</li>
+        <li>Salesforce Consulting — fixed, per-seat pricing instead of unpredictable hourly billing</li>
+        <li>Web Design — outcome-focused sites built to convert, not just look expensive</li>
+      </ul>
+
+      <div class="modal-section-label">How we work differently</div>
+      <ul>
+        <li>I scope and build every engagement personally — no junior bench, no handoffs</li>
+        <li>Most projects ship a working result in 2–8 weeks, not months</li>
+        <li>Every engagement ends with full ownership: the system, the documentation, and the knowledge to run it independently</li>
+      </ul>
+
+      <p>Based in Raleigh, NC. Serving clients nationwide.</p>
+
+      <div class="modal-skills">
+        <span class="modal-tag">Founder</span>
+        <span class="modal-tag">AI Implementation</span>
+        <span class="modal-tag">Salesforce Consulting</span>
+        <span class="modal-tag">Web Design</span>
+        <span class="modal-tag">Professional Services</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CERTDEPO MODAL -->
+<div class="modal-overlay" id="modal-certdepo" onclick="closeOnOverlay(event, 'modal-certdepo')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-period">Jan 2026 – Present · Raleigh-Durham, NC · Remote</div>
+        <div class="modal-title">Founder</div>
+        <div class="modal-company">CertDepo · Part-time</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-certdepo')">[ Close ]</button>
+    </div>
+    <div class="modal-body">
+      <p>Built and shipped CertDepo, a certification exam prep and hands-on portfolio platform for Salesforce professionals. Combines realistic practice exams with project-based work that proves real competency — not just multiple-choice recall.</p>
+
+      <div class="modal-section-label">How it's built</div>
+      <ul>
+        <li>As a working Salesforce Administrator, every domain of content is built from direct, daily hands-on experience on the platform — not theory</li>
+        <li>Currently live with Salesforce Administrator, Advanced Administrator, Platform Developer I, and Business Analyst certification tracks</li>
+        <li>AWS, Google Cloud, and Microsoft certification tracks planned next</li>
+      </ul>
+
+      <div class="modal-section-label">Full-stack solo build</div>
+      <ul>
+        <li>Product, content, design, and infrastructure built entirely independently</li>
+        <li>React / Vite frontend, Supabase backend, Stripe payments, Vercel deployment</li>
+      </ul>
+
+      <div class="modal-skills">
+        <span class="modal-tag">Founder</span>
+        <span class="modal-tag">Full-stack</span>
+        <span class="modal-tag">React</span>
+        <span class="modal-tag">Supabase</span>
+        <span class="modal-tag">Stripe</span>
+        <span class="modal-tag">Live product</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-upforjobs" onclick="closeOnOverlay(event, 'modal-upforjobs')">
   <div class="modal">
     <div class="modal-header">
