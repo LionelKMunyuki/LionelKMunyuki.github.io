@@ -209,7 +209,7 @@ html[data-theme="dark"] .photo-caption { background: rgba(10,10,10,0.92); }
 
 /* CERT TIERS */
 .cert-primary {
-  display: grid; grid-template-columns: repeat(3,1fr);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1px; background: var(--g200);
   border: 1px solid var(--g200);
   margin-bottom: 2rem;
@@ -535,6 +535,9 @@ footer .footer-links { justify-self: end; }
   .exp-card { flex: 0 0 calc(85% - 1px); }
   .modal { max-width: 100%; }
 }
+@media (max-width: 560px) {
+  .cert-secondary { grid-template-columns: 1fr; }
+}
 /* ── PROJECT FILTER NAV ── */
 .proj-filter-wrap {
   border-top: 1px solid var(--g200);
@@ -642,6 +645,7 @@ footer .footer-links { justify-self: end; }
       <span class="cert-badge live"><span class="cert-dot"></span>Certified</span>
       <a href="https://trailhead.salesforce.com/credentials/verification" target="_blank" class="cert-link">Verify credential →</a>
     </div>
+  </div>
 
 
   <div class="cert-secondary reveal">
