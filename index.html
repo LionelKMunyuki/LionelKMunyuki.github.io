@@ -540,6 +540,7 @@ footer .footer-links { justify-self: end; }
 }
 /* ── PROJECT FILTER NAV ── */
 .proj-filter-wrap {
+  margin: 0 -1rem; /* same edges as the project rows below */
   border-top: 1px solid var(--g200);
   border-bottom: 1px solid var(--g200);
   background: var(--g100);
@@ -547,8 +548,7 @@ footer .footer-links { justify-self: end; }
   -webkit-overflow-scrolling: touch;
 }
 .proj-filter-inner {
-  max-width: 1400px; margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0;
   display: flex; gap: 0; align-items: center;
   min-width: max-content;
 }
@@ -564,9 +564,6 @@ footer .footer-links { justify-self: end; }
 .proj-filter-btn:hover { color: var(--black); }
 .proj-filter-btn.active { color: var(--brg); border-bottom-color: var(--brg); }
 .project-row.hidden { display: none; }
-@media (max-width: 960px) {
-  .proj-filter-inner { padding: 0 0.5rem; }
-}
 </style>
 </head>
 <body>
